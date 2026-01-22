@@ -217,7 +217,8 @@
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card property-card position-relative h-100">
                     <div class="property-image">
-                        <img src="{{ $investment->image ? asset('storage/'.$investment->image) : '/images/placeholder.png' }}" alt="{{ $investment->name }}">
+                       <img src="{{ $investment->image ? asset('images/investments/'.$investment->image) : asset('assets/images/placeholder.png') }}" alt="{{ $investment->name }}" style="height:200px; object-fit:cover;">
+
                         <span class="property-badge {{ $investment->status == 'available' ? 'bg-success' : 'bg-secondary' }}">
                             {{ ucfirst($investment->status) }}
                         </span>
