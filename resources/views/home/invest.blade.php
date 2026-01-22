@@ -90,11 +90,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 property-card position-relative">
                         <div class="property-image position-relative">
-                         <img src="{{ $investment->image && file_exists(storage_path('app/public/investments/'.$investment->image)) 
-             ? asset('storage/investments/'.$investment->image) 
-             : asset('images/placeholder.png') }}" 
-     alt="{{ $investment->name }}" style="height:200px; object-fit:cover;">
-
+                            <img src="{{ $investment->image ? asset('storage/'.$investment->image) : '/images/placeholder.png' }}" alt="{{ $investment->name }}" style="height:200px; object-fit:cover;">
                             <span class="property-badge {{ $investment->status == 'available' ? 'bg-success' : 'bg-secondary' }}">
                                 {{ ucfirst($investment->status) }}
                             </span>
