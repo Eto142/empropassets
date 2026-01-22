@@ -6,7 +6,10 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <h1 class="hero-title">Buy, sell, & own shares of real estate.</h1>
-                    <p class="hero-subtitle">Access monthly cash flow and appreciation potential without the work.</p>
+                    <p class="hero-subtitle"> Discover Smart Real Estate Investments with Emaar Properties Assets
+
+Are you ready to grow your wealth through strategic real estate investments? At Emaar Properties Assets, we connect investors with short-term and high-performance real estate opportunities designed to deliver impressive returns while maintaining transparency and control.
+ Access monthly cash flow and appreciation potential without the work.</p>
                     <a href="{{ route('show.register') }}" class="btn-primary-large" style="text-decoration: none; display: inline-block;">JOIN 933K REGISTERED INVESTORS</a>
                 </div>
                 <div class="col-lg-6">
@@ -36,8 +39,8 @@
         <div class="container">
             <div class="row mb-5">
                 <div class="col-lg-8">
-                    <h2 class="returns-title">$50M+ in consistent returns distributed to investors</h2>
-                    <p class="returns-subtitle">Our track record shows steady returns through monthly dividends as well as appreciation from opportunistic property sales and secondary market trading.</p>
+                    <h2 class="returns-title">Why Invest in Real Estate with Us?</h2>
+                    <p class="returns-subtitle">Real estate has long been one of the most reliable paths to financial freedom. Through our expert-led property acquisitions and development partnerships, we help investors gain access to both residential and commercial projects with strong earning potential without the hassle of managing properties themselves.</p>
                     <p class="returns-subtitle"> Market capitalization of Emaar Properties (EMAAR.AE)
 Market cap: $35.25 Billion USD
 
@@ -102,6 +105,9 @@ As of January 2026 Emaar Properties has a market cap of $35.25 Billion USD. This
             </div>
         </div>
     </section>
+
+
+    
 
     <!-- Testimonial Section -->
     <section class="testimonial-section">
