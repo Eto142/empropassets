@@ -29,7 +29,11 @@
         @forelse($investments as $investment)
             <div class="col">
                 <div class="card h-100 shadow-sm investment-card position-relative">
-                    <img src="{{ $investment->image ? asset('storage/'.$investment->image) : asset('assets/images/placeholder.png') }}" class="card-img-top" alt="{{ $investment->name }}">
+                   <img src="{{ $investment->image ? asset('images/investments/'.$investment->image) : asset('assets/images/placeholder.png') }}" 
+     class="card-img-top" 
+     alt="{{ $investment->name }}" 
+     style="height:200px; object-fit:cover;">
+
                     <span class="badge {{ $investment->status == 'available' ? 'bg-success' : 'bg-secondary' }} badge-status">
                         {{ ucfirst($investment->status) }}
                     </span>
