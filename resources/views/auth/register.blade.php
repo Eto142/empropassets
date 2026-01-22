@@ -124,6 +124,7 @@
 <body>
 
 <div class="register-container">
+    
     <div class="register-left">
         <div class="property-info">
             <div class="property-name">The Solano</div>
@@ -132,6 +133,7 @@
     </div>
 
     <div class="register-right">
+        
         <form id="registrationForm" method="POST" action="{{ route('register.submit') }}" class="register-form">
             @csrf
             <div class="register-header">

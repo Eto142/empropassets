@@ -128,8 +128,7 @@
 <div class="login-card">
     <div class="login-header">
         <div class="logo-section">
-            <div class="logo">▲</div>
-            <div class="logo-text">Emaar Properties Assets</div>
+             <a class="navbar-brand" href="{{ route('homepage') }}"><img src ="{{ asset('images/logo.png') }}" width="170px"></a>
         </div>
         <h2>Welcome Back</h2>
     </div>

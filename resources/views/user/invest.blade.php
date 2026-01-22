@@ -456,7 +456,7 @@
         </div>
 
         <!-- Progress Section -->
-        <div class="progress-section">
+        {{-- <div class="progress-section">
             <div class="progress-header">
                 <div class="progress-indicator">⏳</div>
                 <div class="progress-text">Halfway ready to invest</div>
@@ -480,17 +480,17 @@
                     Identity verification
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Filters -->
-        <div class="filter-section">
+        {{-- <div class="filter-section">
             <div class="filter-button active">All</div>
             <div class="filter-button">Single Family Residential</div>
             <div class="filter-button">Vacation Rental</div>
             <div class="filter-button">Funds</div>
             <div class="filter-button">Real Estate Debt</div>
             <div class="filter-label">FILTER</div>
-        </div>
+        </div> --}}
 
         <!-- Properties Grid -->
         <div class="properties-grid">

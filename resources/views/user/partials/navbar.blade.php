@@ -1,8 +1,9 @@
 <!-- Navigation -->
 <div class="dashboard-nav">
     <div class="nav-brand">
-        <div class="nav-brand-logo">A</div>
-        <span>EMAAR Properties Assets</span>
+        <div class="logo-section">
+             <a class="navbar-brand" href="{{ route('home') }}"><img src ="{{ asset('images/logo.png') }}" width="170px"></a>
+        </div>
     </div>
     <div class="nav-links">
         <a href="{{ route('invest') }}" class="{{ request()->routeIs('invest') ? 'active' : '' }}">INVEST</a>
@@ -36,8 +37,9 @@
 <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
         <div class="nav-brand">
-            <div class="nav-brand-logo">A</div>
-            <span>EMAAR Properties Assets</span>
+           <div class="logo-section">
+             <a class="navbar-brand" href="{{ route('homepage') }}"><img src ="{{ asset('images/logo.png') }}" width="170px"></a>
+        </div>
         </div>
         <button onclick="toggleMobileMenu()" style="background: none; border: none; font-size: 24px; cursor: pointer; padding: 5px; -webkit-tap-highlight-color: transparent;" aria-label="Close menu">×</button>
     </div>

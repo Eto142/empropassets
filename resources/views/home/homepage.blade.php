@@ -38,6 +38,10 @@
                 <div class="col-lg-8">
                     <h2 class="returns-title">$50M+ in consistent returns distributed to investors</h2>
                     <p class="returns-subtitle">Our track record shows steady returns through monthly dividends as well as appreciation from opportunistic property sales and secondary market trading.</p>
+                    <p class="returns-subtitle"> Market capitalization of Emaar Properties (EMAAR.AE)
+Market cap: $35.25 Billion USD
+
+As of January 2026 Emaar Properties has a market cap of $35.25 Billion USD. This makes Emaar Properties the world's 686th most valuable company by market cap according to our data. The market capitalization, commonly called market cap, is the total market value of a publicly traded company's outstanding shares and is commonly used to measure how much a company is worth.</p>
                 </div>
                 <div class="col-lg-4 text-lg-end">
                     <div class="carousel-buttons">
