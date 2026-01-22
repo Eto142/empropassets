@@ -26,10 +26,21 @@ public function index()
     return redirect()->route('portfolio');
 }
 
-public function invest()
+public function invest(Request $request)
 {
-    return view('user.invest');
+    $query = \App\Models\Investment::query();
+
+    // Optional filtering by type
+    if ($request->has('type') && $request->type != 'all') {
+        $query->where('type', $request->type);
+    }
+
+    // Paginate results
+    $investments = $query->latest()->paginate(9)->withQueryString(); // 9 per page
+
+    return view('user.invest', compact('investments'));
 }
+
 
 public function portfolio()
 {

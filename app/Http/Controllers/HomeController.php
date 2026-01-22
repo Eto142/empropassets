@@ -22,9 +22,13 @@ class HomeController extends Controller
     }
 
     public function invest()
-    {
-        return view('home.invest');
-    }
+{
+    // Fetch investments with optional pagination (6 per page)
+    $investments = \App\Models\Investment::orderBy('created_at', 'desc')->paginate(6);
+
+    return view('home.invest', compact('investments'));
+}
+
 
     public function terms()
     {
