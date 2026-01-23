@@ -157,21 +157,6 @@ class RegisterController extends Controller
 
 
 
-
-<?php
-
-namespace App\Http\Controllers\Auth;
-
-use App\Http\Controllers\Controller;
-use App\Mail\OtpMail;
-use App\Mail\WelcomeMail;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-
-class RegisterController extends Controller
-{
     /**
      * Handle initial registration form submission.
      */
@@ -218,7 +203,7 @@ class RegisterController extends Controller
     public function personalInfo()
     {
         if (!session()->has('register_data')) {
-            return redirect()->route('register');
+            return redirect()->route('show.register');
         }
 
         return view('auth.personal-info');
