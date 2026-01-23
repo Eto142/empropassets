@@ -27,6 +27,13 @@ Route::get('/careers', [HomeController::class, 'careers'])->name('careers');
 // Registration Routes
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('show.register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
+Route::get('/personal-info', [RegisterController::class, 'personalInfo'])->name('personal.info');
+Route::post('/personal-info', [RegisterController::class, 'storePersonalInfo'])->name('personal.info.store');
+
+Route::get('/verify-otp', [RegisterController::class, 'showOtpForm'])->name('verify.otp');
+Route::post('/verify-otp', [RegisterController::class, 'verifyOtp'])->name('verify.otp.store');
+
+
 
 
 // Login Routes

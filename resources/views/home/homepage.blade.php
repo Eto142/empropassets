@@ -31,6 +31,46 @@ Are you ready to grow your wealth through strategic real estate investments? At 
                     </div>
                 </div>
             </div>
+    
+                    <!-- Investment Highlights Section -->
+                    <section class="investment-highlights-section py-5">
+                        <div class="container">
+                            <div class="row mb-3">
+                                <div class="col-12 col-lg-9">
+                                    <h2 class="section-title">Flexible Short-Term Investment Options</h2>
+                                    <p class="section-description mb-3">Whether you’re new to real estate or an experienced investor, we offer a range of flexible short-term investment plans designed to fit your goals. Our opportunities typically yield competitive monthly returns that reflect the success of our property portfolios and market growth.</p>
+                                    <p class="section-description mb-4">With plans ranging from entry-level investments to premium asset shares, investors can diversify easily while maintaining liquidity and measurable growth.</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-5 align-items-start">
+                                <div class="col-md-7">
+                                    <div class="mb-4">
+                                        <h3>Transparency and Real-Time Tracking</h3>
+                                        <p>At Emaar Properties Assets, we believe in complete transparency. That’s why every investor receives 24/7 access to our investment portal, where you can:</p>
+                                        <ul class="feature-list">
+                                            <li>Monitor your portfolio performance in real time</li>
+                                            <li>Track your profits and earnings growth</li>
+                                            <li>View detailed reports on your shares and active projects</li>
+                                            <li>Manage your withdrawals securely and efficiently</li>
+                                        </ul>
+                                        <p>Our platform gives you full control — empowering you to make informed decisions every step of the way.</p>
+                                    </div>
+                                    <div>
+                                        <h3>Built on Trust and Proven Performance</h3>
+                                        <p>Every project we undertake is backed by rigorous market analysis, experienced real estate professionals, and a clear strategy for sustainable profit. From urban redevelopment to residential expansions, our success is driven by vision, discipline, and integrity.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="cta-card" style="border:1px solid #e9e9e9; padding:28px; border-radius:10px; background:#fff; box-shadow:0 4px 14px rgba(16,24,40,0.06); text-align:center;">
+                                        <div style="font-weight:600; margin-bottom:12px;">Ready to get started?</div>
+                                        <p style="color:#555; margin-bottom:18px;">Join thousands of investors building passive income through short-term real estate plans.</p>
+                                        <a href="{{ route('show.register') }}" class="btn-primary-large" style="text-decoration: none; display: inline-block;">Get Started</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
         </div>
     </section>
 

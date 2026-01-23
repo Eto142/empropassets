@@ -19,22 +19,73 @@ class LoginController extends Controller
     }
 
     // Handle login
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //     ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('home');
+    //     if (Auth::attempt($credentials)) {
+    //         $request->session()->regenerate();
+    //         return redirect()->route('home');
+    //     }
+
+    //     return back()->withErrors([
+    //         'email' => 'Invalid email or password.',
+    //     ])->withInput();
+    // }
+
+
+
+    public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        // Check if registration is incomplete
+        if (!$user->email_verified_at) {
+
+            // Store partial registration in session
+            session(['register_data' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'address' => $user->address,
+                'dob' => $user->dob,
+                'country' => $user->country,
+                'otp' => $user->otp,
+                'otp_expires_at' => $user->otp_expires_at,
+            ]]);
+
+            Auth::logout(); // prevent dashboard access until registration is complete
+
+            // Determine where the user left off
+            if (!$user->phone || !$user->address || !$user->dob || !$user->country) {
+                return redirect()->route('personal.info')
+                    ->with('info', 'Complete your personal information to continue.');
+            } else {
+                return redirect()->route('verify.otp')
+                    ->with('info', 'Complete your email verification to continue.');
+            }
         }
 
-        return back()->withErrors([
-            'email' => 'Invalid email or password.',
-        ])->withInput();
+        // Registration complete, go to dashboard
+        return redirect()->intended('dashboard');
     }
+
+    return back()->withErrors([
+        'email' => 'Invalid email or password.',
+    ])->withInput();
+}
+
 
     // Logout
     public function logout(Request $request)
