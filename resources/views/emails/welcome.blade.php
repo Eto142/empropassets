@@ -85,7 +85,7 @@
         <!-- Footer -->
         <div class="footer">
             &copy; {{ date('Y') }} Empropassets. All rights reserved.<br>
-            123 Main Street, Your City, Country
+        
         </div>
     </div>
 </body>
