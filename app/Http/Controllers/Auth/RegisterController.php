@@ -249,13 +249,13 @@ class RegisterController extends Controller
         $data = session('register_data');
 
         if (!$data) {
-            return redirect()->route('register');
+            return redirect()->route('show.register');
         }
 
         $user = User::where('email', $data['email'])->first();
 
         if (!$user) {
-            return redirect()->route('register');
+            return redirect()->route('show.register');
         }
 
         // If OTP expired, generate a new one and resend
