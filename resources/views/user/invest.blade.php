@@ -211,6 +211,15 @@
         @endforeach
     </div>
 
+      @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show d-flex align-items-center" role="alert">
+        <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+        <span>{{ session('success') }}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+
     {{-- Properties Grid --}}
     <div class="row g-4">
         @forelse($investments as $investment)
@@ -239,7 +248,17 @@
                                 <div class="stat-value">{{ number_format($investment->investors) }}</div>
                             </div>
                         </div>
-                        <button class="invest-button mt-auto">Invest Now</button>
+                       <form action="{{ route('investments.invest') }}" method="POST" class="mt-auto">
+    @csrf
+    <input type="hidden" name="investment_id" value="{{ $investment->id }}">
+
+    <button type="submit"
+            class="btn btn-success w-100"
+            {{ $investment->status != 'available' ? 'disabled' : '' }}>
+        Invest Now
+    </button>
+</form>
+
                     </div>
                 </div>
             </div>

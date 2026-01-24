@@ -19,4 +19,11 @@ class Investment extends Model
         'image',
         'status'
     ];
+
+
+    public function userInvestments()
+{
+    return $this->hasMany(UserInvestment::class);
+}
+
 }

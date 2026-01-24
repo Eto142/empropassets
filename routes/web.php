@@ -7,7 +7,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReitController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\DepositController;
+use App\Http\Controllers\User\InvestmentController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -103,6 +105,9 @@ Route::get('/deposit/crypto/{amount}/{crypto}', [DepositController::class, 'cryp
 Route::post('/deposit/make', [DepositController::class, 'makeDeposit'])
     ->name('deposit.make');
 
+
+    Route::post('/invest', [InvestmentController::class, 'invest'])
+    ->name('investments.invest');
 
 
 
