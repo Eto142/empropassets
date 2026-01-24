@@ -630,7 +630,7 @@
                 <div class="empty-state-text">Start building your real estate portfolio by investing in your first property.</div>
                 <div class="quick-actions">
                     <a href="{{ route('invest') }}" class="quick-action-btn">Browse Properties</a>
-                    <a href="{{ route('deposit') }}" class="quick-action-btn secondary">Add Funds</a>
+                    <a href="{{ route('deposit.form') }}" class="quick-action-btn secondary">Add Funds</a>
                 </div>
             </div>
         </div>
@@ -681,7 +681,7 @@
             <div class="returns-card">
                 <div class="returns-title">Quick Actions</div>
                 <div class="quick-actions">
-                    <a href="{{ route('deposit') }}" class="quick-action-btn">Deposit</a>
+                    <a href="{{ route('deposit.form') }}" class="quick-action-btn">Deposit</a>
                     <a href="{{ route('withdrawal') }}" class="quick-action-btn secondary">Withdraw</a>
                 </div>
             </div>

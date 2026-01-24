@@ -283,17 +283,13 @@
                 <div class="form-group">
                     <label class="form-label">Select Payment Method</label>
                     <div class="payment-methods-grid">
-                        <div class="payment-method-card active" onclick="selectPaymentMethod('bank')">
+                        <div class="payment-method-card active" onclick="selectPaymentMethod('bank', this)">
                             <div class="payment-method-icon">🏦</div>
                             <div class="payment-method-label">Bank Transfer</div>
                             <div class="payment-method-desc">3-5 business days</div>
                         </div>
-                        <div class="payment-method-card" onclick="selectPaymentMethod('card')">
-                            <div class="payment-method-icon">💳</div>
-                            <div class="payment-method-label">Credit/Debit Card</div>
-                            <div class="payment-method-desc">Instant</div>
-                        </div>
-                        <div class="payment-method-card" onclick="selectPaymentMethod('crypto')">
+                       
+                        <div class="payment-method-card" onclick="selectPaymentMethod('crypto', this)">
                             <div class="payment-method-icon">₿</div>
                             <div class="payment-method-label">Cryptocurrency</div>
                             <div class="payment-method-desc">Instant</div>
@@ -304,42 +300,12 @@
                 <div class="form-group">
                     <label class="form-label">Amount</label>
                     <div class="quick-amounts">
-                        <button type="button" class="quick-amount-btn" onclick="setAmount(100)">$100</button>
-                        <button type="button" class="quick-amount-btn" onclick="setAmount(500)">$500</button>
-                        <button type="button" class="quick-amount-btn" onclick="setAmount(1000)">$1,000</button>
-                        <button type="button" class="quick-amount-btn" onclick="setAmount(5000)">$5,000</button>
+                        <button type="button" class="quick-amount-btn" onclick="setAmount(100, this)">$100</button>
+                        <button type="button" class="quick-amount-btn" onclick="setAmount(500, this)">$500</button>
+                        <button type="button" class="quick-amount-btn" onclick="setAmount(1000, this)">$1,000</button>
+                        <button type="button" class="quick-amount-btn" onclick="setAmount(5000, this)">$5,000</button>
                     </div>
                     <input type="number" name="amount" id="amount" class="form-control" placeholder="0.00" min="10" step="0.01" required>
-                </div>
-
-                <div id="bankFields">
-                    <div class="form-group">
-                        <label class="form-label">Bank Name</label>
-                        <input type="text" name="bank_name" class="form-control" placeholder="Enter bank name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Account Number</label>
-                        <input type="text" name="account_number" class="form-control" placeholder="Enter account number" required>
-                    </div>
-                </div>
-
-                <div id="cardFields" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">Card Number</label>
-                        <input type="text" name="card_number" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19">
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group">
-                            <label class="form-label">Expiry Date</label>
-                            <input type="text" name="expiry_date" class="form-control" placeholder="MM/YY" maxlength="5">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">CVV</label>
-                            <input type="text" name="cvv" class="form-control" placeholder="123" maxlength="4">
-                        </div>
-                    </div>
                 </div>
 
                 <div id="cryptoFields" style="display: none;">
@@ -366,32 +332,25 @@
     </div>
 
     <script>
-        function selectPaymentMethod(method) {
+        function selectPaymentMethod(method, el) {
             document.getElementById('payment_method').value = method;
-            
-            // Update cards
+
             document.querySelectorAll('.payment-method-card').forEach(card => {
                 card.classList.remove('active');
             });
-            event.currentTarget.classList.add('active');
+            el.classList.add('active');
 
-            // Show/hide fields
-            document.getElementById('bankFields').style.display = method === 'bank' ? 'block' : 'none';
-            document.getElementById('cardFields').style.display = method === 'card' ? 'block' : 'none';
-            document.getElementById('cryptoFields').style.display = method === 'crypto' ? 'block' : 'none';
+            // Show/hide crypto fields only
+            const cryptoFields = document.getElementById('cryptoFields');
+            cryptoFields.style.display = method === 'crypto' ? 'block' : 'none';
         }
 
-        function setAmount(amount) {
+        function setAmount(amount, el) {
             document.getElementById('amount').value = amount;
-            document.querySelectorAll('.quick-amount-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
+            document.querySelectorAll('.quick-amount-btn').forEach(btn => btn.classList.remove('active'));
+            el.classList.add('active');
         }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-

@@ -96,6 +96,38 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav ms-auto">
                     <a class="nav-link" href="{{ route('invest.public') }}">INVEST</a>
+                    
+                    <!-- REIT Dropdown -->
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="reitDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            REIT
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="reitDropdown" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); min-width: 240px; padding: 8px 0; margin-top: 8px;">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('reit.index') }}" style="padding: 12px 20px; color: #1a1a2e; text-decoration: none; font-weight: 600; font-size: 14px; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.color='#e8a87c';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#1a1a2e';">
+                                    REIT Overview
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" style="margin: 6px 0; border-color: #e0e0e0;"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('reit.income') }}" style="padding: 12px 20px; color: #1a1a2e; text-decoration: none; font-size: 14px; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.color='#059669';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#1a1a2e';">
+                                    <span style="color: #059669; font-weight: 600; margin-right: 8px;">■</span>Income REITs
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('reit.growth') }}" style="padding: 12px 20px; color: #1a1a2e; text-decoration: none; font-size: 14px; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.color='#dc2626';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#1a1a2e';">
+                                    <span style="color: #dc2626; font-weight: 600; margin-right: 8px;">■</span>Growth REITs
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" style="margin: 6px 0; border-color: #e0e0e0;"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('reit.why') }}" style="padding: 12px 20px; color: #1a1a2e; text-decoration: none; font-size: 14px; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.color='#e8a87c';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#1a1a2e';">
+                                    Why REITs?
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
                     <a class="nav-link" href="{{ route('about') }}">ABOUT</a>
                     <a class="nav-link" href="{{ route('learn') }}">LEARN</a>
                     <a class="nav-link" href="{{ route('login') }}">LOG IN</a>

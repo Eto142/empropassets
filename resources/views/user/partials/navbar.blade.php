@@ -8,7 +8,7 @@
     <div class="nav-links">
         <a href="{{ route('invest') }}" class="{{ request()->routeIs('invest') ? 'active' : '' }}">INVEST</a>
         <a href="{{ route('portfolio') }}" class="{{ request()->routeIs('portfolio') ? 'active' : '' }}">PORTFOLIO</a>
-        <a href="{{ route('deposit') }}" class="{{ request()->routeIs('deposit') ? 'active' : '' }}">DEPOSIT</a>
+        <a href="{{ route('deposit.form') }}" class="{{ request()->routeIs('deposit.form') ? 'active' : '' }}">DEPOSIT</a>
         <a href="{{ route('withdrawal') }}" class="{{ request()->routeIs('withdrawal') ? 'active' : '' }}">WITHDRAWAL</a>
         <a href="{{ route('investment.history') }}" class="{{ request()->routeIs('investment.history') ? 'active' : '' }}">HISTORY</a>
     </div>
@@ -46,7 +46,7 @@
     <div class="mobile-menu-links">
         <a href="{{ route('invest') }}" class="{{ request()->routeIs('invest') ? 'active' : '' }}">INVEST</a>
         <a href="{{ route('portfolio') }}" class="{{ request()->routeIs('portfolio') ? 'active' : '' }}">PORTFOLIO</a>
-        <a href="{{ route('deposit') }}" class="{{ request()->routeIs('deposit') ? 'active' : '' }}">DEPOSIT</a>
+        <a href="{{ route('deposit.form') }}" class="{{ request()->routeIs('deposit.form') ? 'active' : '' }}">DEPOSIT</a>
         <a href="{{ route('withdrawal') }}" class="{{ request()->routeIs('withdrawal') ? 'active' : '' }}">WITHDRAWAL</a>
         <a href="{{ route('investment.history') }}" class="{{ request()->routeIs('investment.history') ? 'active' : '' }}">HISTORY</a>
         <a href="{{ route('profile') }}">PROFILE</a>

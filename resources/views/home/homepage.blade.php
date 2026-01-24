@@ -54,7 +54,7 @@ Are you ready to grow your wealth through strategic real estate investments? At 
                                             <li>View detailed reports on your shares and active projects</li>
                                             <li>Manage your withdrawals securely and efficiently</li>
                                         </ul>
-                                        <p>Our platform gives you full control — empowering you to make informed decisions every step of the way.</p>
+                                        <p>Our platform gives you full control empowering you to make informed decisions every step of the way.</p>
                                     </div>
                                     <div>
                                         <h3>Built on Trust and Proven Performance</h3>
@@ -117,30 +117,96 @@ As of January 2026 Emaar Properties has a market cap of $35.25 Billion USD. This
                 </div>
                 <div class="stat-item">
                     <h3>4.8★</h3>
-                    <p>Apple App Store</p>
+                    <p>Investor Rating</p>
                 </div>
             </div>
 
-            <div class="investment-properties">
-                <div class="property-item">
-                    <h4>THE CUPCAKE</h4>
-                    <p>$16.21 ↑ 62.1%</p>
-                </div>
-                <div class="property-item">
-                    <h4>THE WENTWORTH</h4>
-                    <p>$15.55 ↑ 55.5%</p>
-                </div>
-                <div class="property-item">
-                    <h4>THE MOJAVE</h4>
-                    <p>$15.70 ↑ 57%</p>
-                </div>
-                <div class="property-item">
-                    <h4>THE CENTENNIAL</h4>
-                    <p>$12.02 ↑ 20.2%</p>
-                </div>
-                <div class="property-item">
-                    <h4>THE EASTFAIR</h4>
-                    <p>Coming Soon</p>
+            <div class="investment-properties" style="margin-top: 60px; padding: 40px 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; overflow: hidden; background: linear-gradient(to right, #fff 0%, #f8f9fa 50%, #fff 100%);">
+                <style>
+                    @keyframes marquee {
+                        0% { transform: translateX(100%); }
+                        100% { transform: translateX(-100%); }
+                    }
+                    .marquee-container {
+                        display: flex;
+                        animation: marquee 40s linear infinite;
+                        gap: 60px;
+                        white-space: nowrap;
+                    }
+                    .marquee-container:hover {
+                        animation-play-state: paused;
+                    }
+                    .property-item {
+                        flex-shrink: 0;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        padding: 20px 40px;
+                        border-right: 1px solid #e0e0e0;
+                    }
+                    .property-item:last-child {
+                        border-right: none;
+                    }
+                    .property-item h4 {
+                        font-size: 16px;
+                        font-weight: 700;
+                        color: #1a1a2e;
+                        margin-bottom: 8px;
+                        letter-spacing: 0.5px;
+                    }
+                    .property-item p {
+                        font-size: 14px;
+                        color: #666;
+                        font-weight: 600;
+                        margin: 0;
+                    }
+                    .property-item p strong {
+                        color: #059669;
+                        font-weight: 700;
+                    }
+                </style>
+                <div class="marquee-container">
+                    <div class="property-item">
+                        <h4>THE CUPCAKE</h4>
+                        <p>$16.21 <strong>↑ 62.1%</strong></p>
+                    </div>
+                    <div class="property-item">
+                        <h4>THE WENTWORTH</h4>
+                        <p>$15.55 <strong>↑ 55.5%</strong></p>
+                    </div>
+                    <div class="property-item">
+                        <h4>THE MOJAVE</h4>
+                        <p>$15.70 <strong>↑ 57%</strong></p>
+                    </div>
+                    <div class="property-item">
+                        <h4>THE CENTENNIAL</h4>
+                        <p>$12.02 <strong>↑ 20.2%</strong></p>
+                    </div>
+                    <div class="property-item">
+                        <h4>THE EASTFAIR</h4>
+                        <p style="color: #e8a87c; font-weight: 700;">Coming Soon</p>
+                    </div>
+                    <!-- Duplicate for seamless loop -->
+                    <div class="property-item">
+                        <h4>THE CUPCAKE</h4>
+                        <p>$16.21 <strong>↑ 62.1%</strong></p>
+                    </div>
+                    <div class="property-item">
+                        <h4>THE WENTWORTH</h4>
+                        <p>$15.55 <strong>↑ 55.5%</strong></p>
+                    </div>
+                    <div class="property-item">
+                        <h4>THE MOJAVE</h4>
+                        <p>$15.70 <strong>↑ 57%</strong></p>
+                    </div>
+                    <div class="property-item">
+                        <h4>THE CENTENNIAL</h4>
+                        <p>$12.02 <strong>↑ 20.2%</strong></p>
+                    </div>
+                    <div class="property-item">
+                        <h4>THE EASTFAIR</h4>
+                        <p style="color: #e8a87c; font-weight: 700;">Coming Soon</p>
+                    </div>
                 </div>
             </div>
         </div>

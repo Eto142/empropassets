@@ -4,7 +4,9 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReitController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\DepositController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,6 +21,12 @@ Route::get('/invest-public', [HomeController::class, 'invest'])->name('invest.pu
 Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
 Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy');
 Route::get('/careers', [HomeController::class, 'careers'])->name('careers');
+
+// REIT Routes
+Route::get('/reit', [ReitController::class, 'index'])->name('reit.index');
+Route::get('/reit/income', [ReitController::class, 'incomeReit'])->name('reit.income');
+Route::get('/reit/growth', [ReitController::class, 'growthReit'])->name('reit.growth');
+Route::get('/reit/why', [ReitController::class, 'whyReit'])->name('reit.why');
 
 
 
@@ -65,14 +73,39 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
 Route::get('/invest', [DashboardController::class, 'invest'])->name('invest'); // User dashboard invest page
 Route::get('/portfolio', [DashboardController::class, 'portfolio'])->name('portfolio');
-Route::get('/deposit', [DashboardController::class, 'deposit'])->name('deposit');
-Route::post('/deposit', [DashboardController::class, 'depositSubmit'])->name('deposit.submit');
 Route::get('/withdrawal', [DashboardController::class, 'withdrawal'])->name('withdrawal');
 Route::post('/withdrawal', [DashboardController::class, 'withdrawalSubmit'])->name('withdrawal.submit');
 Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
 Route::post('/profile', [DashboardController::class, 'updateProfile'])->name('profile.update');
 Route::post('/profile/password', [DashboardController::class, 'updatePassword'])->name('profile.password');
 Route::get('/investment-history', [DashboardController::class, 'investmentHistory'])->name('investment.history');
+
+
+// Show deposit form
+Route::get('/deposit', [DepositController::class, 'showForm'])->name('deposit.form');
+
+// Form submission: getDeposit decides next route
+Route::post('/deposit/submit', [DepositController::class, 'getDeposit'])->name('deposit.submit');
+
+// Next pages based on payment method
+Route::get('/deposit/bank/{amount}', [DepositController::class, 'bank'])->name('deposit.bank');
+Route::get('/deposit/crypto/{amount}/{crypto}', [DepositController::class, 'crypto'])->name('deposit.crypto');
+
+/*
+|--------------------------------------------
+| Deposit Flow Routes
+|--------------------------------------------
+*/
+
+
+
+// Final deposit submission (upload proof & save)
+Route::post('/deposit/make', [DepositController::class, 'makeDeposit'])
+    ->name('deposit.make');
+
+
+
+
 
 // Route::get('/payment-history', [DashboardController::class, 'PaymentHistory'])->name('payment.history');
 // Route::get('/gas-billing', [DashboardController::class, 'gasBilling'])->name('gas-billing');
