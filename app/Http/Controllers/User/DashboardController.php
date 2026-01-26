@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\User;
+use App\Models\Balance;
 use App\Models\Conversion;
 use App\Models\Deposit;
 use App\Models\Escrow;
 use App\Models\Fiat;
+use App\Models\Investment;
 use App\Models\PaymentInformation;
 use App\Models\Wallet;
 use App\Models\Withdrawal;
@@ -12,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
@@ -23,28 +25,26 @@ class DashboardController extends Controller
 public function index()
 {
     // Redirect to portfolio as default dashboard
+
     return redirect()->route('portfolio');
 }
 
-public function invest(Request $request)
-{
-    $query = \App\Models\Investment::query();
-
-    // Optional filtering by type
-    if ($request->has('type') && $request->type != 'all') {
-        $query->where('type', $request->type);
-    }
-
-    // Paginate results
-    $investments = $query->latest()->paginate(9)->withQueryString(); // 9 per page
-
-    return view('user.invest', compact('investments'));
-}
 
 
 public function portfolio()
 {
-    return view('user.portfolio');
+    $userId = auth()->id();
+
+    $balance = Balance::where('user_id', $userId)->first();
+
+    $data = [
+        'cash_balance'   => $balance?->cash_balance ?? 0,
+        'total_invested'=> $balance?->total_invested ?? 0,
+        'total_returns' => $balance?->total_returns ?? 0,
+        'total_balance' => ($balance?->cash_balance ?? 0) + ($balance?->total_returns ?? 0) - ($balance?->total_invested ?? 0),
+    ];
+
+    return view('user.portfolio', $data);
 }
 
 public function deposit()
@@ -65,47 +65,12 @@ public function depositSubmit(Request $request)
     return back()->with('success', 'Deposit request submitted successfully. Processing...');
 }
 
-public function withdrawal()
-{
-    return view('user.withdrawal');
-}
-
-public function withdrawalSubmit(Request $request)
-{
-    $request->validate([
-        'amount' => 'required|numeric|min:10',
-        'withdrawal_type' => 'required|in:bank,crypto',
-    ]);
-
-    if ($request->withdrawal_type === 'bank') {
-        $request->validate([
-            'bank_name' => 'required|string|max:255',
-            'account_name' => 'required|string|max:255',
-            'account_number' => 'required|string|max:50',
-            'swift_code' => 'nullable|string|max:50',
-        ]);
-    } else {
-        $request->validate([
-            'crypto_network' => 'required|string|max:100',
-            'wallet_address' => 'required|string|max:255',
-        ]);
-    }
-
-    // Here you would process the withdrawal
-    // For now, just return success message
-    
-    return back()->with('success', 'Withdrawal request submitted successfully. It will be processed within 3-5 business days.');
-}
 
 public function profile()
 {
     return view('user.profile');
 }
 
-public function investmentHistory()
-{
-    return view('user.investment-history');
-}
 
 /**
  * Get the BTC price in USD (i.e. 1 BTC = X USD).  
@@ -191,9 +156,41 @@ public function Support(){
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:20',
+            'identity_type' => 'nullable|string|in:passport,driver_license,national_id,other',
+            'identity_document' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'identity_document_back' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
-        $user->update($validated);
+        // Handle front document upload
+        if ($request->hasFile('identity_document')) {
+            if ($user->identity_document && Storage::exists('public/' . $user->identity_document)) {
+                Storage::delete('public/' . $user->identity_document);
+            }
+            $filePath = $request->file('identity_document')->store('kyc', 'public');
+            $validated['identity_document'] = $filePath;
+            $validated['kyc_status'] = 'pending';
+            $validated['kyc_rejection_reason'] = null;
+        }
+
+        // Handle back document upload
+        if ($request->hasFile('identity_document_back')) {
+            if ($user->identity_document_back && Storage::exists('public/' . $user->identity_document_back)) {
+                Storage::delete('public/' . $user->identity_document_back);
+            }
+            $filePath = $request->file('identity_document_back')->store('kyc', 'public');
+            $validated['identity_document_back'] = $filePath;
+            $validated['kyc_status'] = 'pending';
+            $validated['kyc_rejection_reason'] = null;
+        }
+
+        // Only update basic profile if no file-related KYC fields
+        if (!isset($validated['identity_type']) && !isset($validated['identity_document']) && !isset($validated['identity_document_back'])) {
+            // Basic profile update only
+            $user->update(['name' => $validated['name'], 'phone' => $validated['phone'] ?? null]);
+        } else {
+            // Full update including KYC
+            $user->update($validated);
+        }
 
         return back()->with('success', 'Profile information updated successfully.');
     }

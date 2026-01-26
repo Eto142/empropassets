@@ -205,7 +205,7 @@
             $currentType = request('type', 'all');
         @endphp
         @foreach($types as $key => $label)
-            <a href="{{ route('invest', ['type'=>$key]) }}" class="btn btn-outline-primary {{ $currentType==$key ? 'active' : '' }}">
+            <a href="{{ route('invest.index', ['type'=>$key]) }}" class="btn btn-outline-primary {{ $currentType==$key ? 'active' : '' }}">
                 {{ $label }}
             </a>
         @endforeach
@@ -224,6 +224,7 @@
     <div class="row g-4">
         @forelse($investments as $investment)
             <div class="col-12 col-md-6 col-lg-4">
+                <a href="{{ route('investments.show',$investment->id) }}" class="text-decoration-none text-dark">
                 <div class="card property-card position-relative h-100">
                     <div class="property-image">
                        <img src="{{ $investment->image ? asset('images/investments/'.$investment->image) : asset('assets/images/placeholder.png') }}" alt="{{ $investment->name }}" style="height:200px; object-fit:cover;">
@@ -248,19 +249,18 @@
                                 <div class="stat-value">{{ number_format($investment->investors) }}</div>
                             </div>
                         </div>
-                       <form action="{{ route('investments.invest') }}" method="POST" class="mt-auto">
-    @csrf
-    <input type="hidden" name="investment_id" value="{{ $investment->id }}">
+                     
 
     <button type="submit"
-            class="btn btn-success w-100"
-            {{ $investment->status != 'available' ? 'disabled' : '' }}>
+            class="btn btn-success w-100">
+           
         Invest Now
     </button>
-</form>
+
 
                     </div>
                 </div>
+            </a>
             </div>
         @empty
             <div class="col">

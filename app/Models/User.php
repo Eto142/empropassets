@@ -20,7 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
          'name', 'email', 'password',
     'phone', 'address', 'country', 'dob',
-    'otp', 'otp_expires_at', 'email_verified_at'
+    'otp', 'otp_expires_at', 'email_verified_at',
+    'identity_type', 'identity_document', 'identity_document_back',
+    'kyc_status', 'kyc_rejection_reason', 'kyc_verified_at'
     ];
 
     /**
@@ -43,6 +45,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'kyc_verified_at' => 'datetime',
         ];
     }
 
@@ -50,5 +53,12 @@ class User extends Authenticatable
 {
     return $this->hasMany(UserInvestment::class);
 }
+
+public function balance()
+{
+    return $this->hasOne(Balance::class);
+}
+
+
 
 }

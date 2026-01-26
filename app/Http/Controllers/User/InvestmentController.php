@@ -9,6 +9,32 @@ use Illuminate\Http\Request;
 
 class InvestmentController extends Controller
 {
+
+
+public function index(Request $request)
+{
+    $query = \App\Models\Investment::query();
+
+    // Optional filtering by type
+    if ($request->has('type') && $request->type != 'all') {
+        $query->where('type', $request->type);
+    }
+
+    // Paginate results
+    $investments = $query->latest()->paginate(9)->withQueryString(); // 9 per page
+
+    return view('user.investment.index', compact('investments'));
+}
+
+
+public function show($id)
+{
+    $investment = Investment::findOrFail($id);
+
+    return view('user.investment.show', compact('investment'));
+}
+
+
     //
     public function invest(Request $request)
 {

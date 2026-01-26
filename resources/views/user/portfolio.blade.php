@@ -542,7 +542,7 @@
                 <div class="account-card-header">
                     <div style="flex: 1;">
                         <div class="account-card-title">Total Account Balance</div>
-                        <div class="account-card-value">$0.00</div>
+                        <div class="account-card-value">${{ number_format($total_balance, 2) }}</div>
                     </div>
                     <div class="account-card-icon blue">$</div>
                 </div>
@@ -558,7 +558,7 @@
                 <div class="account-card-header">
                     <div style="flex: 1;">
                         <div class="account-card-title">Cash Balance</div>
-                        <div class="account-card-value">$0.00</div>
+                        <div class="account-card-value">${{ number_format($cash_balance, 2) }}</div>
                     </div>
                     <div class="account-card-icon green">💵</div>
                 </div>
@@ -574,7 +574,7 @@
                 <div class="account-card-header">
                     <div style="flex: 1;">
                         <div class="account-card-title">Total Invested</div>
-                        <div class="account-card-value">$0.00</div>
+                        <div class="account-card-value">${{ number_format($total_invested, 2) }}</div>
                     </div>
                     <div class="account-card-icon purple">🏠</div>
                 </div>
@@ -590,7 +590,7 @@
                 <div class="account-card-header">
                     <div style="flex: 1;">
                         <div class="account-card-title">Total Returns</div>
-                        <div class="account-card-value">$0.00</div>
+                        <div class="account-card-value">${{ number_format($total_returns, 2) }}</div>
                     </div>
                     <div class="account-card-icon red">📈</div>
                 </div>
@@ -629,7 +629,7 @@
                 <div class="empty-state-title">No investments yet</div>
                 <div class="empty-state-text">Start building your real estate portfolio by investing in your first property.</div>
                 <div class="quick-actions">
-                    <a href="{{ route('invest') }}" class="quick-action-btn">Browse Properties</a>
+                    <a href="{{ route('invest.index') }}" class="quick-action-btn">Browse Properties</a>
                     <a href="{{ route('deposit.form') }}" class="quick-action-btn secondary">Add Funds</a>
                 </div>
             </div>

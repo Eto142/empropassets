@@ -264,11 +264,11 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Total Investments</div>
-                <div class="stat-value">$0.00</div>
+                <div class="stat-value">${{ $total_invested }}</div>
             </div>
             <div class="stat-card" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
                 <div class="stat-label">Total Returns</div>
-                <div class="stat-value">$0.00</div>
+                <div class="stat-value">${{ $total_returns }}</div>
             </div>
             <div class="stat-card" style="background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);">
                 <div class="stat-label">Active Investments</div>

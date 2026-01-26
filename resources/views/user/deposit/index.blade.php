@@ -259,7 +259,7 @@
         <div class="deposit-card">
             <div class="balance-display">
                 <div class="balance-label">Current Balance</div>
-                <div class="balance-amount">$0.00</div>
+                <div class="balance-amount">${{ $total_balance }}</div>
             </div>
 
            @if(session('success'))

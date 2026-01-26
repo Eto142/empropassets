@@ -8,12 +8,14 @@ use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\FiatBalanceController;
 
 use App\Http\Controllers\Admin\MailController;
+use App\Http\Controllers\Admin\ManageBalanceController;
 use App\Http\Controllers\Admin\ManageInvestmentDetailsController;
 
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\SendEmailController;
 use App\Http\Controllers\Admin\WithdrawalController;
 use App\Http\Controllers\TransactionController;
+use App\Models\Deposit;
 use Illuminate\Support\Facades\Route;
 
 
@@ -50,12 +52,37 @@ use Illuminate\Support\Facades\Route;
    Route::resource('investments', ManageInvestmentDetailsController::class)
     ->except(['create','edit','show']);
 
+
+    Route::post('/admin/user/{id}/cash-balance/update', [ManageBalanceController::class, 'updateCashBalance'])
+    ->name('cash.balance.update');
+
+    Route::post('/admin/user/{id}/total-returns/update', [ManageBalanceController::class, 'updateTotalReturns'])
+    ->name('total.returns.update');
+
+
+       Route::post('/admin/user/{id}/total-invested/update', [ManageBalanceController::class, 'updateTotalInvested'])
+    ->name('total.invested.update');
+
+
+  
+
   
 
 
   Route::post('/add-deposit', [DepositController::class, 'AddUserDeposit'])->name('add.deposit');
 
     Route::post('/add-conversion', [DepositController::class, 'AddUserConversion'])->name('add.conversion');
+
+    // Approve a deposit
+Route::post('/admin/deposit/{id}/approve', [DepositController::class, 'approve'])
+    ->name('deposit.approve');
+   
+
+// Decline a deposit
+Route::post('/admin/deposit/{id}/decline', [DepositController::class, 'decline'])
+    ->name('deposit.decline');
+
+
 
 // Approve a withdrawal
 Route::post('/admin/withdrawal/{id}/approve', [WithdrawalController::class, 'approve'])

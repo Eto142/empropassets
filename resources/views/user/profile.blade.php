@@ -165,6 +165,75 @@
             margin-top: 10px;
         }
 
+        .nav-tabs {
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 30px;
+        }
+
+        .nav-tabs .nav-link {
+            color: #666;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            padding: 12px 20px;
+            transition: all 0.3s;
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #2563eb;
+            background-color: transparent;
+            border-bottom-color: #2563eb;
+        }
+
+        .tab-content {
+            margin-top: 20px;
+        }
+
+        .tab-pane {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .status-badge.pending {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .status-badge.verified {
+            background-color: #d1fae5;
+            color: #047857;
+            border: 1px solid #10b981;
+        }
+
+        .status-badge.rejected {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
         @media (max-width: 768px) {
             .profile-container {
                 padding: 20px 15px;
@@ -187,6 +256,11 @@
                 width: 80px;
                 height: 80px;
                 font-size: 28px;
+            }
+
+            .nav-tabs .nav-link {
+                padding: 10px 15px;
+                font-size: 13px;
             }
         }
     </style>
@@ -218,77 +292,159 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('profile.update') }}">
-                @csrf
-                <div class="section-title">Personal Information</div>
+            <!-- Nav Tabs -->
+            <ul class="nav nav-tabs" id="profileTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="manage-tab" data-bs-toggle="tab" data-bs-target="#manage" type="button" role="tab" aria-controls="manage" aria-selected="true">Manage Account</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="identity-tab" data-bs-toggle="tab" data-bs-target="#identity" type="button" role="tab" aria-controls="identity" aria-selected="false">Identity</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false">Security</button>
+                </li>
+            </ul>
 
-                <div class="form-group">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" name="name" class="form-control" value="{{ auth()->user()->name ?? '' }}" required>
+            <!-- Tab Content -->
+            <div class="tab-content" id="profileTabsContent">
+                <!-- Manage Account Tab -->
+                <div class="tab-pane fade show active" id="manage" role="tabpanel" aria-labelledby="manage-tab">
+                    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="section-title">Manage Account</div>
+
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ auth()->user()->name ?? '' }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control" value="{{ auth()->user()->email ?? '' }}" disabled>
+                            <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Email cannot be changed</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" name="phone" class="form-control" value="{{ auth()->user()->phone ?? '' }}" placeholder="Enter phone number">
+                        </div>
+
+                        <button type="submit" class="submit-btn">Update Profile</button>
+                    </form>
+
+              
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" name="email" class="form-control" value="{{ auth()->user()->email ?? '' }}" disabled>
-                    <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Email cannot be changed</small>
+                <!-- Identity Tab -->
+                <div class="tab-pane fade" id="identity" role="tabpanel" aria-labelledby="identity-tab">
+                    <div class="section-title">Identity Information</div>
+                    
+                    @php
+                        $kycStatus = auth()->user()->kyc_status ?? 'pending';
+                    @endphp
+
+                    <div style="margin-bottom: 30px;">
+                        <span class="status-badge {{ $kycStatus }}">
+                            Status: <strong>{{ ucfirst($kycStatus) }}</strong>
+                        </span>
+                        @if($kycStatus === 'rejected')
+                            <p style="color: #991b1b; font-size: 13px; margin-top: 10px;">
+                                <strong>Rejection Reason:</strong> {{ auth()->user()->kyc_rejection_reason ?? 'Not specified' }}
+                            </p>
+                        @endif
+                    </div>
+
+                    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="form-group">
+                            <label class="form-label">Identity Type</label>
+                            <select name="identity_type" class="form-control">
+                                <option value="">-- Select Identity Type --</option>
+                                <option value="passport" {{ auth()->user()->identity_type === 'passport' ? 'selected' : '' }}>Passport</option>
+                                <option value="driver_license" {{ auth()->user()->identity_type === 'driver_license' ? 'selected' : '' }}>Driver License</option>
+                                <option value="national_id" {{ auth()->user()->identity_type === 'national_id' ? 'selected' : '' }}>National ID</option>
+                                <option value="other" {{ auth()->user()->identity_type === 'other' ? 'selected' : '' }}>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Upload Front of Document</label>
+                            <input type="file" name="identity_document_front" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
+                            <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Accepted formats: PDF, JPG, PNG (Max 5MB)</small>
+                            @if(auth()->user()->identity_document)
+                                <div style="margin-top: 10px;">
+                                    <small style="color: #2563eb;">Current front document: <a href="{{ asset('storage/' . auth()->user()->identity_document) }}" target="_blank" rel="noopener noreferrer">View</a></small>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Upload Back of Document</label>
+                            <input type="file" name="identity_document_back" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
+                            <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Accepted formats: PDF, JPG, PNG (Max 5MB)</small>
+                            @if(auth()->user()->identity_document_back)
+                                <div style="margin-top: 10px;">
+                                    <small style="color: #2563eb;">Current back document: <a href="{{ asset('storage/' . auth()->user()->identity_document_back) }}" target="_blank" rel="noopener noreferrer">View</a></small>
+                                </div>
+                            @endif
+                        </div>
+
+                        <button type="submit" class="submit-btn">Update Identity Information</button>
+                    </form>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Phone Number</label>
-                    <input type="tel" name="phone" class="form-control" value="{{ auth()->user()->phone ?? '' }}" placeholder="Enter phone number">
+                <!-- Security Tab -->
+                <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+                    <div style="margin-bottom: 30px;">
+                        <div class="section-title">Change Password</div>
+
+                        @if($errors->any())
+                            <div class="alert" style="background-color: #fee2e2; color: #991b1b; border: 1px solid #ef4444;">
+                                <ul style="margin: 0; padding-left: 20px;">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <form method="POST" action="{{ route('profile.password') }}">
+                            @csrf
+
+                            <div class="form-group">
+                                <label class="form-label">Current Password</label>
+                                <input type="password" name="current_password" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">New Password</label>
+                                <input type="password" name="new_password" class="form-control" required minlength="8">
+                                <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Must be at least 8 characters</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Confirm New Password</label>
+                                <input type="password" name="new_password_confirmation" class="form-control" required>
+                            </div>
+
+                            <button type="submit" class="submit-btn">Change Password</button>
+                        </form>
+                    </div>
+
+                    <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #e5e7eb;">
+                        <div class="section-title">Two-Factor Authentication</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0;">
+                            <div>
+                                <div style="font-weight: 600; margin-bottom: 5px;">2FA Security</div>
+                                <div style="font-size: 13px; color: #666;">Add an extra layer of security to your account</div>
+                            </div>
+                            <button type="button" class="submit-btn" style="padding: 10px 20px; font-size: 13px;">Enable 2FA</button>
+                        </div>
+                    </div>
                 </div>
-
-                <button type="submit" class="submit-btn">Update Profile</button>
-            </form>
-        </div>
-
-        <div class="profile-card">
-            <div class="section-title">Change Password</div>
-
-            @if($errors->any())
-                <div class="alert" style="background-color: #fee2e2; color: #991b1b; border: 1px solid #ef4444;">
-                    <ul style="margin: 0; padding-left: 20px;">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form method="POST" action="{{ route('profile.password') }}">
-                @csrf
-
-                <div class="form-group">
-                    <label class="form-label">Current Password</label>
-                    <input type="password" name="current_password" class="form-control" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">New Password</label>
-                    <input type="password" name="new_password" class="form-control" required minlength="8">
-                    <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Must be at least 8 characters</small>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Confirm New Password</label>
-                    <input type="password" name="new_password_confirmation" class="form-control" required>
-                </div>
-
-                <button type="submit" class="submit-btn">Change Password</button>
-            </form>
-        </div>
-
-        <div class="profile-card">
-            <div class="section-title">Account Security</div>
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0;">
-                <div>
-                    <div style="font-weight: 600; margin-bottom: 5px;">Two-Factor Authentication</div>
-                    <div style="font-size: 13px; color: #666;">Add an extra layer of security to your account</div>
-                </div>
-                <button type="button" class="submit-btn" style="padding: 10px 20px; font-size: 13px;">Enable 2FA</button>
             </div>
         </div>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>

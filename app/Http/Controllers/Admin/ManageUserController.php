@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Balance;
 use App\Models\Conversion;
 use App\Models\Deposit;
-use App\Models\Escrow;
-use App\Models\Fiat;
-use App\Models\PaymentInfo;
-use App\Models\PaymentProof;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Withdrawal;
@@ -43,25 +40,36 @@ class ManageUserController extends Controller
 public function userProfile($id)
 {
     $user = DB::table('users')->where('id', $id)->first();
-    $withdrawal_total = Withdrawal::where('user_id', $user->id)
-    ->where('status', 1)
-    ->sum('amount');
-    $fiat_amount = Fiat::where('user_id', $id)->sum('amount') - $withdrawal_total;
-    $conversion_amount = Conversion::where('user_id', $id)->sum('amount');
-    $deposit_amount =   Deposit::where('user_id', $id)->sum('amount');
+
+    $withdrawal_total = Withdrawal::where('user_id', $id)
+        ->where('status', 'approved')
+        ->sum('amount');
+
+    $deposit_amount = Deposit::where('user_id', $id)->sum('amount');
+
+    $balance = Balance::where('user_id', $id)->first();
+
+    $cash_balance = $balance ? $balance->cash_balance : 0;
+    $total_returns = $balance ? $balance->total_returns : 0;
+    $total_invested = $balance ? $balance->total_invested : 0;
+    $total_balance = $cash_balance + $total_returns;
 
     $data = [
-        'userProfile'       => $user,
-        'fiat_amount'       => $fiat_amount,
-        'conversion_amount'       => $conversion_amount,
-        'deposit_amount'       => $deposit_amount,
-         'withdrawal_total'       => $withdrawal_total,
-        'user_conversion'   => Conversion::where('user_id', $id)
-                                        ->orderBy('id', 'desc')
-                                        ->get(),
+        'userProfile'        => $user,
+        'deposit_amount'    => $deposit_amount,
+        'withdrawal_total'  => $withdrawal_total,
+        'cash_balance'      => $cash_balance,
+        'total_returns'      => $total_returns,
+        'total_invested'     => $total_invested,
+        'total_balance'      => $total_balance,
+
         'user_withdrawal'   => Withdrawal::where('user_id', $id)
-                                        ->orderBy('id', 'desc')
-                                        ->get(),
+                                ->orderBy('id', 'desc')
+                                ->get(),
+
+     'user_deposit'   => Deposit::where('user_id', $id)
+    ->orderBy('id', 'desc')
+    ->get(),
     ];
 
     return view('admin.user_data', $data);

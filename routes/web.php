@@ -8,7 +8,10 @@ use App\Http\Controllers\ReitController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\DepositController;
 use App\Http\Controllers\User\InvestmentController;
+use App\Http\Controllers\User\InvestmentHistoryController;
+use App\Http\Controllers\User\WithdrawalController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -73,15 +76,12 @@ Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPass
 Route::middleware(['auth'])->group(function () {
     
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('home');
-Route::get('/invest', [DashboardController::class, 'invest'])->name('invest'); // User dashboard invest page
 Route::get('/portfolio', [DashboardController::class, 'portfolio'])->name('portfolio');
-Route::get('/withdrawal', [DashboardController::class, 'withdrawal'])->name('withdrawal');
-Route::post('/withdrawal', [DashboardController::class, 'withdrawalSubmit'])->name('withdrawal.submit');
+
+
 Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
 Route::post('/profile', [DashboardController::class, 'updateProfile'])->name('profile.update');
 Route::post('/profile/password', [DashboardController::class, 'updatePassword'])->name('profile.password');
-Route::get('/investment-history', [DashboardController::class, 'investmentHistory'])->name('investment.history');
-
 
 // Show deposit form
 Route::get('/deposit', [DepositController::class, 'showForm'])->name('deposit.form');
@@ -106,13 +106,21 @@ Route::post('/deposit/make', [DepositController::class, 'makeDeposit'])
     ->name('deposit.make');
 
 
+
+    Route::get('/invest-index', [InvestmentController::class, 'index'])->name('invest.index'); // User dashboard invest page
     Route::post('/invest', [InvestmentController::class, 'invest'])
     ->name('investments.invest');
+     Route::get('/investments/{id}', [InvestmentController::class, 'show'])->name('investments.show');
 
 
 
 
-// Route::get('/payment-history', [DashboardController::class, 'PaymentHistory'])->name('payment.history');
-// Route::get('/gas-billing', [DashboardController::class, 'gasBilling'])->name('gas-billing');
+    Route::get('/withdrawal', [WithdrawalController::class, 'index'])->name('withdrawal');
+Route::post('/withdrawal', [WithdrawalController::class, 'withdrawalSubmit'])->name('withdrawal.submit');
+
+
+Route::get('/investment-history', [InvestmentHistoryController::class, 'investmentHistory'])->name('investment.history');
+
+
 });
 
