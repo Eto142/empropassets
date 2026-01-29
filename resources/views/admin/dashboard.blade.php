@@ -70,41 +70,128 @@
                 </div>
             </div>
 
-            {{-- <!-- Total Withdrawals -->
+            <!-- Total Deposits -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card stat-card bg-success bg-opacity-10 border-success h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="value fs-3 fw-bold">${{ number_format($totalDeposits, 2) }}</div>
+                                <div class="label text-muted">Total Deposits</div>
+                            </div>
+                            <div class="bg-success bg-opacity-25 p-3 rounded">
+                                <i class="fas fa-arrow-down text-success fs-4"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-warning fw-semibold">
+                                <i class="fas fa-clock"></i> {{ number_format($pendingDepositsCount) }} pending
+                            </span>
+                            <span class="text-muted">/ {{ number_format($totalDepositsCount) }} total</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Withdrawals -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card stat-card bg-danger bg-opacity-10 border-danger h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="value fs-3 fw-bold">${{ number_format($totalWithdrawals, 2) }}</div>
+                                <div class="label text-muted">Total Withdrawals</div>
+                            </div>
+                            <div class="bg-danger bg-opacity-25 p-3 rounded">
+                                <i class="fas fa-arrow-up text-danger fs-4"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-warning fw-semibold">
+                                <i class="fas fa-clock"></i> {{ number_format($pendingWithdrawalsCount) }} pending
+                            </span>
+                            <span class="text-muted">/ {{ number_format($totalWithdrawalsCount) }} total</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Investments -->
             <div class="col-md-6 col-lg-3">
                 <div class="card stat-card bg-info bg-opacity-10 border-info h-100">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <div class="value fs-3 fw-bold">{{ $totalWithdrawalCount }}</div>
-                                <div class="label text-muted">Total Withdrawals</div>
+                                <div class="value fs-3 fw-bold">${{ number_format($totalInvestments, 2) }}</div>
+                                <div class="label text-muted">Total Investments</div>
                             </div>
                             <div class="bg-info bg-opacity-25 p-3 rounded">
-                                <i class="fas fa-exchange-alt text-info fs-4"></i>
+                                <i class="fas fa-chart-pie text-info fs-4"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-success fw-semibold">
+                                <i class="fas fa-check-circle"></i> {{ number_format($activeInvestmentsCount) }} active
+                            </span>
+                            <span class="text-muted">/ {{ number_format($totalInvestmentsCount) }} total</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Overview Row -->
+        <div class="row g-3 mb-4">
+            <!-- Total Cash Balance -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card stat-card bg-warning bg-opacity-10 border-warning h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="value fs-3 fw-bold">${{ number_format($totalCashBalance, 2) }}</div>
+                                <div class="label text-muted">Total Cash Balance</div>
+                            </div>
+                            <div class="bg-warning bg-opacity-25 p-3 rounded">
+                                <i class="fas fa-wallet text-warning fs-4"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
-            {{-- <!-- Total Conversions -->
-            <div class="col-md-6 col-lg-3">
+            <!-- Total Returns -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card stat-card bg-success bg-opacity-10 border-success h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="value fs-3 fw-bold">${{ number_format($totalReturns, 2) }}</div>
+                                <div class="label text-muted">Total Returns</div>
+                            </div>
+                            <div class="bg-success bg-opacity-25 p-3 rounded">
+                                <i class="fas fa-chart-line text-success fs-4"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Invested Amount -->
+            <div class="col-md-6 col-lg-4">
                 <div class="card stat-card bg-secondary bg-opacity-10 border-secondary h-100">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <div class="value fs-3 fw-bold">{{ $totalConversionCount }}</div>
-                                <div class="label text-muted">Total Conversion</div>
+                                <div class="value fs-3 fw-bold">${{ number_format($totalInvested, 2) }}</div>
+                                <div class="label text-muted">Total Invested</div>
                             </div>
                             <div class="bg-secondary bg-opacity-25 p-3 rounded">
-                                <i class="fas fa-university text-secondary fs-4"></i>
+                                <i class="fas fa-piggy-bank text-secondary fs-4"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> --}}
-
-            <!-- Add more stat cards here if needed -->
+            </div>
         </div>
 
         <!-- Recent Users Table -->
