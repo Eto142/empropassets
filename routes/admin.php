@@ -93,6 +93,14 @@ Route::post('/admin/withdrawal/{id}/approve', [WithdrawalController::class, 'app
 Route::post('/admin/withdrawal/{id}/decline', [WithdrawalController::class, 'decline'])
     ->name('withdrawal.decline');
 
+// Approve an investment
+Route::post('/admin/investment/{id}/approve', [ManageUserController::class, 'approveInvestment'])
+    ->name('investment.approve');
+   
+// Decline an investment
+Route::post('/admin/investment/{id}/decline', [ManageUserController::class, 'declineInvestment'])
+    ->name('investment.decline');
+
 
 
  Route::post('add-fiat-balance{user}', [FiatBalanceController::class, 'AddFiatBalance'])->name('add.fiat.balance');
@@ -155,9 +163,10 @@ Route::post('/admin/conversion/{id}/decline', [ConversionController::class, 'dec
               Route::post('suspend-user/{id}', [ManageUserController::class, 'SuspendUser'])
     ->name('suspend.user');
 
+    Route::put('bank-details/{id}', [ManageUserController::class, 'updateBankDetails'])
+    ->name('bank-details.update');
+
     
-
-
 
     //manage escrow ;
 // Approve escrow verification

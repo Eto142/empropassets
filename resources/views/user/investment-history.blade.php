@@ -263,26 +263,29 @@
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-label">Total Investments</div>
-                <div class="stat-value">${{ $total_invested }}</div>
+                <div class="stat-label">Cash Balance</div>
+                <div class="stat-value">${{ number_format($cash_balance, 2) }}</div>
             </div>
             <div class="stat-card" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
-                <div class="stat-label">Total Returns</div>
-                <div class="stat-value">${{ $total_returns }}</div>
+                <div class="stat-label">Total Invested</div>
+                <div class="stat-value">${{ number_format($total_invested, 2) }}</div>
             </div>
             <div class="stat-card" style="background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);">
-                <div class="stat-label">Active Investments</div>
-                <div class="stat-value">0</div>
+                <div class="stat-label">Total Returns</div>
+                <div class="stat-value">${{ number_format($total_returns, 2) }}</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #dc2626 0%, #f87171 100%);">
+                <div class="stat-label">Total Balance</div>
+                <div class="stat-value">${{ number_format($total_balance, 2) }}</div>
             </div>
         </div>
 
         <div class="history-card">
             <div class="filter-tabs">
-                <div class="filter-tab active">All</div>
-                <div class="filter-tab">Investments</div>
-                <div class="filter-tab">Dividends</div>
-                <div class="filter-tab">Withdrawals</div>
-                <div class="filter-tab">Deposits</div>
+                <div class="filter-tab active" data-filter="all">All Transactions</div>
+                <div class="filter-tab" data-filter="deposit">💰 Deposits ({{ $deposits->count() }})</div>
+                <div class="filter-tab" data-filter="investment">📈 Investments ({{ $investments->count() }})</div>
+                <div class="filter-tab" data-filter="withdrawal">📤 Withdrawals ({{ $withdrawals->count() }})</div>
             </div>
 
             <div style="overflow-x: auto;">
@@ -290,25 +293,118 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Transaction</th>
                             <th>Type</th>
+                            <th>Description</th>
                             <th>Amount</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="5">
-                                <div class="empty-state">
-                                    <div class="empty-state-icon">📊</div>
-                                    <div class="empty-state-title">No transactions yet</div>
-                                    <div class="empty-state-text">Your investment history will appear here once you start investing.</div>
-                                    <a href="{{ route('invest') }}" class="empty-state-button">Start Investing</a>
-                                </div>
-                            </td>
-                        </tr>
+                        @if($allTransactions->count() > 0)
+                            @foreach($allTransactions as $transaction)
+                                <tr data-type="{{ $transaction['type'] }}">
+                                    <td>{{ $transaction['date']->format('M d, Y H:i') }}</td>
+                                    <td>
+                                        <span style="font-size: 18px;">{{ $transaction['icon'] }}</span>
+                                        <span style="margin-left: 8px; text-transform: uppercase; font-weight: 700; font-size: 12px;">{{ $transaction['type'] }}</span>
+                                    </td>
+                                    <td>{{ $transaction['description'] }}</td>
+                                    <td>
+                                        <span class="amount" style="color: {{ $transaction['amount'] < 0 ? '#dc2626' : '#10b981' }};">
+                                            {{ $transaction['amount'] < 0 ? '-' : '+' }}${{ number_format(abs($transaction['amount']), 2) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if($transaction['type'] === 'deposit' || $transaction['type'] === 'withdrawal')
+                                            @if($transaction['status'] == 0)
+                                                <span class="status-badge status-pending">Pending</span>
+                                            @elseif($transaction['status'] == 1)
+                                                <span class="status-badge status-active">Approved</span>
+                                            @else
+                                                <span class="status-badge" style="background-color: #fee2e2; color: #dc2626;">Rejected</span>
+                                            @endif
+                                        @else
+                                            @if($transaction['status'] == 1)
+                                                <span class="status-badge status-active">Active</span>
+                                            @else
+                                                <span class="status-badge status-pending">Pending</span>
+                                            @endif
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5">
+                                    <div class="empty-state">
+                                        <div class="empty-state-icon">📊</div>
+                                        <div class="empty-state-title">No transactions yet</div>
+                                        <div class="empty-state-text">Your transaction history will appear here once you start depositing and investing.</div>
+                                        <a href="{{ route('deposit.form') }}" class="empty-state-button">Make Your First Deposit</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
+
+                <!-- Empty states for each category -->
+                @if($deposits->count() == 0)
+                    <div id="empty-deposit" style="display: none;">
+                        <table class="history-table">
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="empty-state">
+                                            <div class="empty-state-icon">💰</div>
+                                            <div class="empty-state-title">No Deposits Yet</div>
+                                            <div class="empty-state-text">You haven't made any deposits. Fund your account to start investing!</div>
+                                            <a href="{{ route('deposit.form') }}" class="empty-state-button">Make Your First Deposit</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+
+                @if($investments->count() == 0)
+                    <div id="empty-investment" style="display: none;">
+                        <table class="history-table">
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="empty-state">
+                                            <div class="empty-state-icon">📈</div>
+                                            <div class="empty-state-title">No Investments Yet</div>
+                                            <div class="empty-state-text">You haven't made any investments yet. Start building your portfolio today!</div>
+                                            <a href="{{ route('investments.index') }}" class="empty-state-button">Explore Investments</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+
+                @if($withdrawals->count() == 0)
+                    <div id="empty-withdrawal" style="display: none;">
+                        <table class="history-table">
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="empty-state">
+                                            <div class="empty-state-icon">📤</div>
+                                            <div class="empty-state-title">No Withdrawals Yet</div>
+                                            <div class="empty-state-text">You haven't requested any withdrawals. Once you have returns or wish to withdraw, they'll appear here.</div>
+                                            <a href="{{ route('withdrawal') }}" class="empty-state-button">Request a Withdrawal</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -317,9 +413,39 @@
         // Filter tab switching
         document.querySelectorAll('.filter-tab').forEach(tab => {
             tab.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
                 document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-                // Here you would filter the table based on the selected tab
+                
+                // Hide all empty states
+                document.querySelectorAll('[id^="empty-"]').forEach(el => el.style.display = 'none');
+                
+                // Get all transaction rows
+                const rows = document.querySelectorAll('.history-table tbody tr[data-type]');
+                let visibleCount = 0;
+                
+                // Filter table rows
+                rows.forEach(row => {
+                    if (filter === 'all') {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        if (row.getAttribute('data-type') === filter) {
+                            row.style.display = '';
+                            visibleCount++;
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                });
+                
+                // Show appropriate empty state if no results
+                if (visibleCount === 0 && filter !== 'all') {
+                    const emptyEl = document.getElementById('empty-' + filter);
+                    if (emptyEl) {
+                        emptyEl.style.display = '';
+                    }
+                }
             });
         });
     </script>

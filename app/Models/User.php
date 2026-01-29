@@ -22,7 +22,8 @@ class User extends Authenticatable
     'phone', 'address', 'country', 'dob',
     'otp', 'otp_expires_at', 'email_verified_at',
     'identity_type', 'identity_document', 'identity_document_back',
-    'kyc_status', 'kyc_rejection_reason', 'kyc_verified_at'
+    'kyc_status', 'kyc_rejection_reason', 'kyc_verified_at',
+    'bank_name', 'account_name', 'account_number', 'swift_code', 'bank_description'
     ];
 
     /**

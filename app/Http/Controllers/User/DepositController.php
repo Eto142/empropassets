@@ -21,7 +21,7 @@ class DepositController extends Controller
         'cash_balance'   => $balance?->cash_balance ?? 0,
         'total_invested'=> $balance?->total_invested ?? 0,
         'total_returns' => $balance?->total_returns ?? 0,
-        'total_balance' => ($balance?->cash_balance ?? 0) + ($balance?->total_returns ?? 0) - ($balance?->total_invested ?? 0),
+        'total_balance' => ($balance?->cash_balance ?? 0) + ($balance?->total_returns ?? 0),
     ];
         return view('user.deposit.index', $data); // your Blade form
     }

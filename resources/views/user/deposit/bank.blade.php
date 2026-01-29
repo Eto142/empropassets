@@ -118,19 +118,19 @@
         <div class="bank-box">
             <div class="bank-row">
                 <span><strong>Bank Name:</strong></span>
-                {{-- <span>Zenith Bank</span> --}}
+                <span>{{ auth()->user()->bank_name ?? 'Not configured' }}</span>
             </div>
             <div class="bank-row">
                 <span><strong>Account Name:</strong></span>
-                {{-- <span>EMAAR Properties Assets</span> --}}
+                <span>{{ auth()->user()->account_name ?? 'Not configured' }}</span>
             </div>
             <div class="bank-row">
                 <span><strong>Account Number:</strong></span>
-                {{-- <span>1234567890</span> --}}
+                <span>{{ auth()->user()->account_number ?? 'Not configured' }}</span>
             </div>
             <div class="bank-row">
-                <span><strong>Reference:</strong></span>
-                {{-- <span>{{ auth()->user()->username ?? auth()->id() }}</span> --}}
+                <span><strong>Swift Code:</strong></span>
+                <span>{{ auth()->user()->swift_code ?? 'N/A' }}</span>
             </div>
         </div>
 

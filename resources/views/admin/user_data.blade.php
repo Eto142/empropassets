@@ -1,41 +1,249 @@
 @include('admin.header')
 
+<style>
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .stats-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 20px;
+    }
+    
+    .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    
+    .stats-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+    
+    .icon-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .icon-success {
+        background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        color: white;
+    }
+    
+    .icon-warning {
+        background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+        color: white;
+    }
+    
+    .icon-info {
+        background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+        color: white;
+    }
+    
+    .action-btn {
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        font-weight: bold;
+        color: white;
+        margin: 0 auto 20px;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        position: relative;
+    }
+    
+    .profile-avatar::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #10b981;
+        border: 3px solid white;
+        border-radius: 50%;
+        bottom: 5px;
+        right: 5px;
+    }
+    
+    .info-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+    }
+    
+    .info-label {
+        font-size: 12px;
+        color: #6b7280;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+    
+    .info-value {
+        font-size: 16px;
+        color: #111827;
+        font-weight: 600;
+    }
+    
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .section-title i {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .custom-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+    }
+    
+    .custom-card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+        padding: 20px;
+        font-weight: 700;
+    }
+    
+    .badge-custom {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 12px;
+    }
+    
+    .table-custom {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .table-custom thead {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .table-custom tbody tr {
+        transition: background 0.3s ease;
+    }
+    
+    .table-custom tbody tr:hover {
+        background: #f9fafb;
+    }
+    
+    /* Nav Pills Styling */
+    .nav-pills .nav-link {
+        color: #6b7280;
+        background: #f3f4f6;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-pills .nav-link:hover {
+        background: #e5e7eb;
+        color: #374151;
+    }
+    
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .nav-pills .nav-link.active .badge {
+        background: white !important;
+        color: #667eea !important;
+    }
+</style>
+
 <!-- Main Content -->
 <div class="main-content" id="mainContent">
-    <!-- Enhanced Page Header -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
-        <div class="mb-3 mb-md-0">
-            <h1 class="h3 mb-1">User Profile</h1>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="#">Users</a></li>
-                </ol>
-            </nav>
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+            <div>
+                <h1 class="h2 mb-2">{{ $userProfile->name }}</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <span><i class="fas fa-envelope me-2"></i>{{ $userProfile->email }}</span>
+                    <span><i class="fas fa-phone me-2"></i>{{ $userProfile->phone }}</span>
+                    <span class="badge bg-light text-dark">ID: {{ $userProfile->id }}</span>
+                </div>
+            </div>
+            <div class="mt-3 mt-md-0">
+                <button class="btn btn-light action-btn" onclick="window.history.back()">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Users
+                </button>
+            </div>
         </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mb-4">
+        <h6 class="text-muted mb-3"><i class="fas fa-bolt me-2"></i>QUICK ACTIONS</h6>
         <div class="d-flex flex-wrap gap-2">
-            {{-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateTaxCodeModal">
-                <i class="fas fa-file-invoice-dollar me-1"></i> Update Tax Code
-            </button> --}}
-
-             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateConversionModal">
-                <i class="fas fa-file-invoice-dollar me-1"></i> Update Deposit Amount
+            <button class="btn btn-primary action-btn" data-bs-toggle="modal" data-bs-target="#updateConversionModal">
+                <i class="fas fa-coins me-1"></i> Update Deposit
             </button>
-
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateCashBalanceModal">
-                <i class="fas fa-file-invoice-dollar me-1"></i> Update Cash balance
+            <button class="btn btn-success action-btn" data-bs-toggle="modal" data-bs-target="#updateCashBalanceModal">
+                <i class="fas fa-wallet me-1"></i> Update Cash Balance
             </button>
-
-              <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateTotalReturnsModal">
-                <i class="fas fa-file-invoice-dollar me-1"></i> Update Total Returns
+            <button class="btn btn-info action-btn" data-bs-toggle="modal" data-bs-target="#updateTotalReturnsModal">
+                <i class="fas fa-chart-line me-1"></i> Update Returns
             </button>
-
-               <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateSuspendStatusModal">
-                <i class="fas fa-file-invoice-dollar me-1"></i> Suspend/unsuspend Button
+            <button class="btn btn-secondary action-btn" data-bs-toggle="modal" data-bs-target="#updateTotalInvestedModal">
+                <i class="fas fa-piggy-bank me-1"></i> Update Invested
             </button>
-
-            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateTotalInvestedModal">
-                <i class="fas fa-file-invoice-dollar me-1"></i> Update Total Invested
+            <button class="btn btn-warning action-btn" data-bs-toggle="modal" data-bs-target="#updateSuspendStatusModal">
+                <i class="fas fa-user-lock me-1"></i> Suspend User
+            </button>
+            <button class="btn btn-dark action-btn" data-bs-toggle="modal" data-bs-target="#updateBankDetailsModal">
+                <i class="fas fa-university me-1"></i> Bank Details
             </button>
         </div>
     </div>
@@ -85,314 +293,516 @@
         @endif
     </div>
 
+    <!-- Stats Overview -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3 col-sm-6">
+            <div class="stats-card">
+                <div class="card-body">
+                    <div class="stats-icon icon-primary mx-auto">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="info-label text-center">Total Balance</div>
+                    <div class="info-value text-center">${{ number_format($total_balance, 2) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stats-card">
+                <div class="card-body">
+                    <div class="stats-icon icon-success mx-auto">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <div class="info-label text-center">Cash Balance</div>
+                    <div class="info-value text-center">${{ number_format($cash_balance, 2) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stats-card">
+                <div class="card-body">
+                    <div class="stats-icon icon-info mx-auto">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="info-label text-center">Total Returns</div>
+                    <div class="info-value text-center">${{ number_format($total_returns, 2) }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="stats-card">
+                <div class="card-body">
+                    <div class="stats-icon icon-warning mx-auto">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="info-label text-center">Total Invested</div>
+                    <div class="info-value text-center">${{ number_format($total_invested, 2) }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
-        <!-- Left Column - Enhanced Profile Card -->
+        <!-- Left Column - Profile & Personal Info -->
         <div class="col-lg-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body text-center">
-                    <!-- Profile Photo -->
-                    <div class="position-relative mb-3 mx-auto" style="width: 150px; height: 150px;">
-                        <div class="rounded-circle shadow w-100 h-100 d-flex align-items-center justify-content-center bg-primary text-white fw-bold fs-4">
-                            {{ strtoupper(substr($userProfile->name, 0, 1) . substr($userProfile->name, 0, 1)) }}
-                        </div>
-                        <span class="position-absolute bottom-0 end-0 bg-success rounded-circle p-2 border border-3 border-white">
-                            <i class="fas fa-check text-white"></i>
+            <!-- Profile Card -->
+            <div class="info-card text-center">
+                <div class="profile-avatar">
+                    {{ strtoupper(substr($userProfile->name, 0, 2)) }}
+                </div>
+                <h3 class="mb-2">{{ $userProfile->name }}</h3>
+                <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                    {{-- @if($userProfile->is_suspended)
+                        <span class="badge badge-custom bg-danger">
+                            <i class="fas fa-ban me-1"></i>Suspended
                         </span>
-                    </div>
-                    
-                    <h3 class="mb-1">{{ $userProfile->name }}</h3>
-                    <p class="text-muted mb-3">{{ $userProfile->email }}</p>
-                    
-                    <!-- Contact Buttons -->
-                    <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
-                        <a href="mailto:{{ $userProfile->email }}" class="btn btn-sm btn-outline-primary">
-                            <i class="fas fa-envelope me-1"></i> Email
-                        </a>
-                        <a href="tel:+{{ $userProfile->phone }}" class="btn btn-sm btn-outline-info">
-                            <i class="fas fa-phone me-1"></i> Call
-                        </a>
-                        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#updateTaxCodeModal">
-                            <i class="fas fa-file-invoice-dollar me-1"></i> Tax Code
-                        </button>
-                    </div>
-                    
-                    <hr>
-
-        <!-- Verification Status Cards -->
-<div class="row g-3 mb-3">
-
-    <div class="col-12 col-md-6">
-        <div class="card bg-success bg-opacity-10 border-success h-100">
-            <div class="card-body p-2 text-center">
-                <h6 class="card-title text-success mb-1">Total Balance Amount</h6>
-                <p class="card-text fw-bold fs-5 mb-0">${{ $total_balance }}</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-6">
-        <div class="card bg-success bg-opacity-10 border-success h-100">
-            <div class="card-body p-2 text-center">
-                <h6 class="card-title text-success mb-1">Cash Balance Amount</h6>
-                <p class="card-text fw-bold fs-5 mb-0">${{ $cash_balance }}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12 col-md-6">
-        <div class="card bg-success bg-opacity-10 border-success h-100">
-            <div class="card-body p-2 text-center">
-                <h6 class="card-title text-success mb-1">Total Returns</h6>
-                <p class="card-text fw-bold fs-5 mb-0">${{ $total_returns }}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12 col-md-6">
-        <div class="card bg-success bg-opacity-10 border-success h-100">
-            <div class="card-body p-2 text-center">
-                <h6 class="card-title text-success mb-1">Total Invested Amount</h6>
-                <p class="card-text fw-bold fs-5 mb-0">${{ $total_invested }}</p>
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="col-12 col-md-6">
-        <div class="card bg-warning bg-opacity-10 border-success h-100">
-            <div class="card-body p-2 text-center">
-                <h6 class="card-title text-success mb-1">User Suspension Status</h6>
-                <p class="card-text fw-bold fs-5 mb-0">
-                    {{-- @if($userProfile->suspended == 1)
-                        Suspension Activated <i class="fas fa-check-circle text-success"></i>
                     @else
-                        Deactivated <i class="fas fa-times-circle text-danger"></i>
+                        <span class="badge badge-custom bg-success">
+                            <i class="fas fa-check-circle me-1"></i>Active
+                        </span>
                     @endif --}}
-                </p>
-            </div>
-        </div>
-    </div>
-
-
-
-                    </div>
+                    <span class="badge badge-custom bg-primary">ID: {{ $userProfile->id }}</span>
+                </div>
+                <div class="d-flex justify-content-center gap-2 mb-3">
+                    <a href="mailto:{{ $userProfile->email }}" class="btn btn-sm btn-primary action-btn">
+                        <i class="fas fa-envelope me-1"></i> Email
+                    </a>
+                    <a href="tel:+{{ $userProfile->phone }}" class="btn btn-sm btn-info action-btn">
+                        <i class="fas fa-phone me-1"></i> Call
+                    </a>
+                </div>
+                <div class="text-start">
+                    <div class="info-label">Email</div>
+                    <div class="info-value mb-3">{{ $userProfile->email }}</div>
+                    
+                    <div class="info-label">Phone</div>
+                    <div class="info-value mb-3">{{ $userProfile->phone }}</div>
+                    
+                    <div class="info-label">Joined</div>
+                    <div class="info-value">{{ \Carbon\Carbon::parse($userProfile->created_at)->format('M d, Y') }}</div>
                 </div>
             </div>
         </div>
         
-        <!-- Right Column - Enhanced User Details -->
+        <!-- Right Column - Details -->
         <div class="col-lg-8">
-            <!-- Personal Information Card -->
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center bg-light">
-                    <h5 class="mb-0"><i class="fas fa-user me-2"></i>Personal Information</h5>
-                    <span class="badge bg-success">Verified</span>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-muted small">Full Name</label>
-                            <div class="fw-semibold">{{ $userProfile->name }}</div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-muted small">Email Address</label>
-                            <div class="fw-semibold d-flex align-items-center">
-                                {{ $userProfile->email }}
-                                <span class="badge bg-success ms-2">Verified</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-muted small">Phone Number</label>
-                            <div class="fw-semibold">{{ $userProfile->phone }}</div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-muted small">Country</label>
-                            <div class="fw-semibold">{{ $userProfile->country }}</div>
-                        </div>
-
-                         <div class="col-md-6 mb-3">
-                            <label class="form-label text-muted small">Date Of Birth</label>
-                            <div class="fw-semibold">{{ $userProfile->dob }}</div>
-                        </div>
-
-<div class="col-md-6 mb-3">
-    <label class="form-label text-muted small">Front ID</label>
-    {{-- @if($userProfile->front_id)
-        <img src="{{ asset('storage/' . $userProfile->front_id) }}" alt="Front ID" class="img-fluid rounded">
-    @else
-        <div class="text-muted">No front ID uploaded</div>
-    @endif --}}
-</div>
-
-<div class="col-md-6 mb-3">
-    <label class="form-label text-muted small">Back ID</label>
-    {{-- @if($userProfile->back_id)
-        <img src="{{ asset('storage/' . $userProfile->back_id) }}" alt="Back ID" class="img-fluid rounded">
-    @else
-        <div class="text-muted">No back ID uploaded</div>
-    @endif --}}
-</div>
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-muted small">Address</label>
-                            <div class="fw-semibold">{{ $userProfile->address }}</div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label text-muted small">Employment</label>
-                            {{-- <div class="fw-semibold">{{ $userProfile->employment }}</div> --}}
-                        </div>
+            <!-- Personal Information -->
+            <div class="section-title">
+                <i class="fas fa-user"></i>
+                <span>Personal Information</span>
+            </div>
+            <div class="info-card mb-4">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="info-label">Full Name</div>
+                        <div class="info-value">{{ $userProfile->name }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-label">Country</div>
+                        <div class="info-value">{{ $userProfile->country }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-label">Date of Birth</div>
+                        <div class="info-value">{{ $userProfile->dob ?? 'Not provided' }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-label">Address</div>
+                        <div class="info-value">{{ $userProfile->address ?? 'Not provided' }}</div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Account Activity Section -->
-            <div class="card">
-                <div class="card-header bg-white p-0">
-                    <ul class="nav nav-tabs card-header-tabs flex-nowrap overflow-auto" id="activityTabs" role="tablist">
-                        <!-- Verification Tab First -->
+
+            <!-- Transaction History with Tabs -->
+            <div class="section-title">
+                <i class="fas fa-history"></i>
+                <span>Transaction History</span>
+            </div>
+
+            <div class="custom-card">
+                <div class="card-header" style="background: white; border-bottom: 2px solid #f3f4f6; padding: 0;">
+                    <ul class="nav nav-pills mb-0" id="historyTabs" role="tablist" style="gap: 5px; padding: 10px;">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active px-4 py-3 fw-bold" id="verification-tab" data-bs-toggle="tab" data-bs-target="#deposits" type="button" role="tab">
-                                <i class="fas fa-shield-alt me-2"></i> Deposits
+                            <button class="nav-link active" id="deposits-tab" data-bs-toggle="pill" data-bs-target="#deposits-content" type="button" role="tab" style="border-radius: 10px; padding: 12px 24px; font-weight: 600;">
+                                <i class="fas fa-arrow-down me-2"></i>Deposits
+                                <span class="badge bg-success ms-2">{{ $user_deposit->count() }}</span>
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link px-4 py-3 fw-bold" id="withdrawals-tab" data-bs-toggle="tab" data-bs-target="#withdrawals" type="button" role="tab">
-                                <i class="fas fa-money-bill-wave me-2"></i> Withdrawals
+                            <button class="nav-link" id="withdrawals-tab" data-bs-toggle="pill" data-bs-target="#withdrawals-content" type="button" role="tab" style="border-radius: 10px; padding: 12px 24px; font-weight: 600;">
+                                <i class="fas fa-arrow-up me-2"></i>Withdrawals
+                                <span class="badge bg-danger ms-2">{{ $user_withdrawal->count() }}</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="investments-tab" data-bs-toggle="pill" data-bs-target="#investments-content" type="button" role="tab" style="border-radius: 10px; padding: 12px 24px; font-weight: 600;">
+                                <i class="fas fa-chart-pie me-2"></i>Investments
+                                <span class="badge bg-info ms-2">{{ $user_investments->count() }}</span>
                             </button>
                         </li>
                     </ul>
                 </div>
 
                 <div class="card-body p-0">
-                    <div class="tab-content p-3" id="activityTabsContent">
-                        <!-- Deposits Tab (first and active) -->
-                        <div class="tab-pane fade show active" id="deposits" role="tabpanel">
+                    <div class="tab-content" id="historyTabsContent">
+                        <!-- Deposits Tab -->
+                        <div class="tab-pane fade show active" id="deposits-content" role="tabpanel">
                             <div class="table-responsive">
-                                <table class="table table-hover table-sm">
-                                    <thead class="table-light">
+                                <table class="table table-custom mb-0">
+                                    <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>Payment Method</th>
-                                            <th>Crypto type</th>
                                             <th>Amount</th>
-                                            <th>Proof
+                                            <th>Method</th>
+                                            <th>Crypto Type</th>
+                                            <th>Proof</th>
                                             <th>Status</th>
-                                            <th>Action</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <@forelse($user_deposit as $deposit)
+                                        @forelse($user_deposit as $deposit)
                                             <tr>
                                                 <td>{{ $deposit->created_at->format('M d, Y') }}</td>
+                                                <td class="fw-bold text-success">${{ number_format($deposit->amount, 2) }}</td>
                                                 <td>{{ ucfirst($deposit->payment_method) }}</td>
                                                 <td>{{ $deposit->crypto_type ?? '—' }}</td>
-                                                <td>${{ number_format($deposit->amount, 2) }}</td>
                                                 <td>
                                                     @if($deposit->proof)
-                                                        <a href="{{ asset('storage/' . $deposit->proof) }}" target="_blank" class="btn btn-sm btn-outline-primary">View Proof</a>
+                                                        <a href="{{ asset('storage/' . $deposit->proof) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-eye me-1"></i>View
+                                                        </a>
                                                     @else
-                                                        —
+                                                        <span class="text-muted">—</span>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if($deposit->status == 1)
-                                                        <span class="badge bg-success">Completed</span>
+                                                        <span class="badge badge-custom bg-success">Completed</span>
                                                     @elseif($deposit->status == 0)
-                                                        <span class="badge bg-warning">Pending</span>
+                                                        <span class="badge badge-custom bg-warning">Pending</span>
                                                     @else
-                                                        <span class="badge bg-danger">Failed</span>
+                                                        <span class="badge badge-custom bg-danger">Failed</span>
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <!-- Add any action buttons if needed -->
-                                                     <form action="{{ route('admin.deposit.approve', $deposit->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
-                        </form>
-
-                        <form action="{{ route('admin.deposit.decline', $deposit->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-danger">Decline</button>
-                        </form>
+                                                    <div class="d-flex gap-1">
+                                                        <form action="{{ route('admin.deposit.approve', $deposit->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-success action-btn">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.deposit.decline', $deposit->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-danger action-btn">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
-                                             @empty
-            <tr>
-                <td colspan="9" class="text-center text-muted">No deposits found</td>
-            </tr>
-        @endforelse
-                                 
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="text-center text-muted py-4">
+                                                    <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                                                    <p>No deposits found</p>
+                                                </td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
                         <!-- Withdrawals Tab -->
-                        <div class="tab-pane fade" id="withdrawals" role="tabpanel">
+                        <div class="tab-pane fade" id="withdrawals-content" role="tabpanel">
                             <div class="table-responsive">
-                              <table class="table table-hover table-sm">
-    <thead class="table-light">
-        <tr>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Bank Name</th>
-            <th>Account Name</th>
-            <th>Account Number</th>
-            <th>SWIFT Code</th>
-            <th>Narration</th>
-            <th>Crypto Network</th>
-            <th>Wallet Address</th>
-            <th>Status</th>
-            <th>Actions</th> <!-- Added Actions column -->
-        </tr>
-    </thead>
-    <tbody>
-        @forelse($user_withdrawal as $withdrawal)
-            <tr>
-                <td>{{ $withdrawal->created_at->format('M d, Y') }}</td>
-                <td>${{ number_format($withdrawal->amount, 2) }}</td>
-                <td>{{ $withdrawal->bank_name ?? '—' }}</td>
-                <td>{{ $withdrawal->account_name ?? '—' }}</td>
-                <td>{{ $withdrawal->account_number ?? '—' }}</td>
-                <td>{{ $withdrawal->swift_code ?? '—' }}</td>
-                <td>{{ $withdrawal->narration ?? '—' }}</td>
-                <td>{{ $withdrawal->crypto_network ?? '—' }}</td>
-                <td>{{ $withdrawal->wallet_address ?? '—'}}</td>
-                
-                <td>
-                    @if($withdrawal->status == 1)
-                        <span class="badge bg-success">Completed</span>
-                    @elseif($withdrawal->status == 0)
-                        <span class="badge bg-warning">Pending</span>
-                    @else
-                        <span class="badge bg-danger">Failed</span>
-                    @endif
-                </td>
-                <td>
-                   
-                        <form action="{{ route('admin.withdrawal.approve', $withdrawal->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
-                        </form>
+                                <table class="table table-custom mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Bank Name</th>
+                                            <th>Account Name</th>
+                                            <th>Account Number</th>
+                                            <th>SWIFT Code</th>
+                                            <th>Crypto Network</th>
+                                            <th>Wallet Address</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($user_withdrawal as $withdrawal)
+                                            <tr>
+                                                <td>{{ $withdrawal->created_at->format('M d, Y') }}</td>
+                                                <td class="fw-bold text-danger">${{ number_format($withdrawal->amount, 2) }}</td>
+                                                <td>{{ $withdrawal->bank_name ?? '—' }}</td>
+                                                <td>{{ $withdrawal->account_name ?? '—' }}</td>
+                                                <td>{{ $withdrawal->account_number ?? '—' }}</td>
+                                                <td>{{ $withdrawal->swift_code ?? '—' }}</td>
+                                                <td>{{ $withdrawal->crypto_network ?? '—' }}</td>
+                                                <td class="text-truncate" style="max-width: 150px;">{{ $withdrawal->wallet_address ?? '—'}}</td>
+                                                <td>
+                                                    @if($withdrawal->status == 1)
+                                                        <span class="badge badge-custom bg-success">Completed</span>
+                                                    @elseif($withdrawal->status == 0)
+                                                        <span class="badge badge-custom bg-warning">Pending</span>
+                                                    @else
+                                                        <span class="badge badge-custom bg-danger">Failed</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex gap-1">
+                                                        <form action="{{ route('admin.withdrawal.approve', $withdrawal->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-success action-btn">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                        </form>
+                                                        <form action="{{ route('admin.withdrawal.decline', $withdrawal->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-danger action-btn">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="10" class="text-center text-muted py-4">
+                                                    <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                                                    <p>No withdrawals found</p>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-                        <form action="{{ route('admin.withdrawal.decline', $withdrawal->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-sm btn-danger">Decline</button>
-                        </form>
-                
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="9" class="text-center text-muted">No withdrawals found</td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
+                        <!-- Investments Tab -->
+                        <div class="tab-pane fade" id="investments-content" role="tabpanel">
+                            <div class="table-responsive">
+                                <table class="table table-custom mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Property Name</th>
+                                            <th>Type</th>
+                                            <th>Location</th>
+                                            <th>Shares</th>
+                                            <th>Share Price</th>
+                                            <th>Amount</th>
+                                            <th>Historic Yield</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($user_investments as $investment)
+                                            <tr>
+                                                <td>{{ $investment->created_at->format('M d, Y') }}</td>
+                                                <td class="fw-bold">{{ $investment->name ?? '—' }}</td>
+                                                <td>
+                                                    <span class="badge badge-custom" style="background: #667eea;">
+                                                        {{ ucfirst($investment->type ?? 'Property') }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                                    {{ $investment->location ?? '—' }}
+                                                </td>
+                                                <td>{{ $investment->shares ?? 0 }}</td>
+                                                <td class="fw-bold text-info">${{ number_format($investment->share_price ?? 0, 2) }}</td>
+                                                <td class="fw-bold text-primary">${{ number_format($investment->amount, 2) }}</td>
+                                                <td class="fw-bold text-success">{{ $investment->historic_yield ?? 0 }}%</td>
+                                                <td>
+                                                    @if($investment->status == 1)
+                                                        <span class="badge badge-custom bg-success">
+                                                            <i class="fas fa-check-circle me-1"></i>Active
+                                                        </span>
+                                                    @elseif($investment->status == 0)
+                                                        <span class="badge badge-custom bg-warning">
+                                                            <i class="fas fa-clock me-1"></i>Pending
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-custom bg-danger">
+                                                            <i class="fas fa-times-circle me-1"></i>Declined
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex gap-1">
+                                                        @if($investment->status != 1)
+                                                        <form action="{{ route('admin.investment.approve', $investment->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-success action-btn" title="Approve">
+                                                                <i class="fas fa-check"></i>
+                                                            </button>
+                                                        </form>
+                                                        @endif
+                                                        @if($investment->status != 2)
+                                                        <form action="{{ route('admin.investment.decline', $investment->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm btn-danger action-btn" title="Decline">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </form>
+                                                        @endif
+                                                        <button class="btn btn-sm btn-info action-btn" data-bs-toggle="modal" data-bs-target="#investmentDetailsModal{{ $investment->id }}" title="View Details">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
 
+                                            <!-- Investment Details Modal -->
+                                            <div class="modal fade" id="investmentDetailsModal{{ $investment->id }}" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                                            <h5 class="modal-title">
+                                                                <i class="fas fa-building me-2"></i>Investment Details
+                                                            </h5>
+                                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row g-3">
+                                                                <div class="col-md-6">
+                                                                    <div class="info-label">Property Name</div>
+                                                                    <div class="info-value">{{ $investment->name ?? '—' }}</div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="info-label">Property Type</div>
+                                                                    <div class="info-value">{{ ucfirst($investment->type ?? '—') }}</div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="info-label">Location</div>
+                                                                    <div class="info-value">{{ $investment->location ?? '—' }}</div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="info-label">Size</div>
+                                                                    <div class="info-value">{{ $investment->size ?? '—' }}</div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <div class="info-label">Bedrooms</div>
+                                                                    <div class="info-value">{{ $investment->bedrooms ?? '—' }}</div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <div class="info-label">Bathrooms</div>
+                                                                    <div class="info-value">{{ $investment->bathrooms ?? '—' }}</div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <div class="info-label">Parking</div>
+                                                                    <div class="info-value">{{ $investment->parking ?? '—' }}</div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <div class="info-label">Year Built</div>
+                                                                    <div class="info-value">{{ $investment->year_built ?? '—' }}</div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="info-label">Shares Purchased</div>
+                                                                    <div class="info-value">{{ $investment->shares ?? 0 }}</div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="info-label">Share Price</div>
+                                                                    <div class="info-value">${{ number_format($investment->share_price ?? 0, 2) }}</div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="info-label">Total Amount</div>
+                                                                    <div class="info-value">${{ number_format($investment->amount, 2) }}</div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="info-label">Historic Yield</div>
+                                                                    <div class="info-value">{{ $investment->historic_yield ?? 0 }}%</div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="info-label">Total Assets</div>
+                                                                    <div class="info-value">${{ number_format($investment->total_assets ?? 0, 2) }}</div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="info-label">Amenities</div>
+                                                                    <div class="info-value">{{ $investment->amenities ?? '—' }}</div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="info-label">Description</div>
+                                                                    <div class="info-value">{{ $investment->description ?? '—' }}</div>
+                                                                </div>
+                                                                @if($investment->image)
+                                                                <div class="col-12">
+                                                                    <div class="info-label">Property Image</div>
+                                                                    <img src="{{ asset('storage/' . $investment->image) }}" alt="Property" class="img-fluid rounded" style="max-height: 300px;">
+                                                                </div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <tr>
+                                                <td colspan="10" class="text-center text-muted py-4">
+                                                    <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
+                                                    <p>No investments found</p>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Bank Details Section -->
+            <div class="section-title mt-4">
+                <i class="fas fa-university"></i>
+                <span>Bank Details</span>
+            </div>
+            <div class="custom-card">
+                <div class="custom-card-header d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-university me-2"></i>Banking Information</span>
+                    <button class="btn btn-sm btn-light action-btn" data-bs-toggle="modal" data-bs-target="#updateBankDetailsModal">
+                        <i class="fas fa-edit me-1"></i> Edit
+                    </button>
+                </div>
+                <div class="card-body">
+                    @if($userProfile->bank_name || $userProfile->account_name || $userProfile->account_number)
+                        <div class="row g-4">
+                            <div class="col-md-3">
+                                <div class="info-label">Bank Name</div>
+                                <div class="info-value">{{ $userProfile->bank_name ?? 'Not set' }}</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="info-label">Account Name</div>
+                                <div class="info-value">{{ $userProfile->account_name ?? 'Not set' }}</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="info-label">Account Number</div>
+                                <div class="info-value">{{ $userProfile->account_number ?? 'Not set' }}</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="info-label">Swift Code</div>
+                                <div class="info-value">{{ $userProfile->swift_code ?? 'Not set' }}</div>
+                            </div>
+                            @if($userProfile->bank_description)
+                            <div class="col-12">
+                                <div class="info-label">Description</div>
+                                <div class="info-value">{{ $userProfile->bank_description }}</div>
+                            </div>
+                            @endif
+                        </div>
+                    @else
+                        <div class="alert alert-info mb-0" style="border-radius: 10px;">
+                            <i class="fas fa-info-circle me-2"></i>
+                            No bank details configured yet. <a href="#" class="fw-bold" data-bs-toggle="modal" data-bs-target="#updateBankDetailsModal">Add bank details</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -565,6 +975,47 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Update Deposit Amount</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateBankDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Update Bank Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.bank-details.update', $userProfile->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Bank Name</label>
+                        <input type="text" class="form-control" name="bank_name" placeholder="Enter Bank Name" value="{{ $userProfile->bank_name ?? '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Account Name</label>
+                        <input type="text" class="form-control" name="account_name" placeholder="Enter Account Name" value="{{ $userProfile->account_name ?? '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Account Number</label>
+                        <input type="text" class="form-control" name="account_number" placeholder="Enter Account Number" value="{{ $userProfile->account_number ?? '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Swift Code</label>
+                        <input type="text" class="form-control" name="swift_code" placeholder="Enter Swift Code (optional)" value="{{ $userProfile->swift_code ?? '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Description</label>
+                        <textarea class="form-control" name="description" rows="2" placeholder="Additional details">{{ $userProfile->bank_description ?? '' }}</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Bank Details</button>
                 </div>
             </form>
         </div>

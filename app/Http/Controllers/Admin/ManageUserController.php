@@ -8,6 +8,7 @@ use App\Models\Conversion;
 use App\Models\Deposit;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\UserInvestment;
 use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,6 +69,10 @@ public function userProfile($id)
                                 ->get(),
 
      'user_deposit'   => Deposit::where('user_id', $id)
+    ->orderBy('id', 'desc')
+    ->get(),
+
+    'user_investments' => UserInvestment::where('user_id', $id)
     ->orderBy('id', 'desc')
     ->get(),
     ];
@@ -179,12 +184,48 @@ public function SuspendUser(Request $request, $id)
     return redirect()->back()->with('success', 'User suspended status updated successfully.');
 }
 
+public function updateBankDetails(Request $request, $id)
+{
+    $user = User::findOrFail($id);
 
+    $validated = $request->validate([
+        'bank_name' => 'required|string|max:255',
+        'account_name' => 'required|string|max:255',
+        'account_number' => 'required|string|max:50',
+        'swift_code' => 'nullable|string|max:20',
+        'description' => 'nullable|string',
+    ]);
 
+    $user->update($validated);
 
-
-
+    return redirect()->route('admin.profile', $id)->with('success', 'Bank details updated successfully');
 }
+
+public function approveInvestment($id)
+{
+    $investment = UserInvestment::findOrFail($id);
+    $investment->status = 1;
+    $investment->save();
+
+    return redirect()->back()->with('success', 'Investment approved successfully.');
+}
+
+public function declineInvestment($id)
+{
+    $investment = UserInvestment::findOrFail($id);
+    $investment->status = 2;
+    $investment->save();
+
+    return redirect()->back()->with('success', 'Investment declined successfully.');
+}
+}
+
+
+
+
+
+
+
 
 
 
