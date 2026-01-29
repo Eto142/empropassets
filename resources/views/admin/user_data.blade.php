@@ -969,7 +969,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Deposit Amount</label>
-                        <input type="text" class="form-control" name="amount" placeholder="Enter Conversion Amount" value="">
+                        <input type="text" class="form-control" name="amount" placeholder="Enter Deposit Amount" value="">
                     </div>
                 </div>
                 <div class="modal-footer">
