@@ -218,6 +218,76 @@ public function declineInvestment($id)
 
     return redirect()->back()->with('success', 'Investment declined successfully.');
 }
+
+public function approveKyc($id)
+{
+    $user = User::findOrFail($id);
+    $user->kyc_status = 'verified';
+    $user->kyc_verified_at = now();
+    $user->kyc_rejection_reason = null;
+    $user->save();
+
+    return redirect()->back()->with('success', 'KYC approved successfully.');
+}
+
+public function declineKyc(Request $request, $id)
+{
+    $request->validate([
+        'reason' => 'nullable|string|max:500'
+    ]);
+
+    $user = User::findOrFail($id);
+    $user->kyc_status = 'rejected';
+    $user->kyc_rejection_reason = $request->reason ?? 'KYC documents did not meet requirements.';
+    $user->kyc_verified_at = null;
+    $user->save();
+
+    return redirect()->back()->with('success', 'KYC declined successfully.');
+}
+
+public function approveAccount($id)
+{
+    $user = User::findOrFail($id);
+    $user->account_status = 'approved';
+    $user->approved_at = now();
+    $user->rejection_reason = null;
+    $user->save();
+
+    return redirect()->back()->with('success', 'User account approved successfully. User can now login.');
+}
+
+public function rejectAccount(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+    $user->account_status = 'rejected';
+    $user->rejection_reason = $request->reason ?? 'Account registration did not meet requirements.';
+    $user->approved_at = null;
+    $user->save();
+
+    return redirect()->back()->with('success', 'User account rejected.');
+}
+
+public function revokeAccount($id)
+{
+    $user = User::findOrFail($id);
+    $user->account_status = 'pending';
+    $user->approved_at = null;
+    $user->rejection_reason = null;
+    $user->save();
+
+    return redirect()->back()->with('success', 'Account approval has been revoked. User must wait for re-approval.');
+}
+
+public function restoreAccount($id)
+{
+    $user = User::findOrFail($id);
+    $user->account_status = 'approved';
+    $user->approved_at = now();
+    $user->rejection_reason = null;
+    $user->save();
+
+    return redirect()->back()->with('success', 'Rejected account has been restored. User can now login.');
+}
 }
 
 

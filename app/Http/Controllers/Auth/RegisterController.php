@@ -56,6 +56,7 @@ class RegisterController extends Controller
                 'password' => bcrypt($request->password),
                 'otp' => $otp,
                 'otp_expires_at' => now()->addMinutes(5),
+                'account_status' => 'pending',
             ]
         );
 
@@ -164,10 +165,8 @@ class RegisterController extends Controller
         // Send welcome email
         Mail::to($user->email)->send(new WelcomeMail($user));
 
-        // Log the user in
-        Auth::login($user);
-
-        return redirect()->route('home');
+        // Show pending approval page instead of logging in
+        return view('auth.pending-approval', ['user' => $user]);
     }
 }
 

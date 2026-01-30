@@ -133,6 +133,32 @@
         <h2>Welcome Back</h2>
     </div>
 
+    @if(session('success'))
+        <div style="background-color: #d1fae5; color: #047857; padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; border: 1px solid #10b981;">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('info'))
+        <div style="background-color: #dbeafe; color: #1e40af; padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; border: 1px solid #3b82f6;">
+            {{ session('info') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div style="background-color: #fee2e2; color: #991b1b; padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; border: 1px solid #ef4444;">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <div style="background-color: #fee2e2; color: #991b1b; padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; border: 1px solid #ef4444;">
+                {{ $error }}
+            </div>
+        @endforeach
+    @endif
+
     <form method="POST" action="{{ route('login.submit') }}">
         @csrf
 
@@ -144,7 +170,10 @@
 
         <!-- Password -->
         <div class="form-group">
-            <label for="password">Password*</label>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <label for="password">Password*</label>
+                <a href="{{ route('forgot.password.form') }}" style="font-size: 13px; color: #2563eb; text-decoration: none;">Forgot password?</a>
+            </div>
             <input type="password" id="password" name="password" placeholder="Password" required>
             <i class="bi bi-eye toggle-password" onclick="togglePassword('password', this)"></i>
         </div>

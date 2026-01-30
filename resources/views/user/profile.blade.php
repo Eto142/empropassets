@@ -292,13 +292,45 @@
                 </div>
             @endif
 
+            <!-- KYC Status Notice -->
+            @php
+                $kycStatus = auth()->user()->kyc_status ?? 'pending';
+            @endphp
+            
+            @if($kycStatus === 'pending')
+                <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 16px 20px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="font-size: 24px; margin-top: -2px;">⏳</div>
+                    <div>
+                        <h5 style="margin: 0 0 5px 0; color: #92400e; font-weight: 700;">KYC Verification Pending</h5>
+                        <p style="margin: 0; color: #b45309; font-size: 14px;">Your identity documents are under review. This may take 1-2 business days. You can complete or update your documents in the <strong>Identity</strong> tab below.</p>
+                    </div>
+                </div>
+            @elseif($kycStatus === 'verified')
+                <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-left: 4px solid #10b981; border-radius: 8px; padding: 16px 20px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="font-size: 24px; margin-top: -2px;">✅</div>
+                    <div>
+                        <h5 style="margin: 0 0 5px 0; color: #047857; font-weight: 700;">KYC Verification Complete</h5>
+                        <p style="margin: 0; color: #059669; font-size: 14px;">Your identity has been verified successfully. You now have full access to all platform features.</p>
+                    </div>
+                </div>
+            @elseif($kycStatus === 'rejected')
+                <div style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-left: 4px solid #ef4444; border-radius: 8px; padding: 16px 20px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="font-size: 24px; margin-top: -2px;">❌</div>
+                    <div>
+                        <h5 style="margin: 0 0 5px 0; color: #991b1b; font-weight: 700;">KYC Verification Rejected</h5>
+                        <p style="margin: 0 0 8px 0; color: #b91c1c; font-size: 14px;"><strong>Reason:</strong> {{ auth()->user()->kyc_rejection_reason ?? 'Please check your documents.' }}</p>
+                        <p style="margin: 0; color: #b91c1c; font-size: 14px;">Please resubmit your documents in the <strong>Identity</strong> tab to try again.</p>
+                    </div>
+                </div>
+            @endif
+
             <!-- Nav Tabs -->
             <ul class="nav nav-tabs" id="profileTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="manage-tab" data-bs-toggle="tab" data-bs-target="#manage" type="button" role="tab" aria-controls="manage" aria-selected="true">Manage Account</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="identity-tab" data-bs-toggle="tab" data-bs-target="#identity" type="button" role="tab" aria-controls="identity" aria-selected="false">Identity</button>
+                    <button class="nav-link" id="identity-tab" data-bs-toggle="tab" data-bs-target="#identity" type="button" role="tab" aria-controls="identity" aria-selected="false">Kyc Identity </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false">Security</button>
@@ -354,6 +386,16 @@
                         @endif
                     </div>
 
+                    @if($errors->any())
+                        <div class="alert" style="background-color: #fee2e2; color: #991b1b; border: 1px solid #ef4444; margin-bottom: 20px;">
+                            <ul style="margin: 0; padding-left: 20px;">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                         @csrf
 
@@ -361,22 +403,28 @@
                             <label class="form-label">Identity Type</label>
                             <select name="identity_type" class="form-control">
                                 <option value="">-- Select Identity Type --</option>
-                                <option value="passport" {{ auth()->user()->identity_type === 'passport' ? 'selected' : '' }}>Passport</option>
-                                <option value="driver_license" {{ auth()->user()->identity_type === 'driver_license' ? 'selected' : '' }}>Driver License</option>
-                                <option value="national_id" {{ auth()->user()->identity_type === 'national_id' ? 'selected' : '' }}>National ID</option>
-                                <option value="other" {{ auth()->user()->identity_type === 'other' ? 'selected' : '' }}>Other</option>
+                                <option value="passport" {{ (auth()->user()->identity_type ?? '') === 'passport' ? 'selected' : '' }}>Passport</option>
+                                <option value="driver_license" {{ (auth()->user()->identity_type ?? '') === 'driver_license' ? 'selected' : '' }}>Driver License</option>
+                                <option value="national_id" {{ (auth()->user()->identity_type ?? '') === 'national_id' ? 'selected' : '' }}>National ID</option>
+                                <option value="other" {{ (auth()->user()->identity_type ?? '') === 'other' ? 'selected' : '' }}>Other</option>
                             </select>
+                            @error('identity_type')
+                                <small style="color: #ef4444;">{{ $message }}</small>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label">Upload Front of Document</label>
-                            <input type="file" name="identity_document_front" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
+                            <input type="file" name="identity_document" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
                             <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Accepted formats: PDF, JPG, PNG (Max 5MB)</small>
                             @if(auth()->user()->identity_document)
                                 <div style="margin-top: 10px;">
                                     <small style="color: #2563eb;">Current front document: <a href="{{ asset('storage/' . auth()->user()->identity_document) }}" target="_blank" rel="noopener noreferrer">View</a></small>
                                 </div>
                             @endif
+                            @error('identity_document')
+                                <small style="color: #ef4444;">{{ $message }}</small>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -388,6 +436,9 @@
                                     <small style="color: #2563eb;">Current back document: <a href="{{ asset('storage/' . auth()->user()->identity_document_back) }}" target="_blank" rel="noopener noreferrer">View</a></small>
                                 </div>
                             @endif
+                            @error('identity_document_back')
+                                <small style="color: #ef4444;">{{ $message }}</small>
+                            @enderror
                         </div>
 
                         <button type="submit" class="submit-btn">Update Identity Information</button>

@@ -50,6 +50,19 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
+        // Check account approval status
+        if ($user->account_status === 'pending') {
+            Auth::logout();
+            return view('auth.pending-approval', ['user' => $user]);
+        }
+
+        if ($user->account_status === 'rejected') {
+            Auth::logout();
+            return view('auth.account-rejected', [
+                'reason' => $user->rejection_reason ?? 'Your account registration did not meet our requirements.'
+            ]);
+        }
+
         // Check if registration is incomplete
         if (!$user->email_verified_at) {
 
@@ -77,7 +90,7 @@ class LoginController extends Controller
             }
         }
 
-        // Registration complete, go to dashboard
+        // Registration complete and approved, go to dashboard
         return redirect()->intended('dashboard');
     }
 

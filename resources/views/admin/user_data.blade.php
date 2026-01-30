@@ -209,10 +209,20 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
             <div>
                 <h1 class="h2 mb-2">{{ $userProfile->name }}</h1>
-                <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-3 flex-wrap">
                     <span><i class="fas fa-envelope me-2"></i>{{ $userProfile->email }}</span>
                     <span><i class="fas fa-phone me-2"></i>{{ $userProfile->phone }}</span>
                     <span class="badge bg-light text-dark">ID: {{ $userProfile->id }}</span>
+                    @php
+                        $accountStatus = $userProfile->account_status ?? 'approved';
+                    @endphp
+                    @if($accountStatus === 'pending')
+                        <span class="badge" style="background-color: #fef3c7; color: #92400e; border: 1px solid #fcd34d;">⏳ Registration Pending</span>
+                    @elseif($accountStatus === 'approved')
+                        <span class="badge" style="background-color: #d1fae5; color: #047857; border: 1px solid #10b981;">✅ Account Approved</span>
+                    @elseif($accountStatus === 'rejected')
+                        <span class="badge" style="background-color: #fee2e2; color: #991b1b; border: 1px solid #ef4444;">❌ Registration Rejected</span>
+                    @endif
                 </div>
             </div>
             <div class="mt-3 mt-md-0">
@@ -227,6 +237,42 @@
     <div class="mb-4">
         <h6 class="text-muted mb-3"><i class="fas fa-bolt me-2"></i>QUICK ACTIONS</h6>
         <div class="d-flex flex-wrap gap-2">
+            @php
+                $accountStatus = $userProfile->account_status ?? 'approved';
+            @endphp
+            
+            @if($accountStatus === 'pending')
+                <form action="{{ route('admin.account.approve', $userProfile->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-success action-btn" onclick="return confirm('Approve this user registration?')">
+                        <i class="fas fa-check me-1"></i> Approve Account
+                    </button>
+                </form>
+                <button class="btn btn-danger action-btn" data-bs-toggle="modal" data-bs-target="#rejectAccountModal">
+                    <i class="fas fa-times me-1"></i> Reject Account
+                </button>
+            @elseif($accountStatus === 'approved')
+                <form action="{{ route('admin.account.revoke', $userProfile->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-warning action-btn" onclick="return confirm('Revoke approval for this user? They will not be able to login.')">
+                        <i class="fas fa-undo me-1"></i> Revoke Approval
+                    </button>
+                </form>
+                <button class="btn btn-danger action-btn" data-bs-toggle="modal" data-bs-target="#rejectApprovedAccountModal">
+                    <i class="fas fa-times me-1"></i> Reject Account
+                </button>
+            @elseif($accountStatus === 'rejected')
+                <form action="{{ route('admin.account.restore', $userProfile->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-info action-btn" onclick="return confirm('Restore this user account? They will be able to login again.')">
+                        <i class="fas fa-check-circle me-1"></i> Restore Account
+                    </button>
+                </form>
+                <button class="btn btn-success action-btn" data-bs-toggle="modal" data-bs-target="#approveRejectedAccountModal">
+                    <i class="fas fa-check me-1"></i> Approve Account
+                </button>
+            @endif
+
             <button class="btn btn-primary action-btn" data-bs-toggle="modal" data-bs-target="#updateConversionModal">
                 <i class="fas fa-coins me-1"></i> Update Deposit
             </button>
@@ -407,6 +453,144 @@
                     <div class="col-md-6">
                         <div class="info-label">Address</div>
                         <div class="info-value">{{ $userProfile->address ?? 'Not provided' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KYC Verification Section -->
+            <div class="section-title">
+                <i class="fas fa-id-card"></i>
+                <span>KYC Verification</span>
+            </div>
+            <div class="custom-card">
+                <div class="custom-card-header d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-shield-alt me-2"></i>Identity Verification</span>
+                    @if($userProfile->kyc_status === 'pending')
+                        <span class="badge bg-warning text-dark">
+                            <i class="fas fa-clock me-1"></i>Pending Review
+                        </span>
+                    @elseif($userProfile->kyc_status === 'verified')
+                        <span class="badge bg-success">
+                            <i class="fas fa-check-circle me-1"></i>Verified
+                        </span>
+                    @else
+                        <span class="badge bg-danger">
+                            <i class="fas fa-times-circle me-1"></i>Rejected
+                        </span>
+                    @endif
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="info-label">Status</div>
+                            <div class="info-value">
+                                @if($userProfile->kyc_status === 'pending')
+                                    <span class="badge badge-custom bg-warning text-dark">Pending</span>
+                                @elseif($userProfile->kyc_status === 'verified')
+                                    <span class="badge badge-custom bg-success">Verified</span>
+                                @else
+                                    <span class="badge badge-custom bg-danger">Rejected</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-label">Identity Type</div>
+                            <div class="info-value">{{ $userProfile->identity_type ?? 'Not provided' }}</div>
+                        </div>
+                        @if($userProfile->kyc_verified_at)
+                        <div class="col-md-4">
+                            <div class="info-label">Verified At</div>
+                            <div class="info-value">{{ \Carbon\Carbon::parse($userProfile->kyc_verified_at)->format('M d, Y H:i') }}</div>
+                        </div>
+                        @endif
+                        
+                        @if($userProfile->kyc_rejection_reason)
+                        <div class="col-12">
+                            <div class="alert alert-danger mb-0" style="border-radius: 10px;">
+                                <strong><i class="fas fa-exclamation-triangle me-2"></i>Rejection Reason:</strong>
+                                <p class="mb-0 mt-2">{{ $userProfile->kyc_rejection_reason }}</p>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($userProfile->identity_document || $userProfile->identity_document_back)
+                        <div class="col-12">
+                            <div class="info-label mb-3">Identity Documents</div>
+                            <div class="row g-3">
+                                @if($userProfile->identity_document)
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <strong>Front of ID</strong>
+                                        </div>
+                                        <div class="card-body text-center p-2">
+                                            <img src="{{ asset('storage/' . $userProfile->identity_document) }}" 
+                                                 alt="Front ID" 
+                                                 class="img-fluid rounded" 
+                                                 style="max-height: 250px; cursor: pointer;"
+                                                 onclick="window.open('{{ asset('storage/' . $userProfile->identity_document) }}', '_blank')">
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <a href="{{ asset('storage/' . $userProfile->identity_document) }}" 
+                                               target="_blank" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-external-link-alt me-1"></i>View Full Size
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
+                                @if($userProfile->identity_document_back)
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <strong>Back of ID</strong>
+                                        </div>
+                                        <div class="card-body text-center p-2">
+                                            <img src="{{ asset('storage/' . $userProfile->identity_document_back) }}" 
+                                                 alt="Back ID" 
+                                                 class="img-fluid rounded" 
+                                                 style="max-height: 250px; cursor: pointer;"
+                                                 onclick="window.open('{{ asset('storage/' . $userProfile->identity_document_back) }}', '_blank')">
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <a href="{{ asset('storage/' . $userProfile->identity_document_back) }}" 
+                                               target="_blank" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-external-link-alt me-1"></i>View Full Size
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-12">
+                            <div class="alert alert-info mb-0" style="border-radius: 10px;">
+                                <i class="fas fa-info-circle me-2"></i>
+                                No identity documents uploaded yet.
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($userProfile->kyc_status === 'pending' || $userProfile->kyc_status === 'rejected')
+                        <div class="col-12">
+                            <hr>
+                            <div class="d-flex gap-2 justify-content-end">
+                                <form action="{{ route('admin.kyc.approve', $userProfile->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success action-btn">
+                                        <i class="fas fa-check-circle me-2"></i>Approve KYC
+                                    </button>
+                                </form>
+                                <button type="button" class="btn btn-danger action-btn" data-bs-toggle="modal" data-bs-target="#declineKycModal">
+                                    <i class="fas fa-times-circle me-2"></i>Decline KYC
+                                </button>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -810,6 +994,173 @@
 </div>
 
 <!-- Modals -->
+
+<!-- Reject Account Modal -->
+<div class="modal fade" id="rejectAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-times me-2"></i>Reject Account Registration
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.account.reject', $userProfile->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Warning:</strong> This will reject the user's registration. They will not be able to login.
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Rejection Reason (Optional)</label>
+                        <textarea class="form-control" name="reason" rows="4" placeholder="Enter reason for rejection (e.g., Invalid information, Duplicate account, etc.)"></textarea>
+                        <small class="text-muted">This reason will be shown to the user when they try to login.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-user-times me-2"></i>Reject Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Approved Account Modal -->
+<div class="modal fade" id="rejectApprovedAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-times me-2"></i>Reject Account
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.account.reject', $userProfile->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Warning:</strong> This will reject the approved account. The user will see the rejection reason when attempting to login.
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Rejection Reason (Required)</label>
+                        <textarea class="form-control" name="reason" rows="4" placeholder="Enter reason for rejection..." required></textarea>
+                        <small class="text-muted">This reason will be displayed to the user.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-user-times me-2"></i>Reject Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Approve Rejected Account Modal -->
+<div class="modal fade" id="approveRejectedAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">
+                <h5 class="modal-title">
+                    <i class="fas fa-check-circle me-2"></i>Approve Account
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.account.approve', $userProfile->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> This will approve the previously rejected account. The user will be able to login.
+                    </div>
+                    <p class="text-muted">Are you sure you want to approve this account?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check-circle me-2"></i>Approve Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Decline KYC Modal -->
+<div class="modal fade" id="declineKycModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <h5 class="modal-title">
+                    <i class="fas fa-times-circle me-2"></i>Decline KYC Verification
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.kyc.decline', $userProfile->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Warning:</strong> This will reject the user's KYC verification.
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Rejection Reason (Optional)</label>
+                        <textarea class="form-control" name="reason" rows="4" placeholder="Enter reason for rejection..."></textarea>
+                        <small class="text-muted">This reason will be visible to the user.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-times-circle me-2"></i>Decline KYC
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Account Modal -->
+<div class="modal fade" id="rejectAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white;">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-times me-2"></i>Reject Account Registration
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('admin.account.reject', $userProfile->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Warning:</strong> This will reject the user's account registration. They will not be able to access the platform.
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Rejection Reason (Required)</label>
+                        <textarea class="form-control" name="reason" rows="4" placeholder="Enter reason for rejection..." required></textarea>
+                        <small class="text-muted">This reason will be displayed to the user when they attempt to login.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-user-times me-2"></i>Reject Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="updateTotalInvestedModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

@@ -154,7 +154,7 @@ public function Support(){
         $user = Auth::user();
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'identity_type' => 'nullable|string|in:passport,driver_license,national_id,other',
             'identity_document' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
@@ -163,8 +163,8 @@ public function Support(){
 
         // Handle front document upload
         if ($request->hasFile('identity_document')) {
-            if ($user->identity_document && Storage::exists('public/' . $user->identity_document)) {
-                Storage::delete('public/' . $user->identity_document);
+            if ($user->identity_document && Storage::disk('public')->exists($user->identity_document)) {
+                Storage::disk('public')->delete($user->identity_document);
             }
             $filePath = $request->file('identity_document')->store('kyc', 'public');
             $validated['identity_document'] = $filePath;
@@ -174,8 +174,8 @@ public function Support(){
 
         // Handle back document upload
         if ($request->hasFile('identity_document_back')) {
-            if ($user->identity_document_back && Storage::exists('public/' . $user->identity_document_back)) {
-                Storage::delete('public/' . $user->identity_document_back);
+            if ($user->identity_document_back && Storage::disk('public')->exists($user->identity_document_back)) {
+                Storage::disk('public')->delete($user->identity_document_back);
             }
             $filePath = $request->file('identity_document_back')->store('kyc', 'public');
             $validated['identity_document_back'] = $filePath;
@@ -183,59 +183,42 @@ public function Support(){
             $validated['kyc_rejection_reason'] = null;
         }
 
-        // Only update basic profile if no file-related KYC fields
-        if (!isset($validated['identity_type']) && !isset($validated['identity_document']) && !isset($validated['identity_document_back'])) {
-            // Basic profile update only
-            $user->update(['name' => $validated['name'], 'phone' => $validated['phone'] ?? null]);
-        } else {
-            // Full update including KYC
-            $user->update($validated);
+        // Update identity_type if provided
+        if ($request->has('identity_type') && $request->identity_type) {
+            $validated['identity_type'] = $request->identity_type;
         }
 
-        return back()->with('success', 'Profile information updated successfully.');
-    }
-
-    /**
-     * Update the user's password.
-     */
-    public function updatePassword(Request $request)
-    {
-        $user = Auth::user();
-
-        $request->validate([
-            'current_password'          => 'required|string',
-            'new_password'              => 'required|string|min:8|confirmed',
-        ]);
-
-        if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        // Build update data - only include fields that exist
+        $updateData = [];
+        
+        if (isset($validated['name'])) {
+            $updateData['name'] = $validated['name'];
+        }
+        if (isset($validated['phone'])) {
+            $updateData['phone'] = $validated['phone'];
+        }
+        if (isset($validated['identity_type'])) {
+            $updateData['identity_type'] = $validated['identity_type'];
+        }
+        if (isset($validated['identity_document'])) {
+            $updateData['identity_document'] = $validated['identity_document'];
+        }
+        if (isset($validated['identity_document_back'])) {
+            $updateData['identity_document_back'] = $validated['identity_document_back'];
+        }
+        if (isset($validated['kyc_status'])) {
+            $updateData['kyc_status'] = $validated['kyc_status'];
+        }
+        if (isset($validated['kyc_rejection_reason'])) {
+            $updateData['kyc_rejection_reason'] = $validated['kyc_rejection_reason'];
         }
 
-        $user->update([
-            'password' => Hash::make($request->new_password),
-        ]);
+        // Only update if there's data to update
+        if (!empty($updateData)) {
+            $user->update($updateData);
+        }
 
-        return back()->with('success', 'Password updated successfully.');
-    }
-
-
-public function UseSupport(Request $request)
-    {
-        $request->validate([
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
-
-        $user = Auth::user(); // logged-in user
-        $adminEmail = "info@assurehold.com"; // change to your admin email
-
-        // Send mail directly without mailable template
-        Mail::raw("New Support Request\n\nFrom: {$user->name} ({$user->email})\n\nSubject: {$request->subject}\n\nMessage:\n{$request->message}", function ($message) use ($adminEmail, $request) {
-            $message->to($adminEmail)
-                    ->subject('Support Request: ' . $request->subject);
-        });
-
-        return back()->with('success', 'Your support message has been sent successfully!');
+        return back()->with('success', 'Your profile has been updated successfully!');
     }
 
 

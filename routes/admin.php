@@ -101,6 +101,30 @@ Route::post('/admin/investment/{id}/approve', [ManageUserController::class, 'app
 Route::post('/admin/investment/{id}/decline', [ManageUserController::class, 'declineInvestment'])
     ->name('investment.decline');
 
+// Approve account registration
+Route::post('/admin/account/{id}/approve', [ManageUserController::class, 'approveAccount'])
+    ->name('account.approve');
+
+// Reject account registration
+Route::post('/admin/account/{id}/reject', [ManageUserController::class, 'rejectAccount'])
+    ->name('account.reject');
+
+// Revoke account approval
+Route::post('/admin/account/{id}/revoke', [ManageUserController::class, 'revokeAccount'])
+    ->name('account.revoke');
+
+// Restore rejected account
+Route::post('/admin/account/{id}/restore', [ManageUserController::class, 'restoreAccount'])
+    ->name('account.restore');
+
+// Approve KYC
+Route::post('/admin/kyc/{id}/approve', [ManageUserController::class, 'approveKyc'])
+    ->name('kyc.approve');
+   
+// Decline KYC
+Route::post('/admin/kyc/{id}/decline', [ManageUserController::class, 'declineKyc'])
+    ->name('kyc.decline');
+
 
 
  Route::post('add-fiat-balance{user}', [FiatBalanceController::class, 'AddFiatBalance'])->name('add.fiat.balance');
