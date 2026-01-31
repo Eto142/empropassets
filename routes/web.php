@@ -112,6 +112,8 @@ Route::post('/deposit/make', [DepositController::class, 'makeDeposit'])
     Route::post('/invest', [InvestmentController::class, 'invest'])
     ->name('investments.invest');
      Route::get('/investments/{id}', [InvestmentController::class, 'show'])->name('investments.show');
+    Route::post('/properties/{id}/offer', [InvestmentController::class, 'makeOffer'])
+    ->name('properties.offer');
 
 
 

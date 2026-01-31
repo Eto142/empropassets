@@ -50,6 +50,12 @@ button[aria-expanded="true"] .collapse-icon {
                     <img src="{{ $investment->image ? asset('images/investments/'.$investment->image) : asset('assets/images/placeholder.png') }}"
                          class="card-img-top rounded-top" style="height:220px; object-fit:cover;">
                     
+                    {{-- LISTING TYPE BADGE --}}
+                    <span class="badge bg-dark badge-status px-3 py-2"
+                          style="position:absolute; top:12px; left:12px; font-weight:600; font-size:0.8rem;">
+                        {{ ($investment->listing_type ?? 'investment') === 'for_sale' ? 'For Sale' : 'Investment' }}
+                    </span>
+
                     {{-- STATUS BADGE --}}
                     <span class="badge {{ $investment->status == 'available' ? 'bg-success' : 'bg-secondary' }} badge-status px-3 py-2"
                           style="position:absolute; top:12px; right:12px; font-weight:600; font-size:0.85rem;">
@@ -64,8 +70,12 @@ button[aria-expanded="true"] .collapse-icon {
                     <div class="text-muted small mb-2">{{ $investment->location ?? 'N/A' }}</div>
 
                     <div class="mb-2 d-flex flex-wrap gap-3">
-                        <span><strong>Yield:</strong> {{ $investment->historic_yield }}%</span>
-                        <span><strong>Total Assets:</strong> ${{ number_format($investment->total_assets) }}</span>
+                        @if(($investment->listing_type ?? 'investment') === 'for_sale')
+                            <span><strong>Sale Price:</strong> ${{ number_format($investment->sale_price ?? 0) }}</span>
+                        @else
+                            <span><strong>Yield:</strong> {{ $investment->historic_yield }}%</span>
+                            <span><strong>Total Assets:</strong> ${{ number_format($investment->total_assets) }}</span>
+                        @endif
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mt-auto">
@@ -184,6 +194,14 @@ button[aria-expanded="true"] .collapse-icon {
 
     {{-- CORE --}}
     <div class="col-md-4">
+        <label class="form-label fw-semibold">Listing Type</label>
+        <select name="listing_type" id="listing_type" class="form-select">
+            <option value="investment" selected>Investment</option>
+            <option value="for_sale">For Sale</option>
+        </select>
+    </div>
+
+    <div class="col-md-4">
         <label class="form-label fw-semibold">Property Type</label>
         <input type="text" name="type" id="type" class="form-control" placeholder="e.g., Residential, Commercial">
     </div>
@@ -201,6 +219,11 @@ button[aria-expanded="true"] .collapse-icon {
     <div class="col-md-4">
         <label class="form-label fw-semibold">Total Value ($)</label>
         <input type="number" name="total_assets" id="total_assets" class="form-control" placeholder="e.g., 5000000">
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label fw-semibold">Sale Price ($)</label>
+        <input type="number" name="sale_price" id="sale_price" class="form-control" placeholder="e.g., 1250000">
     </div>
 
     <div class="col-md-4">

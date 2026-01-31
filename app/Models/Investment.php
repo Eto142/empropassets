@@ -10,11 +10,13 @@ class Investment extends Model
     use HasFactory;
 
     protected $fillable = [
+        'listing_type',
         'type',
         'name',
         'location',
         'historic_yield',
         'total_assets',
+        'sale_price',
         'min_investment',
         'share_price',
         'investors',

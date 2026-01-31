@@ -4,8 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Investment;
+use App\Models\Offer;
 use App\Models\UserInvestment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InvestmentController extends Controller
 {
@@ -15,6 +17,11 @@ public function index(Request $request)
 {
     $query = \App\Models\Investment::query();
 
+    $listing = $request->get('listing', 'investment');
+    if ($listing !== 'all') {
+        $query->where('listing_type', $listing);
+    }
+
     // Optional filtering by type
     if ($request->has('type') && $request->type != 'all') {
         $query->where('type', $request->type);
@@ -23,7 +30,7 @@ public function index(Request $request)
     // Paginate results
     $investments = $query->latest()->paginate(9)->withQueryString(); // 9 per page
 
-    return view('user.investment.index', compact('investments'));
+    return view('user.investment.index', compact('investments', 'listing'));
 }
 
 
@@ -89,6 +96,49 @@ public function show($id)
         $balance->save();
 
         return back()->with('success', 'Investment in progress! You invested $' . number_format($request->amount, 2));
+    }
+
+    public function makeOffer(Request $request, $id)
+    {
+        $investment = Investment::findOrFail($id);
+
+        $data = $request->validate([
+            'offer_amount' => 'required|numeric|min:1',
+            'message' => 'nullable|string|max:1000',
+        ]);
+
+        $user = auth()->user();
+
+        // Save offer to database
+        $offer = Offer::create([
+            'user_id' => $user->id,
+            'investment_id' => $investment->id,
+            'property_name' => $investment->name,
+            'offer_amount' => $data['offer_amount'],
+            'message' => $data['message'] ?? null,
+            'status' => 'pending',
+        ]);
+
+        // Send email notification to admin
+        $adminEmail = 'info@assurehold.com';
+
+        $emailBody = "New Offer Submitted (Offer #$offer->id)\n\n" .
+            "Property: {$investment->name}\n" .
+            "Listing Type: " . (($investment->listing_type ?? 'investment') === 'for_sale' ? 'For Sale' : 'Investment') . "\n" .
+            "Sale Price: $" . number_format($investment->sale_price ?? 0, 2) . "\n" .
+            "Offer Amount: $" . number_format($data['offer_amount'], 2) . "\n\n" .
+            "From: {$user->name}\n" .
+            "Email: {$user->email}\n" .
+            "Phone: {$user->phone}\n\n" .
+            "Message: " . ($data['message'] ?? 'N/A') . "\n\n" .
+            "View offer in admin panel to accept or reject.";
+
+        Mail::raw($emailBody, function ($message) use ($adminEmail, $investment) {
+            $message->to($adminEmail)
+                ->subject('New Property Offer - ' . $investment->name);
+        });
+
+        return back()->with('success', 'Your offer has been submitted successfully! Offer ID: #' . $offer->id . '. A support agent will contact you shortly.');
     }
 
 }

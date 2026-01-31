@@ -198,6 +198,19 @@
     <h1 class="page-title">Browse Available Properties</h1>
     <p class="page-subtitle">Invest in real estate with as little as $100. Build your portfolio one property at a time.</p>
 
+    @php
+        $listingType = $listing ?? request('listing', 'investment');
+    @endphp
+
+    <div class="d-flex flex-wrap gap-2 mb-3">
+        <a href="{{ route('invest.index', ['listing' => 'investment', 'type' => request('type', 'all')]) }}"
+           class="btn btn-outline-primary {{ $listingType === 'investment' ? 'active' : '' }}">Investments</a>
+        <a href="{{ route('invest.index', ['listing' => 'for_sale', 'type' => request('type', 'all')]) }}"
+           class="btn btn-outline-primary {{ $listingType === 'for_sale' ? 'active' : '' }}">For Sale</a>
+        <a href="{{ route('invest.index', ['listing' => 'all', 'type' => request('type', 'all')]) }}"
+           class="btn btn-outline-primary {{ $listingType === 'all' ? 'active' : '' }}">All Listings</a>
+    </div>
+
     {{-- Filters --}}
     <div class="filter-section mb-4">
         @php
@@ -205,7 +218,7 @@
             $currentType = request('type', 'all');
         @endphp
         @foreach($types as $key => $label)
-            <a href="{{ route('invest.index', ['type'=>$key]) }}" class="btn btn-outline-primary {{ $currentType==$key ? 'active' : '' }}">
+            <a href="{{ route('invest.index', ['type'=>$key, 'listing' => $listingType]) }}" class="btn btn-outline-primary {{ $currentType==$key ? 'active' : '' }}">
                 {{ $label }}
             </a>
         @endforeach
@@ -236,26 +249,39 @@
                     <div class="property-info d-flex flex-column">
                         <div class="property-type">{{ $investment->type }}</div>
                         <h5 class="property-name">{{ $investment->name }}</h5>
-                        <div class="property-detail">
-                            <strong>{{ $investment->historic_yield }}% Historic Yield</strong> | ${{ number_format($investment->total_assets) }} Total Net Assets
-                        </div>
-                        <div class="property-stats">
-                            <div>
-                                <div class="stat-label">Min Investment</div>
-                                <div class="stat-value">${{ number_format($investment->min_investment) }}</div>
+                        @if(($investment->listing_type ?? 'investment') === 'for_sale')
+                            <div class="property-detail">
+                                <strong>For Sale</strong> | ${{ number_format($investment->sale_price ?? 0) }} Listing Price
                             </div>
-                            <div>
-                                <div class="stat-label">Investors</div>
-                                <div class="stat-value">{{ number_format($investment->investors) }}</div>
+                            <div class="property-stats">
+                                <div>
+                                    <div class="stat-label">Bedrooms</div>
+                                    <div class="stat-value">{{ $investment->bedrooms ?? 'N/A' }}</div>
+                                </div>
+                                <div>
+                                    <div class="stat-label">Bathrooms</div>
+                                    <div class="stat-value">{{ $investment->bathrooms ?? 'N/A' }}</div>
+                                </div>
                             </div>
-                        </div>
-                     
 
-    <button type="submit"
-            class="btn btn-success w-100">
-           
-        Invest Now
-    </button>
+                            <div class="btn btn-success w-100">Make Offer</div>
+                        @else
+                            <div class="property-detail">
+                                <strong>{{ $investment->historic_yield }}% Historic Yield</strong> | ${{ number_format($investment->total_assets) }} Total Net Assets
+                            </div>
+                            <div class="property-stats">
+                                <div>
+                                    <div class="stat-label">Min Investment</div>
+                                    <div class="stat-value">${{ number_format($investment->min_investment) }}</div>
+                                </div>
+                                <div>
+                                    <div class="stat-label">Investors</div>
+                                    <div class="stat-value">{{ number_format($investment->investors) }}</div>
+                                </div>
+                            </div>
+
+                            <div class="btn btn-success w-100">Invest Now</div>
+                        @endif
 
 
                     </div>

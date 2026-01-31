@@ -278,6 +278,86 @@ As of January 2026 Emaar Properties has a market cap of $35.25 Billion USD. This
         </div>
     </section>
 
+    <!-- Featured Properties Section -->
+    <section style="padding: 80px 0; background: #f9fafb;">
+        <div class="container">
+            <!-- Investment Properties -->
+            @if($featuredInvestments->count() > 0)
+            <div class="mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 style="font-size: 36px; font-weight: 900; margin-bottom: 10px;">Investment Opportunities</h2>
+                        <p style="color: #666; font-size: 16px;">Start earning monthly dividends from rental properties</p>
+                    </div>
+                    <a href="{{ route('invest.public', ['listing' => 'investment']) }}" class="btn btn-primary">View All</a>
+                </div>
+                <div class="row g-4">
+                    @foreach($featuredInvestments as $property)
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" style="border: none; border-radius: 12px; overflow: hidden; transition: transform 0.3s;">
+                            <img src="{{ $property->image ? asset('images/investments/'.$property->image) : asset('assets/images/placeholder.png') }}" 
+                                 alt="{{ $property->name }}" 
+                                 style="height: 220px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">{{ $property->name }}</h5>
+                                <p class="text-muted mb-2"><i class="bi bi-geo-alt"></i> {{ $property->location ?? 'Prime Location' }}</p>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <div>
+                                        <small class="text-muted">Historic Yield</small>
+                                        <div class="fw-bold text-success">{{ $property->historic_yield }}%</div>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted">Min Investment</small>
+                                        <div class="fw-bold">${{ number_format($property->min_investment) }}</div>
+                                    </div>
+                                </div>
+                                <a href="{{ auth()->check() ? route('investments.show', $property->id) : route('login') }}" class="btn btn-primary w-100">Invest Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
+            <!-- Properties For Sale -->
+            @if($featuredForSale->count() > 0)
+            <div>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 style="font-size: 36px; font-weight: 900; margin-bottom: 10px;">Properties For Sale</h2>
+                        <p style="color: #666; font-size: 16px;">Own premium real estate properties outright</p>
+                    </div>
+                    <a href="{{ route('invest.public', ['listing' => 'for_sale']) }}" class="btn btn-success">View All</a>
+                </div>
+                <div class="row g-4">
+                    @foreach($featuredForSale as $property)
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm" style="border: none; border-radius: 12px; overflow: hidden; transition: transform 0.3s;">
+                            <div class="position-relative">
+                                <img src="{{ $property->image ? asset('images/investments/'.$property->image) : asset('assets/images/placeholder.png') }}" 
+                                     alt="{{ $property->name }}" 
+                                     style="height: 220px; object-fit: cover;">
+                                <span class="badge bg-success position-absolute top-0 end-0 m-2">For Sale</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title fw-bold">{{ $property->name }}</h5>
+                                <p class="text-muted mb-2"><i class="bi bi-geo-alt"></i> {{ $property->location ?? 'Prime Location' }}</p>
+                                <div class="mb-3">
+                                    <small class="text-muted">Sale Price</small>
+                                    <h4 class="fw-bold text-primary mb-0">${{ number_format($property->sale_price ?? 0) }}</h4>
+                                </div>
+                                <a href="{{ auth()->check() ? route('investments.show', $property->id) : route('login') }}" class="btn btn-success w-100">Make Offer</a>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+        </div>
+    </section>
+
     <!-- EARN Section -->
     <section class="earn-section">
         <div class="container">

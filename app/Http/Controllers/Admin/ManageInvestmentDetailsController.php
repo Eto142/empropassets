@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Investment;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ManageInvestmentDetailsController extends Controller
 {
@@ -19,14 +20,16 @@ class ManageInvestmentDetailsController extends Controller
 public function store(Request $request)
 {
     $data = $request->validate([
+        'listing_type' => 'required|in:investment,for_sale',
         'type' => 'required|string|max:255',
         'name' => 'required|string|max:255',
         'location' => 'nullable|string|max:255',
-        'historic_yield' => 'required|numeric',
-        'total_assets' => 'required|numeric',
-        'min_investment' => 'required|numeric',
-        'share_price' => 'nullable|numeric',
-        'investors' => 'required|integer',
+        'historic_yield' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'numeric'],
+        'total_assets' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'numeric'],
+        'sale_price' => [Rule::requiredIf($request->listing_type === 'for_sale'), 'nullable', 'numeric'],
+        'min_investment' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'numeric'],
+        'share_price' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'numeric'],
+        'investors' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'integer'],
         'size' => 'nullable|numeric',
         'bedrooms' => 'nullable|integer',
         'bathrooms' => 'nullable|integer',
@@ -39,6 +42,14 @@ public function store(Request $request)
         'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         'status' => 'required|in:available,closed',
     ]);
+
+    if (($data['listing_type'] ?? 'investment') === 'for_sale') {
+        $data['historic_yield'] = $data['historic_yield'] ?? 0;
+        $data['total_assets'] = $data['total_assets'] ?? 0;
+        $data['min_investment'] = $data['min_investment'] ?? 0;
+        $data['share_price'] = $data['share_price'] ?? 0;
+        $data['investors'] = $data['investors'] ?? 0;
+    }
 
     // Handle main image
     if ($request->hasFile('image')) {
@@ -72,14 +83,16 @@ public function store(Request $request)
 public function update(Request $request, Investment $investment)
 {
     $data = $request->validate([
+        'listing_type' => 'required|in:investment,for_sale',
         'type' => 'required|string|max:255',
         'name' => 'required|string|max:255',
         'location' => 'nullable|string|max:255',
-        'historic_yield' => 'required|numeric',
-        'total_assets' => 'required|numeric',
-        'min_investment' => 'required|numeric',
-        'share_price' => 'nullable|numeric',
-        'investors' => 'required|integer',
+        'historic_yield' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'numeric'],
+        'total_assets' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'numeric'],
+        'sale_price' => [Rule::requiredIf($request->listing_type === 'for_sale'), 'nullable', 'numeric'],
+        'min_investment' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'numeric'],
+        'share_price' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'numeric'],
+        'investors' => [Rule::requiredIf($request->listing_type === 'investment'), 'nullable', 'integer'],
         'size' => 'nullable|numeric',
         'bedrooms' => 'nullable|integer',
         'bathrooms' => 'nullable|integer',
@@ -92,6 +105,14 @@ public function update(Request $request, Investment $investment)
         'gallery.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         'status' => 'required|in:available,closed',
     ]);
+
+    if (($data['listing_type'] ?? 'investment') === 'for_sale') {
+        $data['historic_yield'] = $data['historic_yield'] ?? 0;
+        $data['total_assets'] = $data['total_assets'] ?? 0;
+        $data['min_investment'] = $data['min_investment'] ?? 0;
+        $data['share_price'] = $data['share_price'] ?? 0;
+        $data['investors'] = $data['investors'] ?? 0;
+    }
 
     // Main image
     if ($request->hasFile('image')) {

@@ -378,7 +378,7 @@
                                             <div class="empty-state-icon">📈</div>
                                             <div class="empty-state-title">No Investments Yet</div>
                                             <div class="empty-state-text">You haven't made any investments yet. Start building your portfolio today!</div>
-                                            <a href="{{ route('investments.index') }}" class="empty-state-button">Explore Investments</a>
+                                            <a href="{{ route('invest.index') }}" class="empty-state-button">Explore Investments</a>
                                         </div>
                                     </td>
                                 </tr>

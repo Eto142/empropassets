@@ -7,7 +7,7 @@
         <p style="font-size: 20px; opacity: 0.9;">Browse available properties and start building your real estate portfolio with as little as $100.</p>
         <div class="mt-4" style="display:flex; justify-content:center; gap: 20px; flex-wrap: wrap;">
             @if(auth()->check())
-                <a href="{{ route('invest') }}" style="background: #fff; color: #2563eb; padding: 15px 40px; border-radius: 8px; font-weight: 700; text-decoration:none; border:2px solid #2563eb;">Browse Investments</a>
+                <a href="{{ route('invest.index') }}" style="background: #fff; color: #2563eb; padding: 15px 40px; border-radius: 8px; font-weight: 700; text-decoration:none; border:2px solid #2563eb;">Browse Investments</a>
             @else
                 <a href="{{ route('login') }}" style="background: #fff; color: #2563eb; padding: 15px 40px; border-radius: 8px; font-weight: 700; text-decoration:none; border:2px solid #2563eb;">Login to Invest</a>
             @endif
@@ -71,16 +71,27 @@
 <!-- Investment Cards Section -->
 <section style="padding:80px 0;">
     <div class="container">
-        <h2 class="text-center" style="font-size:42px; font-weight:900; margin-bottom:50px;">Available Investments</h2>
+        <h2 class="text-center" style="font-size:42px; font-weight:900; margin-bottom:30px;">Available Properties</h2>
 
-        <!-- Filters -->
+        <!-- Listing Type Filters -->
         <div class="mb-4 d-flex flex-wrap gap-2 justify-content-center">
             @php
-                $types = ['all' => 'All', 'Single Family Residential' => 'Single Family Residential', 'Vacation Rental' => 'Vacation Rental', 'Funds' => 'Funds', 'Real Estate Debt' => 'Real Estate Debt'];
+                $listingTypes = ['all' => 'All Properties', 'investment' => 'Investments', 'for_sale' => 'For Sale'];
+                $currentListing = $listingType ?? 'all';
+            @endphp
+            @foreach($listingTypes as $key => $label)
+                <a href="{{ route('invest.public', ['listing'=>$key]) }}" class="btn {{ $currentListing==$key ? 'btn-primary' : 'btn-outline-primary' }}">{{ $label }}</a>
+            @endforeach
+        </div>
+
+        <!-- Property Type Filters -->
+        <div class="mb-4 d-flex flex-wrap gap-2 justify-content-center">
+            @php
+                $types = ['all' => 'All Types', 'Single Family Residential' => 'Single Family', 'Vacation Rental' => 'Vacation Rental', 'Funds' => 'Funds', 'Real Estate Debt' => 'Real Estate Debt'];
                 $currentType = request('type', 'all');
             @endphp
             @foreach($types as $key => $label)
-                <a href="{{ route('invest', ['type'=>$key]) }}" class="btn btn-outline-primary {{ $currentType==$key ? 'active' : '' }}">{{ $label }}</a>
+                <a href="{{ route('invest.public', array_merge(request()->all(), ['type'=>$key])) }}" class="btn btn-sm {{ $currentType==$key ? 'btn-secondary' : 'btn-outline-secondary' }}">{{ $label }}</a>
             @endforeach
         </div>
 
@@ -94,38 +105,48 @@
      alt="{{ $investment->name }}" 
      style="height:200px; object-fit:cover;">
 
-                            <span class="property-badge {{ $investment->status == 'available' ? 'bg-success' : 'bg-secondary' }}">
-                                {{ ucfirst($investment->status) }}
+                            <span class="property-badge {{ ($investment->listing_type ?? 'investment') === 'for_sale' ? 'bg-success' : 'bg-primary' }}">
+                                {{ ($investment->listing_type ?? 'investment') === 'for_sale' ? 'For Sale' : 'Investment' }}
                             </span>
                         </div>
 
                         <div class="card-body d-flex flex-column property-info">
                             <div class="property-type">{{ $investment->type }}</div>
                             <h5 class="property-name">{{ $investment->name }}</h5>
-                            <div class="property-detail mb-3">
-                                <strong>{{ $investment->historic_yield }}% Historic Yield</strong> | ${{ number_format($investment->total_assets) }} Total Net Assets
-                            </div>
-
-                            <div class="d-flex justify-content-between property-stats mb-3">
-                                <div>
-                                    <div class="stat-label text-muted" style="font-size:0.75rem;">Min Investment</div>
-                                    <div class="stat-value">${{ number_format($investment->min_investment) }}</div>
+                            
+                            @if(($investment->listing_type ?? 'investment') === 'for_sale')
+                                <div class="property-detail mb-3">
+                                    <strong class="text-primary">${{ number_format($investment->sale_price ?? 0) }}</strong> Sale Price
                                 </div>
-                                <div>
-                                    <div class="stat-label text-muted" style="font-size:0.75rem;">Investors</div>
-                                    <div class="stat-value">{{ number_format($investment->investors) }}</div>
+                                <div class="mb-3">
+                                    <small class="text-muted">{{ $investment->location ?? 'Prime Location' }}</small>
                                 </div>
-                            </div>
+                            @else
+                                <div class="property-detail mb-3">
+                                    <strong>{{ $investment->historic_yield }}% Historic Yield</strong> | ${{ number_format($investment->total_assets) }} Total Net Assets
+                                </div>
 
-                            <a href="{{ auth()->check() ? route('invest') : route('login') }}" class="btn invest-button mt-auto">
-                                Invest Now
+                                <div class="d-flex justify-content-between property-stats mb-3">
+                                    <div>
+                                        <div class="stat-label text-muted" style="font-size:0.75rem;">Min Investment</div>
+                                        <div class="stat-value">${{ number_format($investment->min_investment) }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="stat-label text-muted" style="font-size:0.75rem;">Investors</div>
+                                        <div class="stat-value">{{ number_format($investment->investors) }}</div>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <a href="{{ auth()->check() ? route('investments.show', $investment->id) : route('login') }}" class="btn invest-button mt-auto">
+                                {{ ($investment->listing_type ?? 'investment') === 'for_sale' ? 'Make Offer' : 'Invest Now' }}
                             </a>
                         </div>
                     </div>
                 </div>
             @empty
                 <div class="col">
-                    <div class="alert alert-info text-center">No investments found.</div>
+                    <div class="alert alert-info text-center">No properties found.</div>
                 </div>
             @endforelse
         </div>

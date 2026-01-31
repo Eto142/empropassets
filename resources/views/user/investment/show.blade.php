@@ -278,30 +278,45 @@
 
         {{-- Stats --}}
         <div class="row g-3 mt-3">
-            <div class="col-6 col-md-3">
-                <div class="stat-box">
-                    <div class="stat-label">Yield</div>
-                    <div class="stat-value">{{ $investment->historic_yield }}%</div>
+            @if(($investment->listing_type ?? 'investment') === 'for_sale')
+                <div class="col-6 col-md-6">
+                    <div class="stat-box">
+                        <div class="stat-label">Sale Price</div>
+                        <div class="stat-value text-primary">${{ number_format($investment->sale_price ?? 0) }}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-box">
-                    <div class="stat-label">Value</div>
-                    <div class="stat-value">${{ number_format($investment->total_assets) }}</div>
+                <div class="col-6 col-md-6">
+                    <div class="stat-box">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value text-success">For Sale</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-box">
-                    <div class="stat-label">Min Invest</div>
-                    <div class="stat-value">${{ number_format($investment->min_investment) }}</div>
+            @else
+                <div class="col-6 col-md-3">
+                    <div class="stat-box">
+                        <div class="stat-label">Yield</div>
+                        <div class="stat-value">{{ $investment->historic_yield }}%</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="stat-box">
-                    <div class="stat-label">Investors</div>
-                    <div class="stat-value">{{ number_format($investment->investors) }}</div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-box">
+                        <div class="stat-label">Value</div>
+                        <div class="stat-value">${{ number_format($investment->total_assets) }}</div>
+                    </div>
                 </div>
-            </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-box">
+                        <div class="stat-label">Min Invest</div>
+                        <div class="stat-value">${{ number_format($investment->min_investment) }}</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-box">
+                        <div class="stat-label">Investors</div>
+                        <div class="stat-value">{{ number_format($investment->investors) }}</div>
+                    </div>
+                </div>
+            @endif
         </div>
 
         {{-- Description --}}
@@ -341,6 +356,48 @@
 
     {{-- RIGHT INVEST BOX --}}
     <div class="col-lg-4">
+        @if(($investment->listing_type ?? 'investment') === 'for_sale')
+        {{-- FOR SALE FORM --}}
+        <div class="invest-card">
+            <h5 class="fw-bold mb-3">Make an Offer</h5>
+
+            <div class="mb-4">
+                <div class="stat-label text-muted">Listed Price</div>
+                <h2 class="stat-value text-primary fw-bold">${{ number_format($investment->sale_price ?? 0) }}</h2>
+            </div>
+
+            <form action="{{ route('properties.offer', $investment->id) }}" method="POST">
+                @csrf
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Your Offer Amount*</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" name="offer_amount" class="form-control" step="1000" placeholder="Enter your offer" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Message (Optional)</label>
+                    <textarea name="message" class="form-control" rows="4" placeholder="Add a message to the seller..."></textarea>
+                    <small class="text-muted">Share your interest, terms, or financing details</small>
+                </div>
+
+                <button class="invest-btn mb-2" type="submit">
+                    📝 Submit Offer
+                </button>
+
+                <a href="mailto:support@emprop.com" class="btn btn-outline-primary w-100">
+                    💬 Contact Support Agent
+                </a>
+
+                <div class="mt-3 text-center">
+                    <small class="text-muted">A support agent will contact you shortly after submission</small>
+                </div>
+            </form>
+        </div>
+        @else
+        {{-- INVESTMENT FORM --}}
         <div class="invest-card">
             <h5 class="fw-bold mb-3">Invest in this Property</h5>
 
@@ -386,6 +443,7 @@
 
             </form>
         </div>
+        @endif
     </div>
 
 </div>

@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\FiatBalanceController;
 use App\Http\Controllers\Admin\MailController;
 use App\Http\Controllers\Admin\ManageBalanceController;
 use App\Http\Controllers\Admin\ManageInvestmentDetailsController;
+use App\Http\Controllers\Admin\ManageOffersController;
+use App\Http\Controllers\Admin\ManageUserInvestmentsController;
 
 use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\SendEmailController;
@@ -51,6 +53,16 @@ use Illuminate\Support\Facades\Route;
 
    Route::resource('investments', ManageInvestmentDetailsController::class)
     ->except(['create','edit','show']);
+
+// Property Offers Management
+Route::get('/offers', [ManageOffersController::class, 'index'])->name('offers.index');
+Route::get('/offers/{id}', [ManageOffersController::class, 'show'])->name('offers.show');
+Route::post('/offers/{id}/accept', [ManageOffersController::class, 'accept'])->name('offers.accept');
+Route::post('/offers/{id}/reject', [ManageOffersController::class, 'reject'])->name('offers.reject');
+
+// User Investments History
+Route::get('/user-investments', [ManageUserInvestmentsController::class, 'index'])->name('user-investments.index');
+Route::get('/user-investments/{id}', [ManageUserInvestmentsController::class, 'show'])->name('user-investments.show');
 
 
     Route::post('/admin/user/{id}/cash-balance/update', [ManageBalanceController::class, 'updateCashBalance'])

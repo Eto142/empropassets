@@ -340,6 +340,16 @@
                 <span> Add Invesment Details</span>
             </a>
             
+            <a href="{{ route('admin.offers.index') }}" class="nav-link">
+                <i class="fas fa-handshake"></i>
+                <span>Property Offers</span>
+            </a>
+            
+            <a href="{{ route('admin.user-investments.index') }}" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                <span>User Investments</span>
+            </a>
+            
 
               <a href="{{ route('admin.manage.payment') }}" class="nav-link">
                 <i class="fas fa-piggy-bank"></i>

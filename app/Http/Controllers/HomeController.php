@@ -8,7 +8,18 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('home.homepage');
+        // Fetch latest properties for homepage (3 investments + 3 for sale)
+        $featuredInvestments = \App\Models\Investment::where('listing_type', 'investment')
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+        
+        $featuredForSale = \App\Models\Investment::where('listing_type', 'for_sale')
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('home.homepage', compact('featuredInvestments', 'featuredForSale'));
     }
 
     public function about()
@@ -23,10 +34,23 @@ class HomeController extends Controller
 
     public function invest()
 {
-    // Fetch investments with optional pagination (6 per page)
-    $investments = \App\Models\Investment::orderBy('created_at', 'desc')->paginate(6);
+    // Fetch investments with optional type and listing filter
+    $query = \App\Models\Investment::query();
+    
+    // Filter by listing type (investment/for_sale/all)
+    $listingType = request('listing', 'all');
+    if ($listingType !== 'all') {
+        $query->where('listing_type', $listingType);
+    }
+    
+    // Filter by property type
+    if (request()->has('type') && request('type') !== 'all') {
+        $query->where('type', request('type'));
+    }
+    
+    $investments = $query->orderBy('created_at', 'desc')->paginate(6);
 
-    return view('home.invest', compact('investments'));
+    return view('home.invest', compact('investments', 'listingType'));
 }
 
 
