@@ -21,15 +21,15 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <img class="logo" src="{{ asset('assets/images/logo.svg') }}" alt="Logo">
+            <img class="logo" src="{{ asset('logo.png') }}" alt="Logo">
             <div>
                 <strong>{{ config('app.name', 'EMAAR ASSETS') }}</strong>
-                <div style="font-size:12px; opacity:0.9">Administrator Message</div>
+                {{-- <div style="font-size:12px; opacity:0.9">Administrator Message</div> --}}
             </div>
         </div>
 
         <div class="email-body">
-            <h3 class="email-title">{{ $subjectLine ?? 'Message from Admin' }}</h3>
+            <h3 class="email-title">{{ $subjectLine }}</h3>
 
             <div class="email-message">{{ $messageBody ?? '' }}</div>
 
