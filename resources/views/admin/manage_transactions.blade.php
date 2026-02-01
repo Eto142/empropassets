@@ -10,6 +10,28 @@
         </div>
     </div>
 
+    <!-- Totals Bar -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="card p-3">
+                <div class="small text-muted">Total Credits</div>
+                <div class="h5 fw-bold">${{ number_format($totalCredit ?? 0, 2) }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3">
+                <div class="small text-muted">Total Debits</div>
+                <div class="h5 fw-bold">${{ number_format($totalDebit ?? 0, 2) }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3">
+                <div class="small text-muted">Net Total</div>
+                <div class="h5 fw-bold">${{ number_format($netTotal ?? 0, 2) }}</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Transactions Table Card -->
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -38,14 +60,22 @@
                     <tbody>
                         @foreach($user_transactions as $transaction)
                         <tr>
-                            <td>{{ $transaction->transaction_ref }}</td>
+                            <td>{{ $transaction->transaction_id }}</td>
                             <td>{{ $transaction->transaction_type }}</td>
-                            <td>{{ $transaction->transaction_description }}</td>
-                            <td>{{ number_format($transaction->transaction_amount, 2, '.', ',') }}</td>
+                            <td>{{ $transaction->transaction ?? ($transaction->transaction_type ?? '-') }}</td>
                             <td>
-                                @if ($transaction->transaction_status == '1')
+                                @if($transaction->credit > 0)
+                                    <span class="text-success">+${{ number_format($transaction->credit, 2) }}</span>
+                                @elseif($transaction->debit > 0)
+                                    <span class="text-danger">-${{ number_format($transaction->debit, 2) }}</span>
+                                @else
+                                    $0.00
+                                @endif
+                            </td>
+                            <td>
+                                @if ($transaction->status == 1)
                                 <span class="badge bg-success">Completed</span>
-                                @elseif($transaction->transaction_status == '0')
+                                @elseif($transaction->status == 0)
                                 <span class="badge bg-warning">Pending</span>
                                 @endif
                             </td>
