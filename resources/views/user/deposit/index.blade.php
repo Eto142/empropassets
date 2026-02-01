@@ -319,6 +319,8 @@
                             <option value="Ethereum">Ethereum (ETH)</option>
                             <option value="USDT">USDT</option>
                             <option value="USDC">USDC</option>
+                            <option value="Solana">Solana (SOL)</option>
+                            <option value="XRP">XRP (Ripple)</option>
                         </select>
                     </div>
                     <div class="info-box">

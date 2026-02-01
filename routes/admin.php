@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Admin\SendEmailController;
 use App\Http\Controllers\Admin\WithdrawalController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\Admin\ManagePaymentController;
+use App\Http\Controllers\Admin\WalletController;
 use App\Models\Deposit;
 use Illuminate\Support\Facades\Route;
 

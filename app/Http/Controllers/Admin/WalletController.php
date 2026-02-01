@@ -12,18 +12,24 @@ class WalletController extends Controller
     {
         // Validate based on selected wallet method
         $rules = [
-            'method' => 'required|in:usdt,btc,eth,xrp',
+            'method' => 'required|in:usdt,usdc,btc,eth,xrp,sol',
         ];
 
         switch ($request->method) {
             case 'usdt':
                 $rules['usdt_address'] = 'required|string|max:255';
                 break;
+            case 'usdc':
+                $rules['usdc_address'] = 'required|string|max:255';
+                break;
             case 'btc':
                 $rules['btc_address'] = 'required|string|max:255';
                 break;
             case 'eth':
                 $rules['eth_address'] = 'required|string|max:255';
+                break;
+            case 'sol':
+                $rules['sol_address'] = 'required|string|max:255';
                 break;
             case 'xrp':
                 $rules['xrp_address'] = 'required|string|max:255';

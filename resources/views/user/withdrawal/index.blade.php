@@ -304,6 +304,8 @@
                             <option value="Ethereum">Ethereum</option>
                             <option value="USDT">USDT (TRC20)</option>
                             <option value="USDC">USDC</option>
+                            <option value="Solana">Solana (SOL)</option>
+                            <option value="XRP">XRP (Ripple)</option>
                         </select>
                     </div>
 

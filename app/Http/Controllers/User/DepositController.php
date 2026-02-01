@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Balance;
 use App\Models\Deposit;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 
 class DepositController extends Controller
@@ -33,7 +34,7 @@ class DepositController extends Controller
         $request->validate([
             'payment_method' => 'required|in:bank,crypto',
             'amount' => 'required|numeric|min:10',
-            'crypto_type' => 'nullable|in:Bitcoin,Ethereum,USDT,USDC',
+            'crypto_type' => 'nullable|in:Bitcoin,Ethereum,USDT,USDC,Solana,XRP',
         ]);
 
         $method = $request->payment_method;
@@ -99,7 +100,7 @@ public function makeDeposit(Request $request)
     $request->validate([
         'payment_method' => 'required|in:bank,crypto',
         'amount' => 'required|numeric|min:10',
-        'crypto_type' => 'nullable|required_if:payment_method,crypto|in:Bitcoin,Ethereum,USDT,USDC',
+        'crypto_type' => 'nullable|required_if:payment_method,crypto|in:Bitcoin,Ethereum,USDT,USDC,Solana,XRP',
         'proof' => 'nullable|image|mimes:jpg,jpeg,png,pdf|max:4096',
         'bank_name' => 'nullable|required_if:payment_method,bank|string|max:255',
         'account_number' => 'nullable|required_if:payment_method,bank|string|max:50',
@@ -151,6 +152,22 @@ public function makeDeposit(Request $request)
     // Crypto instructions page
     public function crypto($amount, $crypto)
     {
-        return view('user.deposit.crypto', compact('amount', 'crypto'));
+        $map = [
+            'Bitcoin' => 'btc',
+            'Ethereum' => 'eth',
+            'USDT' => 'usdt',
+            'USDC' => 'usdc',
+            'XRP' => 'xrp',
+            'Solana' => 'sol',
+        ];
+
+        $method = $map[$crypto] ?? strtolower($crypto);
+
+        $wallet = Wallet::where('method', $method)->first();
+
+        $wallet_address = $wallet->address ?? null;
+        $destination_tag = $wallet->destination_tag ?? null;
+
+        return view('user.deposit.crypto', compact('amount', 'crypto', 'wallet_address', 'destination_tag'));
     }
 }

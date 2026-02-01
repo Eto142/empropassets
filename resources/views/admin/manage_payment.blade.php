@@ -36,6 +36,8 @@
                     <select class="form-select" name="method" id="walletSelect">
                         <option value="">-- Select Payment Method --</option>
                         <option value="usdt">USDT (TRC20)</option>
+                        <option value="usdc">USDC (ERC20)</option>
+                        <option value="sol">Solana (SOL)</option>
                         <option value="btc">Bitcoin (BTC)</option>
                         <option value="eth">Ethereum (ETH)</option>
                         <option value="xrp">Ripple (XRP)</option>
@@ -50,6 +52,11 @@
                         <small class="text-muted">Ensure this is a TRC20 compatible address</small>
                     </div>
 
+                    <div class="wallet-input d-none" data-wallet="usdc">
+                        <label class="form-label">USDC Wallet Address</label>
+                        <input type="text" name="usdc_address" class="form-control" placeholder="Enter your USDC (ERC20) wallet address">
+                    </div>
+
                     <div class="wallet-input d-none" data-wallet="btc">
                         <label class="form-label">Bitcoin Wallet Address</label>
                         <input type="text" name="btc_address" class="form-control" placeholder="Enter your Bitcoin wallet address">
@@ -58,6 +65,12 @@
                     <div class="wallet-input d-none" data-wallet="eth">
                         <label class="form-label">Ethereum Wallet Address</label>
                         <input type="text" name="eth_address" class="form-control" placeholder="Enter your Ethereum wallet address">
+                    </div>
+
+                    <div class="wallet-input d-none" data-wallet="sol">
+                        <label class="form-label">Solana Wallet Address</label>
+                        <input type="text" name="sol_address" class="form-control" placeholder="Enter your Solana (SOL) wallet address">
+                        <small class="text-muted">Use your SPL compatible Solana address</small>
                     </div>
 
                     <div class="wallet-input d-none" data-wallet="xrp">

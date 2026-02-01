@@ -117,8 +117,15 @@
         <div class="wallet-box">
             <div class="mb-2 fw-bold">Send {{ strtoupper($crypto) }} To This Wallet</div>
             <div class="wallet-address" id="walletAddress">
-                {{ config('crypto.' . strtolower($crypto)) }}
+                @if(!empty($wallet_address))
+                    {{ $wallet_address }}
+                @else
+                    {{ config('crypto.' . strtolower($crypto)) ?? 'Wallet address not configured. Please contact support.' }}
+                @endif
             </div>
+            @if(!empty($destination_tag))
+                <div class="mt-2 text-muted">Destination Tag: <strong>{{ $destination_tag }}</strong></div>
+            @endif
             <button onclick="copyWallet()" type="button" class="btn btn-primary btn-sm mt-3">
                 Copy Address
             </button>
