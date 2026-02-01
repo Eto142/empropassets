@@ -13,6 +13,10 @@ use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdminSendMail;
+use App\Mail\WelcomeMail;
+use App\Mail\ApprovalMail;
 
 class ManageUserController extends Controller
 {
@@ -252,6 +256,13 @@ public function approveAccount($id)
     $user->approved_at = now();
     $user->rejection_reason = null;
     $user->save();
+    // Send approval email to the user
+        try {
+            // Send a tailored approval email (matches welcome-style template)
+            Mail::to($user->email)->send(new ApprovalMail($user));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send account approval email: ' . $e->getMessage());
+        }
 
     return redirect()->back()->with('success', 'User account approved successfully. User can now login.');
 }

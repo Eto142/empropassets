@@ -69,13 +69,13 @@
     <div class="container">
         <!-- Header with logo -->
         <div class="header">
-            <img src="https://empropassets.com/logo.png" alt="Empropassets Logo">
-            <h1>Empropassets</h1>
+            <img src="{{ asset('assets/images/logo.svg') }}" alt="{{ config('app.name') }} Logo">
+            <h1>{{ config('app.name') }}</h1>
         </div>
 
         <!-- Content -->
         <div class="content">
-            <h2>Welcome, {{ $user->name }} 🎉</h2>
+            <h2>Welcome, {{ $user->first_name ?? $user->name ?? $user->email }} 🎉</h2>
             <p>Your account has been successfully created.</p>
             <p>You can now log in and start exploring Emaar’s real estate listings and services.</p>
             <p>We’re excited to have you onboard 🚀</p>
