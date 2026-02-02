@@ -1,5 +1,7 @@
 @include('home.header')
 
+<link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}">
+
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
@@ -588,4 +590,63 @@ As of January 2026 Emaar Properties has a market cap of $35.25 Billion USD. This
             </div>
         </div>
     </section>
+
+    <!-- Lightweight scroll reveal (non-intrusive) -->
+    <style>
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 640ms cubic-bezier(.2,.9,.3,1), transform 640ms cubic-bezier(.2,.9,.3,1); will-change: opacity, transform; }
+        .reveal.visible { opacity: 1; transform: none; }
+        .reveal.delay-1 { transition-delay: 80ms; }
+        .reveal.delay-2 { transition-delay: 160ms; }
+        .reveal.delay-3 { transition-delay: 260ms; }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        }
+    </style>
+
+    <script>
+    (function(){
+        if (!('IntersectionObserver' in window)) return; // graceful fallback
+
+        const selectors = [
+            '.hero-title', '.hero-subtitle', '.section-title', '.section-description',
+            '.stat-item', '.card', '.property-card', '.testimonial-quote', '.team-content h2',
+            '.portfolio-title', '.section-label', '.btn-primary-large', '.btn-browse', '.btn-browse-white',
+            '.transaction-card', '.image-card', '.property-item'
+        ];
+
+        const nodes = Array.from(document.querySelectorAll(selectors.join(','))).filter(Boolean);
+        if (!nodes.length) return;
+
+        // mark nodes and add small stagger classes
+        nodes.forEach((el, i) => {
+            el.classList.add('reveal');
+            if (i % 3 === 1) el.classList.add('delay-1');
+            if (i % 3 === 2) el.classList.add('delay-2');
+            if (i % 5 === 0) el.classList.add('delay-3');
+        });
+
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) {
+            nodes.forEach(n => n.classList.add('visible'));
+            return;
+        }
+
+        // Keep observing; toggle visible class on enter/leave so reveal works on every scroll
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const el = entry.target;
+                if (entry.isIntersecting) {
+                    // add a tiny stagger when element becomes visible
+                    setTimeout(() => el.classList.add('visible'), 20);
+                } else {
+                    // remove when scrolled away so it can re-animate on re-enter
+                    el.classList.remove('visible');
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+        nodes.forEach(n => io.observe(n));
+    })();
+    </script>
+
 @include('home.footer')
