@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Investment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
 
 class ManageInvestmentDetailsController extends Controller
@@ -73,22 +74,17 @@ class ManageInvestmentDetailsController extends Controller
 
         // Upload main image to Cloudinary
         if ($request->hasFile('image')) {
-            $result = $this->cloudinary()->uploadApi()->upload($request->file('image')->getRealPath(), [
-                'folder'  => 'investments',
-                'timeout' => 120,
-            ]);
-            $data['image'] = $result['secure_url'];
+            $data['image'] = $this->cloudinaryUpload(
+                $request->file('image')->getRealPath(),
+                'investments'
+            );
         }
 
         // Upload gallery images to Cloudinary
         if ($request->hasFile('gallery')) {
             $galleryUrls = [];
             foreach ($request->file('gallery') as $img) {
-                $result = $this->cloudinary()->uploadApi()->upload($img->getRealPath(), [
-                    'folder'  => 'investments/gallery',
-                    'timeout' => 120,
-                ]);
-                $galleryUrls[] = $result['secure_url'];
+                $galleryUrls[] = $this->cloudinaryUpload($img->getRealPath(), 'investments/gallery');
             }
             $data['gallery'] = $galleryUrls;
         }
@@ -147,29 +143,24 @@ class ManageInvestmentDetailsController extends Controller
         // Replace main image on Cloudinary
         if ($request->hasFile('image')) {
             if ($investment->image) {
-                $this->cloudinary()->uploadApi()->destroy($this->extractPublicId($investment->image));
+                $this->cloudinaryDestroy($this->extractPublicId($investment->image));
             }
-            $result = $this->cloudinary()->uploadApi()->upload($request->file('image')->getRealPath(), [
-                'folder'  => 'investments',
-                'timeout' => 120,
-            ]);
-            $data['image'] = $result['secure_url'];
+            $data['image'] = $this->cloudinaryUpload(
+                $request->file('image')->getRealPath(),
+                'investments'
+            );
         }
 
         // Replace gallery images on Cloudinary
         if ($request->hasFile('gallery')) {
             if ($investment->gallery) {
                 foreach ($investment->gallery as $url) {
-                    $this->cloudinary()->uploadApi()->destroy($this->extractPublicId($url));
+                    $this->cloudinaryDestroy($this->extractPublicId($url));
                 }
             }
             $galleryUrls = [];
             foreach ($request->file('gallery') as $img) {
-                $result = $this->cloudinary()->uploadApi()->upload($img->getRealPath(), [
-                    'folder'  => 'investments/gallery',
-                    'timeout' => 120,
-                ]);
-                $galleryUrls[] = $result['secure_url'];
+                $galleryUrls[] = $this->cloudinaryUpload($img->getRealPath(), 'investments/gallery');
             }
             $data['gallery'] = $galleryUrls;
         }
@@ -182,11 +173,11 @@ class ManageInvestmentDetailsController extends Controller
     public function destroy(Investment $investment)
     {
         if ($investment->image) {
-            $this->cloudinary()->uploadApi()->destroy($this->extractPublicId($investment->image));
+            $this->cloudinaryDestroy($this->extractPublicId($investment->image));
         }
         if ($investment->gallery) {
             foreach ($investment->gallery as $url) {
-                $this->cloudinary()->uploadApi()->destroy($this->extractPublicId($url));
+                $this->cloudinaryDestroy($this->extractPublicId($url));
             }
         }
 
@@ -195,9 +186,66 @@ class ManageInvestmentDetailsController extends Controller
         return redirect()->back()->with('success', 'Investment deleted successfully');
     }
 
-    private function cloudinary(): \Cloudinary\Cloudinary
+    private function cloudinaryCredentials(): array
     {
-        return new \Cloudinary\Cloudinary(config('filesystems.disks.cloudinary.url'));
+        $url = config('filesystems.disks.cloudinary.url'); // cloudinary://key:secret@cloud_name
+        $parsed = parse_url($url);
+        return [
+            'cloud_name' => $parsed['host'],
+            'api_key'    => $parsed['user'],
+            'api_secret' => urldecode($parsed['pass']),
+        ];
+    }
+
+    private function cloudinarySign(array $params, string $apiSecret): string
+    {
+        ksort($params);
+        $parts = [];
+        foreach ($params as $key => $value) {
+            $parts[] = $key . '=' . $value;
+        }
+        return sha1(implode('&', $parts) . $apiSecret);
+    }
+
+    private function cloudinaryUpload(string $filePath, string $folder): string
+    {
+        $creds     = $this->cloudinaryCredentials();
+        $timestamp = time();
+        $signParams = ['folder' => $folder, 'timestamp' => $timestamp];
+        $signature  = $this->cloudinarySign($signParams, $creds['api_secret']);
+
+        $response = Http::timeout(120)
+            ->attach('file', file_get_contents($filePath), basename($filePath))
+            ->post("https://api.cloudinary.com/v1_1/{$creds['cloud_name']}/image/upload", [
+                'api_key'   => $creds['api_key'],
+                'timestamp' => $timestamp,
+                'folder'    => $folder,
+                'signature' => $signature,
+            ]);
+
+        if (!$response->successful()) {
+            throw new \RuntimeException('Cloudinary upload failed: ' . $response->body());
+        }
+
+        return $response->json('secure_url');
+    }
+
+    private function cloudinaryDestroy(string $publicId): void
+    {
+        $creds      = $this->cloudinaryCredentials();
+        $timestamp  = time();
+        $signParams = ['public_id' => $publicId, 'timestamp' => $timestamp];
+        $signature  = $this->cloudinarySign($signParams, $creds['api_secret']);
+
+        Http::timeout(30)->post(
+            "https://api.cloudinary.com/v1_1/{$creds['cloud_name']}/image/destroy",
+            [
+                'api_key'   => $creds['api_key'],
+                'timestamp' => $timestamp,
+                'public_id' => $publicId,
+                'signature' => $signature,
+            ]
+        );
     }
 
     /**
