@@ -38,7 +38,19 @@ button[aria-expanded="true"] .collapse-icon {
     </div>
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success alert-dismissible fade show">{{ session('success') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show">
+            <strong>Please fix the following errors:</strong>
+            <ul class="mb-0 mt-1">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     @endif
 
    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -47,7 +59,7 @@ button[aria-expanded="true"] .collapse-icon {
             <div class="card h-100 shadow-sm investment-card position-relative border-0">
                 {{-- MAIN IMAGE --}}
                 <div class="position-relative">
-                    <img src="{{ $investment->image ? asset('images/investments/'.$investment->image) : asset('assets/images/placeholder.png') }}"
+                    <img src="{{ $investment->image ?? asset('assets/images/placeholder.png') }}"
                          class="card-img-top rounded-top" style="height:220px; object-fit:cover;">
                     
                     {{-- LISTING TYPE BADGE --}}
@@ -130,7 +142,7 @@ button[aria-expanded="true"] .collapse-icon {
                         @if($investment->amenities)
                         <div class="mb-2">
                             <strong>Amenities:</strong>
-                            @foreach(json_decode($investment->amenities) as $amenity)
+                            @foreach($investment->amenities as $amenity)
                                 <span class="badge bg-light text-dark border px-2 py-1">{{ $amenity }}</span>
                             @endforeach
                         </div>
@@ -146,8 +158,8 @@ button[aria-expanded="true"] .collapse-icon {
                         <div class="mb-2">
                             <strong>Gallery:</strong>
                             <div class="d-flex flex-wrap gap-2 mt-1">
-                                @foreach(json_decode($investment->gallery) as $img)
-                                    <img src="{{ asset('images/investments/gallery/'.$img) }}"
+                                @foreach($investment->gallery as $img)
+                                    <img src="{{ $img }}"
                                          style="height:70px;width:70px;object-fit:cover;border-radius:5px;">
                                 @endforeach
                             </div>
@@ -196,68 +208,76 @@ button[aria-expanded="true"] .collapse-icon {
     <div class="col-md-4">
         <label class="form-label fw-semibold">Listing Type</label>
         <select name="listing_type" id="listing_type" class="form-select">
-            <option value="investment" selected>Investment</option>
-            <option value="for_sale">For Sale</option>
+            <option value="investment" {{ old('listing_type','investment')==='investment'?'selected':'' }}>Investment</option>
+            <option value="for_sale" {{ old('listing_type')==='for_sale'?'selected':'' }}>For Sale</option>
         </select>
     </div>
 
     <div class="col-md-4">
         <label class="form-label fw-semibold">Property Type</label>
-        <input type="text" name="type" id="type" class="form-control" placeholder="e.g., Residential, Commercial">
+        <input type="text" name="type" id="type" class="form-control @error('type') is-invalid @enderror" value="{{ old('type') }}" placeholder="e.g., Residential, Commercial">
+        @error('type')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="col-md-8">
         <label class="form-label fw-semibold">Property Name</label>
-        <input type="text" name="name" id="name" class="form-control" placeholder="e.g., Sunset Villas, Downtown Office">
+        <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="e.g., Sunset Villas, Downtown Office">
+        @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="col-md-4">
         <label class="form-label fw-semibold">Yield (%)</label>
-        <input type="number" step="0.01" name="historic_yield" id="historic_yield" class="form-control" placeholder="e.g., 8.5">
+        <input type="number" step="0.01" name="historic_yield" id="historic_yield" class="form-control @error('historic_yield') is-invalid @enderror" value="{{ old('historic_yield') }}" placeholder="e.g., 8.5">
+        @error('historic_yield')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="col-md-4">
         <label class="form-label fw-semibold">Total Value ($)</label>
-        <input type="number" name="total_assets" id="total_assets" class="form-control" placeholder="e.g., 5000000">
+        <input type="number" name="total_assets" id="total_assets" class="form-control @error('total_assets') is-invalid @enderror" value="{{ old('total_assets') }}" placeholder="e.g., 5000000">
+        @error('total_assets')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="col-md-4">
         <label class="form-label fw-semibold">Sale Price ($)</label>
-        <input type="number" name="sale_price" id="sale_price" class="form-control" placeholder="e.g., 1250000">
+        <input type="number" name="sale_price" id="sale_price" class="form-control @error('sale_price') is-invalid @enderror" value="{{ old('sale_price') }}" placeholder="e.g., 1250000">
+        @error('sale_price')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="col-md-4">
         <label class="form-label fw-semibold">Min Investment ($)</label>
-        <input type="number" name="min_investment" id="min_investment" class="form-control" placeholder="e.g., 10000">
+        <input type="number" name="min_investment" id="min_investment" class="form-control @error('min_investment') is-invalid @enderror" value="{{ old('min_investment') }}" placeholder="e.g., 10000">
+        @error('min_investment')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="col-md-4">
         <label class="form-label fw-semibold">Share Price ($)</label>
-        <input type="number" name="share_price" id="share_price" class="form-control" placeholder="e.g., 100">
+        <input type="number" name="share_price" id="share_price" class="form-control @error('share_price') is-invalid @enderror" value="{{ old('share_price') }}" placeholder="e.g., 100">
+        @error('share_price')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="col-md-4">
         <label class="form-label fw-semibold">Investors</label>
-        <input type="number" name="investors" id="investors" class="form-control" placeholder="e.g., 120">
+        <input type="number" name="investors" id="investors" class="form-control @error('investors') is-invalid @enderror" value="{{ old('investors') }}" placeholder="e.g., 120">
+        @error('investors')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="col-md-4">
         <label class="form-label fw-semibold">Status</label>
         <select name="status" id="status" class="form-select">
-            <option value="available" selected>Available</option>
-            <option value="closed">Closed</option>
+            <option value="available" {{ old('status','available')==='available'?'selected':'' }}>Available</option>
+            <option value="closed" {{ old('status')==='closed'?'selected':'' }}>Closed</option>
         </select>
     </div>
 
     {{-- LOCATION + DESC --}}
     <div class="col-12">
         <label class="form-label fw-semibold">Location</label>
-        <input type="text" name="location" id="location" class="form-control" placeholder="e.g., Downtown, New York">
+        <input type="text" name="location" id="location" class="form-control" value="{{ old('location') }}" placeholder="e.g., Downtown, New York">
     </div>
 
     <div class="col-12">
         <label class="form-label fw-semibold">Description</label>
-        <textarea name="description" id="description" rows="4" class="form-control" placeholder="Provide a brief description of the property"></textarea>
+        <textarea name="description" id="description" rows="4" class="form-control" placeholder="Provide a brief description of the property">{{ old('description') }}</textarea>
     </div>
 
     {{-- IMAGES --}}
@@ -277,27 +297,27 @@ button[aria-expanded="true"] .collapse-icon {
 
     <div class="col-md-4">
         <label class="form-label">Size (sqft)</label>
-        <input type="number" name="size" id="size" class="form-control" placeholder="e.g., 2400">
+        <input type="number" name="size" id="size" class="form-control" value="{{ old('size') }}" placeholder="e.g., 2400">
     </div>
 
     <div class="col-md-4">
         <label class="form-label">Bedrooms</label>
-        <input type="number" name="bedrooms" id="bedrooms" class="form-control" placeholder="e.g., 4">
+        <input type="number" name="bedrooms" id="bedrooms" class="form-control" value="{{ old('bedrooms') }}" placeholder="e.g., 4">
     </div>
 
     <div class="col-md-4">
         <label class="form-label">Bathrooms</label>
-        <input type="number" name="bathrooms" id="bathrooms" class="form-control" placeholder="e.g., 3">
+        <input type="number" name="bathrooms" id="bathrooms" class="form-control" value="{{ old('bathrooms') }}" placeholder="e.g., 3">
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Parking</label>
-        <input type="number" name="parking" id="parking" class="form-control" placeholder="e.g., 2">
+        <input type="number" name="parking" id="parking" class="form-control" value="{{ old('parking') }}" placeholder="e.g., 2">
     </div>
 
     <div class="col-md-6">
         <label class="form-label">Year Built</label>
-        <input type="number" name="year_built" id="year_built" class="form-control" placeholder="e.g., 2022">
+        <input type="number" name="year_built" id="year_built" class="form-control" value="{{ old('year_built') }}" placeholder="e.g., 2022">
     </div>
 
     {{-- AMENITIES --}}
@@ -314,7 +334,8 @@ button[aria-expanded="true"] .collapse-icon {
                    type="checkbox"
                    name="amenities[]"
                    value="{{ $amenity }}"
-                   id="amenity_{{ Str::slug($amenity) }}">
+                   id="amenity_{{ Str::slug($amenity) }}"
+                   {{ is_array(old('amenities')) && in_array($amenity, old('amenities')) ? 'checked' : '' }}>
             <label class="form-check-label">{{ $amenity }}</label>
         </div>
     </div>
@@ -334,6 +355,14 @@ button[aria-expanded="true"] .collapse-icon {
 </div>
 
 <script>
+@if($errors->any())
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('investmentForm').action = "{{ route('admin.investments.store') }}";
+    document.getElementById('methodField').value = '';
+    new bootstrap.Modal(document.getElementById('investmentModal')).show();
+});
+@endif
+
 function openCreateModal(){
     document.getElementById('modalTitle').innerText = 'Add Property Investment';
     document.getElementById('investmentForm').action = "{{ route('admin.investments.store') }}";
@@ -360,7 +389,7 @@ function openEditModal(data){
     }
 
     document.getElementById('previewImage').src =
-        data.image ? "/storage/" + data.image : "{{ asset('assets/images/placeholder.png') }}";
+        data.image ? data.image : "{{ asset('assets/images/placeholder.png') }}";
 }
 
 document.getElementById('imageInput').addEventListener('change', e => {

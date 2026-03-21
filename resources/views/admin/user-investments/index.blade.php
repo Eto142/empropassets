@@ -104,7 +104,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     @if($investment->image)
-                                                        <img src="{{ asset('images/investments/'.$investment->image) }}" 
+                                                        <img src="{{ $investment->image ?? asset('assets/images/placeholder.png') }}" 
                                                              alt="{{ $investment->name }}" 
                                                              class="img-fluid rounded mb-3"
                                                              style="max-height: 200px; object-fit: cover;">

@@ -101,7 +101,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 property-card position-relative">
                         <div class="property-image position-relative">
-                         <img src="{{ $investment->image ? asset('images/investments/'.$investment->image) : asset('assets/images/placeholder.png') }}" 
+                         <img src="{{ $investment->image ?? asset('assets/images/placeholder.png') }}" 
      alt="{{ $investment->name }}" 
      style="height:200px; object-fit:cover;">
 

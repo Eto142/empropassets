@@ -250,16 +250,16 @@
         {{-- Main Image --}}
         <div class="hero-image">
             <img id="mainImage"
-                 src="{{ $investment->image ? asset('images/investments/'.$investment->image) : asset('assets/images/placeholder.png') }}">
+                 src="{{ $investment->image ?? asset('assets/images/placeholder.png') }}">
         </div>
 
         {{-- Thumbnails --}}
         <div class="row g-2 mt-3 thumbs">
             @if($investment->gallery)
-                @foreach(json_decode($investment->gallery) as $img)
+                @foreach($investment->gallery as $img)
                     <div class="col-4">
                         <img onclick="swapImage(this)"
-                             src="{{ asset('images/investments/gallery/'.$img) }}">
+                             src="{{ $img }}">
                     </div>
                 @endforeach
             @else
@@ -345,7 +345,7 @@
         <div class="mt-4">
             <div class="section-title">Amenities</div>
             <div class="row g-2">
-                @foreach(json_decode($investment->amenities) as $amenity)
+                @foreach($investment->amenities as $amenity)
                     <div class="col-6 col-md-4">✔ {{ $amenity }}</div>
                 @endforeach
             </div>
