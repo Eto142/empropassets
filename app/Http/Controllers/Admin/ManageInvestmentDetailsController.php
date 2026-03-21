@@ -15,6 +15,16 @@ class ManageInvestmentDetailsController extends Controller
         return view('admin.investments.index', compact('investments'));
     }
 
+    public function create()
+    {
+        return view('admin.investments.create');
+    }
+
+    public function edit(Investment $investment)
+    {
+        return view('admin.investments.edit', compact('investment'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -85,7 +95,7 @@ class ManageInvestmentDetailsController extends Controller
 
         Investment::create($data);
 
-        return redirect()->back()->with('success', 'Investment created successfully');
+        return redirect()->route('admin.investments.index')->with('success', 'Investment created successfully');
     }
 
     public function update(Request $request, Investment $investment)
@@ -166,7 +176,7 @@ class ManageInvestmentDetailsController extends Controller
 
         $investment->update($data);
 
-        return redirect()->back()->with('success', 'Investment updated successfully');
+        return redirect()->route('admin.investments.index')->with('success', 'Investment updated successfully');
     }
 
     public function destroy(Investment $investment)

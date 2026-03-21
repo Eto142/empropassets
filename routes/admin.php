@@ -54,7 +54,7 @@ use Illuminate\Support\Facades\Route;
 //    Route::resource('investments', ManageInvestmentDetailsController::class);
 
    Route::resource('investments', ManageInvestmentDetailsController::class)
-    ->except(['create','edit','show']);
+    ->except(['show']);
 
 // Property Offers Management
 Route::get('/offers', [ManageOffersController::class, 'index'])->name('offers.index');
