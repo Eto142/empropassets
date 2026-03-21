@@ -73,7 +73,7 @@ class ManageInvestmentDetailsController extends Controller
 
         // Upload main image to Cloudinary
         if ($request->hasFile('image')) {
-            $result = app(\Cloudinary\Cloudinary::class)->uploadApi()->upload($request->file('image')->getRealPath(), [
+            $result = $this->cloudinary()->uploadApi()->upload($request->file('image')->getRealPath(), [
                 'folder'  => 'investments',
                 'timeout' => 120,
             ]);
@@ -84,7 +84,7 @@ class ManageInvestmentDetailsController extends Controller
         if ($request->hasFile('gallery')) {
             $galleryUrls = [];
             foreach ($request->file('gallery') as $img) {
-                $result = app(\Cloudinary\Cloudinary::class)->uploadApi()->upload($img->getRealPath(), [
+                $result = $this->cloudinary()->uploadApi()->upload($img->getRealPath(), [
                     'folder'  => 'investments/gallery',
                     'timeout' => 120,
                 ]);
@@ -147,9 +147,9 @@ class ManageInvestmentDetailsController extends Controller
         // Replace main image on Cloudinary
         if ($request->hasFile('image')) {
             if ($investment->image) {
-                app(\Cloudinary\Cloudinary::class)->uploadApi()->destroy($this->extractPublicId($investment->image));
+                $this->cloudinary()->uploadApi()->destroy($this->extractPublicId($investment->image));
             }
-            $result = app(\Cloudinary\Cloudinary::class)->uploadApi()->upload($request->file('image')->getRealPath(), [
+            $result = $this->cloudinary()->uploadApi()->upload($request->file('image')->getRealPath(), [
                 'folder'  => 'investments',
                 'timeout' => 120,
             ]);
@@ -160,12 +160,12 @@ class ManageInvestmentDetailsController extends Controller
         if ($request->hasFile('gallery')) {
             if ($investment->gallery) {
                 foreach ($investment->gallery as $url) {
-                    app(\Cloudinary\Cloudinary::class)->uploadApi()->destroy($this->extractPublicId($url));
+                    $this->cloudinary()->uploadApi()->destroy($this->extractPublicId($url));
                 }
             }
             $galleryUrls = [];
             foreach ($request->file('gallery') as $img) {
-                $result = app(\Cloudinary\Cloudinary::class)->uploadApi()->upload($img->getRealPath(), [
+                $result = $this->cloudinary()->uploadApi()->upload($img->getRealPath(), [
                     'folder'  => 'investments/gallery',
                     'timeout' => 120,
                 ]);
@@ -182,17 +182,22 @@ class ManageInvestmentDetailsController extends Controller
     public function destroy(Investment $investment)
     {
         if ($investment->image) {
-            app(\Cloudinary\Cloudinary::class)->uploadApi()->destroy($this->extractPublicId($investment->image));
+            $this->cloudinary()->uploadApi()->destroy($this->extractPublicId($investment->image));
         }
         if ($investment->gallery) {
             foreach ($investment->gallery as $url) {
-                app(\Cloudinary\Cloudinary::class)->uploadApi()->destroy($this->extractPublicId($url));
+                $this->cloudinary()->uploadApi()->destroy($this->extractPublicId($url));
             }
         }
 
         $investment->delete();
 
         return redirect()->back()->with('success', 'Investment deleted successfully');
+    }
+
+    private function cloudinary(): \Cloudinary\Cloudinary
+    {
+        return new \Cloudinary\Cloudinary(config('filesystems.disks.cloudinary.url'));
     }
 
     /**
@@ -207,3 +212,4 @@ class ManageInvestmentDetailsController extends Controller
         return $url;
     }
 }
+
