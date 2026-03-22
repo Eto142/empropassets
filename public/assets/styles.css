@@ -66,6 +66,13 @@
             color: #fff;
         }
 
+        /* Mobile nav: give REGISTER button breathing room when menu is collapsed */
+        @media (max-width: 991px) {
+            .navbar-nav { padding: 12px 0 8px; }
+            .nav-link   { margin: 4px 0; padding: 8px 4px; }
+            .btn-signup { display: inline-block; margin: 10px 4px 4px; }
+        }
+
         /* Hero Section */
         .hero-section {
             padding: 60px 0;

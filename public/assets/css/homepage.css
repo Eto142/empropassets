@@ -345,27 +345,82 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helv
 /* =================================================================
    RESPONSIVE
 ================================================================= */
+
+/* ── Tablet / small desktop (< 992px) ───────────────────────────── */
 @media (max-width: 991px) {
     .hp-hero { min-height: auto; padding: 80px 0 60px; }
     .hp-hero__cards { max-width: 100%; margin: 0; }
     .hp-portfolio-chip { display: none; }
     .hp-stats__grid { grid-template-columns: repeat(3, 1fr); }
     .hp-stats__item:nth-child(3n) { border-right: none; }
+    .hp-stats__item:last-child    { border-right: none; }
 }
+
+/* ── Mobile landscape / large phone (< 768px) ───────────────────── */
 @media (max-width: 767px) {
     section { padding: 64px 0; }
+    .hp-cta-banner  { padding: 72px 0; }
+    .hp-portfolio-map { padding: 72px 0 56px; }
+
     .hp-hero__title { font-size: 32px; }
-    .hp-stats__grid { grid-template-columns: repeat(2, 1fr); }
-    .hp-stats__item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); }
     .hp-hero__card--main { height: 180px; }
     .hp-hero__card--sm   { height: 120px; }
-    .hp-press__inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .hp-hero__trust { gap: 14px; }
+
+    .hp-ticker__label { font-size: 9px; padding: 0 10px; letter-spacing: 1px; }
+
+    .hp-stats__grid { grid-template-columns: repeat(2, 1fr); }
+    .hp-stats__item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .hp-stats__item:last-child { border-bottom: none; }
+
+    .hp-hiw__card { padding: 26px 18px; }
+
+    .hp-earn__card { padding: 22px; }
     .hp-earn__card-total { font-size: 36px; }
+
+    .hp-press__inner  { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .hp-press__logos  { gap: 20px; }
+
+    .hp-accordion .accordion-button { font-size: 14px; padding: 15px 18px; }
+    .hp-accordion .accordion-body   { padding: 6px 18px 18px; }
 }
+
+/* ── Small phone portrait (< 480px) ─────────────────────────────── */
 @media (max-width: 480px) {
+    section { padding: 52px 0; }
+    .hp-cta-banner { padding: 60px 0; }
+
+    .hp-hero { padding: 80px 0 44px; }
     .hp-hero__ctas { flex-direction: column; }
-    .hp-btn { width: 100%; justify-content: center; }
+    /* Only widen CTA buttons in hero and final banner ─ other buttons stay auto-width */
+    .hp-hero__ctas .hp-btn,
+    .hp-cta-banner .hp-btn  { width: 100%; justify-content: center; }
+    .hp-hero__trust   { gap: 10px; }
+    .hp-trust-num     { font-size: 18px; }
+    .hp-trust-label   { font-size: 10px; }
+    .hp-trust-divider { height: 28px; }
+
     .hp-hero__cards { grid-template-columns: 1fr; }
     .hp-hero__card--main { height: 200px; }
-    .hp-hero__card--sm { display: none; }
+    .hp-hero__card--sm   { display: none; }
+
+    /* Hide ticker label so the scrolling track gets full width */
+    .hp-ticker__label { display: none; }
+
+    /* Stats: single column on narrow phones */
+    .hp-stats__grid { grid-template-columns: 1fr; }
+    .hp-stats__item { border-right: none; }
+
+    .hp-earn__card-total { font-size: 32px; }
+    /* Stack earn stats vertically instead of 3-across */
+    .hp-earn__card-stats { flex-direction: column; gap: 0; }
+    .hp-earn__card-stat  { border-bottom: 1px solid #e5e7eb; padding: 12px 0; }
+    .hp-earn__card-stat:last-child { border-bottom: none; }
+
+    .hp-press__logos { gap: 14px; }
+
+    /* Tighten property card stat cells on narrow screens */
+    .hp-prop-stat { padding: 8px 6px; }
+    .hp-prop-stat__val { font-size: 13px; }
+    .hp-prop-stat__lbl { font-size: 9px; }
 }
