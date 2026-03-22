@@ -12,7 +12,7 @@
             <div class="col-lg-6">
                 <span class="hp-pill mb-3">Dubai's #1 Real Estate Investment Platform</span>
                 <h1 class="hp-hero__title">Own a Piece of Dubai's Most Iconic Properties</h1>
-                <p class="hp-hero__sub">Fractional real estate investing, starting from $500. Earn monthly rental income and capital appreciation from premium Dubai properties — without the hassle of ownership.</p>
+                <p class="hp-hero__sub">Fractional real estate investing, starting from $500. Earn monthly rental income and capital appreciation from premium Dubai properties  without the hassle of ownership.</p>
                 <div class="hp-hero__ctas">
                     <a href="{{ route('show.register') }}" class="hp-btn hp-btn--gold">Start Investing Today</a>
                     <a href="{{ route('invest.public') }}"  class="hp-btn hp-btn--outline">Browse Properties</a>
@@ -138,7 +138,7 @@
                     <div class="hp-hiw__num">02</div>
                     <div class="hp-hiw__icon">🏙️</div>
                     <h4>Choose Your Properties</h4>
-                    <p>Browse curated Dubai investments — from Palm Jumeirah villas to Downtown apartments — and build your portfolio.</p>
+                    <p>Browse curated Dubai investments  from Palm Jumeirah villas to Downtown apartments  and build your portfolio.</p>
                 </div>
             </div>
             <div class="col-md-4">
@@ -283,7 +283,7 @@
                         <div class="hp-feat">
                             <div class="hp-feat__icon">🔄</div>
                             <h5>Exit Anytime</h5>
-                            <p>Sell your shares on our secondary market or wait for the property sale — your choice.</p>
+                            <p>Sell your shares on our secondary market or wait for the property sale  your choice.</p>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -297,7 +297,7 @@
                         <div class="hp-feat">
                             <div class="hp-feat__icon">🛡️</div>
                             <h5>Asset-Backed Security</h5>
-                            <p>Your investment is always backed by a real, title-deeded Dubai property — not a promise.</p>
+                            <p>Your investment is always backed by a real, title-deeded Dubai property  not a promise.</p>
                         </div>
                     </div>
                 </div>
@@ -315,11 +315,11 @@
             <div class="col-lg-6 order-lg-2">
                 <span class="hp-eyebrow">Passive Income</span>
                 <h2 class="hp-section__title">Collect Rent Without Being a Landlord</h2>
-                <p class="hp-section__sub">No tenant calls. No maintenance bills. No paperwork. Our in-house property management team handles everything — you just receive your monthly dividend.</p>
+                <p class="hp-section__sub">No tenant calls. No maintenance bills. No paperwork. Our in-house property management team handles everything  you just receive your monthly dividend.</p>
                 <ul class="hp-checklist">
                     <li>Monthly rental income deposited directly to your account</li>
                     <li>Professional property management across all listings</li>
-                    <li>Transparent fee structure — no hidden costs</li>
+                    <li>Transparent fee structure  no hidden costs</li>
                     <li>Annual capital appreciation on top of rental yield</li>
                 </ul>
             </div>
@@ -455,7 +455,7 @@
                         ['q'=>'What is the minimum investment amount?','a'=>'You can start with as little as $500 per property. There is no upper limit, and you can diversify across multiple properties simultaneously.'],
                         ['q'=>'How and when are dividends paid?','a'=>'Rental dividends are distributed monthly, directly to your EmProp Assets wallet. You can reinvest them or withdraw to your bank account at any time.'],
                         ['q'=>'What happens if I want to exit early?','a'=>'You can list your shares on our secondary marketplace to sell to other investors at any time, providing liquidity well before a property sale event.'],
-                        ['q'=>'Are the properties actually in Dubai?','a'=>'Yes — every listing on our platform is a real, title-deeded property in Dubai, UAE. We publish full legal documentation and professional valuations for each one.'],
+                        ['q'=>'Are the properties actually in Dubai?','a'=>'Yes  every listing on our platform is a real, title-deeded property in Dubai, UAE. We publish full legal documentation and professional valuations for each one.'],
                         ['q'=>'What returns can I realistically expect?','a'=>'Our portfolio delivers an average rental yield of 7–10% per annum, plus capital appreciation of 8–15% historically across our Dubai holdings.'],
                     ];
                     @endphp
@@ -526,7 +526,7 @@
         <div class="text-center mb-5">
             <span class="hp-eyebrow">502+ Properties</span>
             <h2 class="hp-section__title">Build a diversified real estate portfolio<br>with 502+ properties across the UAE.</h2>
-            <p class="hp-section__sub mx-auto mb-4">Our properties span every major emirate and city district — giving you true geographical diversification in one of the world's most dynamic markets.</p>
+            <p class="hp-section__sub mx-auto mb-4">Our properties span every major emirate and city district  giving you true geographical diversification in one of the world's most dynamic markets.</p>
             <a href="{{ route('invest.public') }}" class="hp-btn hp-btn--gold hp-btn--lg">BROWSE AVAILABLE PROPERTIES</a>
         </div>
         <div class="hp-map-wrap">
