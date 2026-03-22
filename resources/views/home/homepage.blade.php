@@ -1,6 +1,7 @@
 ﻿@include('home.header')
 
 <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}">
+<div id="hp-root">
 
 {{-- ═══════════════════════════════════════════════════════════════
      HERO SECTION
@@ -553,5 +554,6 @@
     </div>
 </section>
 
+</div>{{-- #hp-root --}}
 
 @include('home.footer')

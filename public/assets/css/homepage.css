@@ -4,11 +4,27 @@
 ================================================================= */
 
 /* -- Reset helpers ----------------------------------------------- */
-html { overflow-x: hidden; }
+html, body { overflow-x: hidden; }
 *, *::before, *::after { box-sizing: border-box; }
 img { display: block; max-width: 100%; }
 a { text-decoration: none; }
 section { padding: 96px 0; }
+
+/* Root wrapper: the reliable clip boundary for all homepage content */
+#hp-root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative; /* containing block for abs-positioned children */
+}
+
+/* Clip every full-width section so Bootstrap row gutters (g-4, g-5)
+   never bleed past the viewport edge on mobile */
+#hp-root section,
+.hp-ticker,
+.hp-press {
+    overflow-x: hidden;
+}
 
 /* -- Typography base --------------------------------------------- */
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; }
