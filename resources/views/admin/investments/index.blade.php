@@ -9,6 +9,11 @@
 .badge-status { position: absolute; top: 10px; right: 10px; font-size: .8rem; padding: 5px 10px; }
 .collapse-icon { transition: transform 0.3s ease; }
 button[aria-expanded="true"] .collapse-icon { transform: rotate(180deg); }
+
+/* Pagination */
+.pagination { font-size: 0.875rem; margin-bottom: 0; }
+.pagination .page-link { padding: 0.375rem 0.65rem; line-height: 1.4; }
+.pagination svg { width: 14px; height: 14px; }
 </style>
 
 <div class="main-container">
@@ -167,7 +172,7 @@ button[aria-expanded="true"] .collapse-icon { transform: rotate(180deg); }
 </div>
 
 
-    <div class="mt-4">{{ $investments->links() }}</div>
+    <div class="mt-4 d-flex justify-content-center">{{ $investments->links('pagination::bootstrap-5') }}</div>
 </div>
 
 @include('admin.footer')

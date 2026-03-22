@@ -1,0 +1,105 @@
+
+{{-- ═══════════════════════════════════════════════════════════════
+     PORTFOLIO MAP SECTION
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-section hp-portfolio-map">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="hp-eyebrow">502+ Properties</span>
+            <h2 class="hp-section__title">Build a diversified real estate portfolio<br>with 502+ properties across the UAE.</h2>
+            <p class="hp-section__sub mx-auto mb-4">Our properties span every major emirate and city district — giving you true geographical diversification in one of the world's most dynamic markets.</p>
+            <a href="{{ route('invest.public') }}" class="hp-btn hp-btn--gold hp-btn--lg">BROWSE AVAILABLE PROPERTIES</a>
+        </div>
+        <div class="hp-map-wrap">
+            <div id="propertyMap"></div>
+        </div>
+        <div class="row g-4 mt-5">
+            <div class="col-6 col-md-3 text-center hp-map-stat">
+                <div class="hp-map-stat__city">Dubai</div>
+                <div class="hp-map-stat__count">340+ properties</div>
+            </div>
+            <div class="col-6 col-md-3 text-center hp-map-stat">
+                <div class="hp-map-stat__city">Abu Dhabi</div>
+                <div class="hp-map-stat__count">80+ properties</div>
+            </div>
+            <div class="col-6 col-md-3 text-center hp-map-stat">
+                <div class="hp-map-stat__city">Sharjah</div>
+                <div class="hp-map-stat__count">50+ properties</div>
+            </div>
+            <div class="col-6 col-md-3 text-center hp-map-stat">
+                <div class="hp-map-stat__city">Ras Al Khaimah</div>
+                <div class="hp-map-stat__count">30+ properties</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- Leaflet CSS + JS --}}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WPcM=" crossorigin=""></script>
+<script>
+(function() {
+    var map = L.map('propertyMap', { scrollWheelZoom: false }).setView([24.8, 55.0], 7);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(map);
+
+    var goldIcon = L.divIcon({
+        className: '',
+        html: '<div style="width:14px;height:14px;border-radius:50%;background:#c9a96e;border:2px solid rgba(255,255,255,0.9);box-shadow:0 0 10px rgba(201,169,110,0.9);"></div>',
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
+    });
+    var tealIcon = L.divIcon({
+        className: '',
+        html: '<div style="width:14px;height:14px;border-radius:50%;background:#0ea5a4;border:2px solid rgba(255,255,255,0.9);box-shadow:0 0 10px rgba(14,165,164,0.9);"></div>',
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
+    });
+
+    var properties = [
+        {lat:25.1972,lng:55.2744,name:'Downtown Dubai',type:'Investment',yield:'9.2%'},
+        {lat:25.1124,lng:55.1390,name:'Palm Jumeirah',type:'Investment',yield:'7.5%'},
+        {lat:25.0657,lng:55.1713,name:'Dubai Marina',type:'Investment',yield:'8.8%'},
+        {lat:25.1865,lng:55.2660,name:'DIFC',type:'Investment',yield:'11.4%'},
+        {lat:25.2048,lng:55.2708,name:'Business Bay',type:'Investment',yield:'8.5%'},
+        {lat:25.1166,lng:55.1882,name:'JBR Beachfront',type:'Investment',yield:'10.0%'},
+        {lat:25.0773,lng:55.1302,name:'Dubai Hills Estate',type:'Investment',yield:'7.8%'},
+        {lat:25.1543,lng:55.2141,name:'Al Quoz Lofts',type:'Investment',yield:'9.1%'},
+        {lat:25.2300,lng:55.2800,name:'Dubai Creek Harbour',type:'Investment',yield:'9.3%'},
+        {lat:25.2700,lng:55.3200,name:'Deira Gold Tower',type:'For Sale',yield:''},
+        {lat:25.1000,lng:55.1760,name:'Jumeirah Village Circle',type:'Investment',yield:'9.4%'},
+        {lat:25.0450,lng:55.1440,name:'Dubai South',type:'Investment',yield:'8.6%'},
+        {lat:25.1900,lng:55.1200,name:'Emirates Hills',type:'For Sale',yield:''},
+        {lat:25.2630,lng:55.3131,name:'Mirdif Hills',type:'Investment',yield:'8.2%'},
+        {lat:25.2150,lng:55.3450,name:'Oud Metha',type:'Investment',yield:'7.9%'},
+        {lat:24.4539,lng:54.3773,name:'Abu Dhabi Corniche',type:'Investment',yield:'7.2%'},
+        {lat:24.4883,lng:54.4150,name:'Yas Island',type:'Investment',yield:'8.4%'},
+        {lat:24.5334,lng:54.4327,name:'Saadiyat Island',type:'For Sale',yield:''},
+        {lat:24.4672,lng:54.3650,name:'Al Reem Island',type:'Investment',yield:'8.1%'},
+        {lat:24.5000,lng:54.3700,name:'Al Maryah Island',type:'Investment',yield:'7.6%'},
+        {lat:25.3463,lng:55.4209,name:'Sharjah Al Majaz',type:'Investment',yield:'7.1%'},
+        {lat:25.3600,lng:55.3900,name:'Sharjah Waterfront',type:'Investment',yield:'7.3%'},
+        {lat:25.7770,lng:55.9490,name:'RAK Al Hamra',type:'Investment',yield:'8.0%'},
+        {lat:25.8000,lng:55.9800,name:'RAK Mina Al Arab',type:'Investment',yield:'8.3%'},
+        {lat:25.4111,lng:55.4280,name:'Ajman Corniche',type:'Investment',yield:'7.0%'},
+        {lat:25.3300,lng:55.5200,name:'Fujairah Marina',type:'Investment',yield:'7.4%'}
+    ];
+
+    properties.forEach(function(p) {
+        var isInvest = p.type === 'Investment';
+        var icon = isInvest ? goldIcon : tealIcon;
+        var popup = '<div style="font-family:Inter,sans-serif;min-width:170px;padding:4px;">'
+            + '<div style="font-weight:700;font-size:13px;color:#0a0f1e;margin-bottom:4px;">' + p.name + '</div>'
+            + '<span style="display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:'
+            + (isInvest ? '#0a0f1e' : '#059669') + ';color:' + (isInvest ? '#c9a96e' : '#fff') + ';margin-bottom:6px;">'
+            + p.type + '</span>'
+            + (p.yield ? '<div style="font-weight:800;color:#059669;font-size:15px;">' + p.yield + ' yield</div>' : '')
+            + '</div>';
+        L.marker([p.lat, p.lng], {icon: icon}).bindPopup(popup, {maxWidth: 200}).addTo(map);
+    });
+})();
+</script>
+

@@ -1,652 +1,557 @@
-@include('home.header')
+﻿@include('home.header')
 
 <link rel="stylesheet" href="{{ asset('assets/css/homepage.css') }}">
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-5 mb-lg-0">
-                    <h1 class="hero-title">Buy, sell, & own shares of real estate.</h1>
-                    <p class="hero-subtitle"> Discover Smart Real Estate Investments with Emaar Properties Assets
-
-Are you ready to grow your wealth through strategic real estate investments? At Emaar Properties Assets, we connect investors with short-term and high-performance real estate opportunities designed to deliver impressive returns while maintaining transparency and control.
- Access monthly cash flow and appreciation potential without the work.</p>
-                    <a href="{{ route('show.register') }}" class="btn-primary-large" style="text-decoration: none; display: inline-block;">JOIN 933K REGISTERED INVESTORS</a>
+{{-- ═══════════════════════════════════════════════════════════════
+     HERO SECTION
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-hero">
+    <div class="hp-hero__overlay"></div>
+    <div class="container hp-hero__inner">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-6">
+                <span class="hp-pill mb-3">Dubai's #1 Real Estate Investment Platform</span>
+                <h1 class="hp-hero__title">Own a Piece of Dubai's Most Iconic Properties</h1>
+                <p class="hp-hero__sub">Fractional real estate investing, starting from $500. Earn monthly rental income and capital appreciation from premium Dubai properties — without the hassle of ownership.</p>
+                <div class="hp-hero__ctas">
+                    <a href="{{ route('show.register') }}" class="hp-btn hp-btn--gold">Start Investing Today</a>
+                    <a href="{{ route('invest.public') }}"  class="hp-btn hp-btn--outline">Browse Properties</a>
                 </div>
-                <div class="col-lg-6">
-                    <div class="property-grid">
-                        <div class="property-card">
-                            <img src="images/hero-property.jpg" alt="Property 1">
-                        </div>
-                        <div class="property-card" style="position: relative;">
-                            <img src="images/brick-house.jpg" alt="Property 2">
-                            <div class="investor-badge badge-top-right">1,277 Investors</div>
-                        </div>
-                        <div class="property-card">
-                            <img src="images/modern-house.jpg" alt="Property 3">
-                        </div>
-                        <div class="property-card" style="position: relative;">
-                            <img src="images/dark-blue-house.jpg" alt="Property 4">
-                            <div class="investor-badge badge-bottom-right">766 Investors</div>
-                        </div>
-                    </div>
+                <div class="hp-hero__trust">
+                    <div class="hp-trust-item"><span class="hp-trust-num">933K+</span><span class="hp-trust-label">Registered Investors</span></div>
+                    <div class="hp-trust-divider"></div>
+                    <div class="hp-trust-item"><span class="hp-trust-num">$366M+</span><span class="hp-trust-label">Total Invested</span></div>
+                    <div class="hp-trust-divider"></div>
+                    <div class="hp-trust-item"><span class="hp-trust-num">8.5%</span><span class="hp-trust-label">Avg. Annual Yield</span></div>
                 </div>
             </div>
-    
-                    <!-- Investment Highlights Section -->
-                    <section class="investment-highlights-section py-5">
-                        <div class="container">
-                            <div class="row mb-3">
-                                <div class="col-12 col-lg-9">
-                                    <h2 class="section-title">Flexible Short-Term Investment Options</h2>
-                                    <p class="section-description mb-3">Whether you’re new to real estate or an experienced investor, we offer a range of flexible short-term investment plans designed to fit your goals. Our opportunities typically yield competitive monthly returns that reflect the success of our property portfolios and market growth.</p>
-                                    <p class="section-description mb-4">With plans ranging from entry-level investments to premium asset shares, investors can diversify easily while maintaining liquidity and measurable growth.</p>
-                                </div>
-                            </div>
-
-                            <div class="row mb-5 align-items-start">
-                                <div class="col-md-7">
-                                    <div class="mb-4">
-                                        <h3>Transparency and Real-Time Tracking</h3>
-                                        <p>At Emaar Properties Assets, we believe in complete transparency. That’s why every investor receives 24/7 access to our investment portal, where you can:</p>
-                                        <ul class="feature-list">
-                                            <li>Monitor your portfolio performance in real time</li>
-                                            <li>Track your profits and earnings growth</li>
-                                            <li>View detailed reports on your shares and active projects</li>
-                                            <li>Manage your withdrawals securely and efficiently</li>
-                                        </ul>
-                                        <p>Our platform gives you full control empowering you to make informed decisions every step of the way.</p>
-                                    </div>
-                                    <div>
-                                        <h3>Built on Trust and Proven Performance</h3>
-                                        <p>Every project we undertake is backed by rigorous market analysis, experienced real estate professionals, and a clear strategy for sustainable profit. From urban redevelopment to residential expansions, our success is driven by vision, discipline, and integrity.</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="cta-card" style="border:1px solid #e9e9e9; padding:28px; border-radius:10px; background:#fff; box-shadow:0 4px 14px rgba(16,24,40,0.06); text-align:center;">
-                                        <div style="font-weight:600; margin-bottom:12px;">Ready to get started?</div>
-                                        <p style="color:#555; margin-bottom:18px;">Join thousands of investors building passive income through short-term real estate plans.</p>
-                                        <a href="{{ route('show.register') }}" class="btn-primary-large" style="text-decoration: none; display: inline-block;">Get Started</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-        </div>
-    </section>
-
-    <!-- Returns Section -->
-    <section class="returns-section">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-lg-8">
-                    <h2 class="returns-title">Why Invest in Real Estate with Us?</h2>
-                    <p class="returns-subtitle">Real estate has long been one of the most reliable paths to financial freedom. Through our expert-led property acquisitions and development partnerships, we help investors gain access to both residential and commercial projects with strong earning potential without the hassle of managing properties themselves.</p>
-                    <p class="returns-subtitle"> Market capitalization of Emaar Properties (EMAAR.AE)
-Market cap: $35.25 Billion USD
-
-As of January 2026 Emaar Properties has a market cap of $35.25 Billion USD. This makes Emaar Properties the world's 686th most valuable company by market cap according to our data. The market capitalization, commonly called market cap, is the total market value of a publicly traded company's outstanding shares and is commonly used to measure how much a company is worth.</p>
-                </div>
-                <div class="col-lg-4 text-lg-end">
-                    <div class="carousel-buttons">
-                        <button class="carousel-btn">←</button>
-                        <button class="carousel-btn">→</button>
+            <div class="col-lg-6">
+                <div class="hp-hero__cards">
+                    <div class="hp-hero__card hp-hero__card--main">
+                        <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&q=80" alt="Downtown Dubai">
+                        <div class="hp-hero__card-badge"><span class="hp-badge-dot"></span>Live Returns 8.5% p.a.</div>
                     </div>
-                </div>
-            </div>
-
-            <div class="image-grid-3">
-                <div class="image-card">
-                    <img src="images/hero-property.jpg" alt="Property">
-                </div>
-                <div class="image-card">
-                    <img src="images/modern-house.jpg" alt="Property">
-                </div>
-                <div class="image-card">
-                    <img src="images/brick-house.jpg" alt="Property">
-                </div>
-            </div>
-
-            <div class="stats-section">
-                <div class="stat-item">
-                    <h3>$366M</h3>
-                    <p>Total Invested</p>
-                </div>
-                <div class="stat-item">
-                    <h3>$59M</h3>
-                    <p>Distributed to Investors</p>
-                </div>
-                <div class="stat-item">
-                    <h3>4.8★</h3>
-                    <p>Investor Rating</p>
-                </div>
-            </div>
-
-            <div class="investment-properties" style="margin-top: 60px; padding: 40px 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; overflow: hidden; background: linear-gradient(to right, #fff 0%, #f8f9fa 50%, #fff 100%);">
-                <style>
-                    @keyframes marquee {
-                        0% { transform: translateX(100%); }
-                        100% { transform: translateX(-100%); }
-                    }
-                    .marquee-container {
-                        display: flex;
-                        animation: marquee 40s linear infinite;
-                        gap: 60px;
-                        white-space: nowrap;
-                    }
-                    .marquee-container:hover {
-                        animation-play-state: paused;
-                    }
-                    .property-item {
-                        flex-shrink: 0;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        padding: 20px 40px;
-                        border-right: 1px solid #e0e0e0;
-                    }
-                    .property-item:last-child {
-                        border-right: none;
-                    }
-                    .property-item h4 {
-                        font-size: 16px;
-                        font-weight: 700;
-                        color: #1a1a2e;
-                        margin-bottom: 8px;
-                        letter-spacing: 0.5px;
-                    }
-                    .property-item p {
-                        font-size: 14px;
-                        color: #666;
-                        font-weight: 600;
-                        margin: 0;
-                    }
-                    .property-item p strong {
-                        color: #059669;
-                        font-weight: 700;
-                    }
-                </style>
-                <div class="marquee-container">
-                    <div class="property-item">
-                        <h4>THE CUPCAKE</h4>
-                        <p>$16.21 <strong>↑ 62.1%</strong></p>
+                    <div class="hp-hero__card hp-hero__card--sm hp-hero__card--sm1">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80" alt="Palm Jumeirah Villa">
+                        <div class="hp-hero__card-label">Palm Jumeirah Villa</div>
                     </div>
-                    <div class="property-item">
-                        <h4>THE WENTWORTH</h4>
-                        <p>$15.55 <strong>↑ 55.5%</strong></p>
+                    <div class="hp-hero__card hp-hero__card--sm hp-hero__card--sm2">
+                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&q=80" alt="Dubai Marina">
+                        <div class="hp-hero__card-label">Dubai Marina</div>
                     </div>
-                    <div class="property-item">
-                        <h4>THE MOJAVE</h4>
-                        <p>$15.70 <strong>↑ 57%</strong></p>
-                    </div>
-                    <div class="property-item">
-                        <h4>THE CENTENNIAL</h4>
-                        <p>$12.02 <strong>↑ 20.2%</strong></p>
-                    </div>
-                    <div class="property-item">
-                        <h4>THE EASTFAIR</h4>
-                        <p style="color: #e8a87c; font-weight: 700;">Coming Soon</p>
-                    </div>
-                    <!-- Duplicate for seamless loop -->
-                    <div class="property-item">
-                        <h4>THE CUPCAKE</h4>
-                        <p>$16.21 <strong>↑ 62.1%</strong></p>
-                    </div>
-                    <div class="property-item">
-                        <h4>THE WENTWORTH</h4>
-                        <p>$15.55 <strong>↑ 55.5%</strong></p>
-                    </div>
-                    <div class="property-item">
-                        <h4>THE MOJAVE</h4>
-                        <p>$15.70 <strong>↑ 57%</strong></p>
-                    </div>
-                    <div class="property-item">
-                        <h4>THE CENTENNIAL</h4>
-                        <p>$12.02 <strong>↑ 20.2%</strong></p>
-                    </div>
-                    <div class="property-item">
-                        <h4>THE EASTFAIR</h4>
-                        <p style="color: #e8a87c; font-weight: 700;">Coming Soon</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    
-
-    <!-- Testimonial Section -->
-    <section class="testimonial-section">
-        <div class="container">
-            <div class="text-center">
-                <p class="testimonial-quote">
-                    "EMAAR Properties Assets, signed up 12,000 people to invest in 150 rental homes in the past year, with more than 100,000 others applying to make future investments through the company."
-                </p>
-                <p style="color: #999; font-size: 12px; font-weight: bold; margin-bottom: 30px;">AS SEEN ON:</p>
-                <div class="media-logos">
-                    <span class="media-logo">yahoo! finance</span>
-                    <span class="media-logo">Bloomberg</span>
-                    <span class="media-logo">BUSINESS INSIDER</span>
-                    <span class="media-logo">WSJ</span>
-                    <span class="media-logo" style="color: #333;">TechCrunch</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Team Section -->
-    <section class="team-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-5 mb-lg-0">
-                    <div class="team-image">
-                        <img src="images/team-member.jpg" alt="Team member">
-                        <div class="play-overlay">
-                            <div class="play-button">▶</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="team-content">
-                        <h2>Our team's 20+ years of experience goes into every property selection.</h2>
-                        <p>Get a 2-minute look at our proven property selection process with Cameron Wu, VP of Investments.</p>
-                        <div class="company-origin">
-                            <div class="company-origin-label">WHERE WE COME FROM</div>
-                            <div class="company-list">
-                                <span>amh</span>
-                                <span>amazon</span>
-                                <span>Goldman Sachs</span>
-                                <span>Uber</span>
-                            </div>
+                    <div class="hp-portfolio-chip">
+                        <div class="hp-portfolio-chip__icon">📈</div>
+                        <div>
+                            <div class="hp-portfolio-chip__val">+$12,480</div>
+                            <div class="hp-portfolio-chip__label">Portfolio Growth This Year</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Portfolio Section -->
-    <section class="portfolio-section">
-        <div class="container">
-            <div class="portfolio-header">
-                <h2 class="portfolio-title">Build a diversified real estate portfolio with 502+ properties across the country.</h2>
-                <a href="{{ route('invest.public') }}" class="btn-browse" style="text-decoration: none; display: inline-block;">BROWSE AVAILABLE PROPERTIES</a>
+{{-- ═══════════════════════════════════════════════════════════════
+     LIVE TICKER
+═══════════════════════════════════════════════════════════════ --}}
+<div class="hp-ticker">
+    <div class="hp-ticker__label">LIVE MARKET</div>
+    <div class="hp-ticker__track">
+        <div class="hp-ticker__inner" id="tickerInner">
+            @php
+            $tickers = [
+                ['name'=>'Burj Vista Residences',     'price'=>'$850', 'pct'=>'+9.2%'],
+                ['name'=>'Palm Jumeirah Villa',        'price'=>'$1,800','pct'=>'+7.2%'],
+                ['name'=>'DIFC Boulevard',             'price'=>'$1,100','pct'=>'+11.4%'],
+                ['name'=>'JBR Ocean Heights',          'price'=>'$560', 'pct'=>'+10.0%'],
+                ['name'=>'Business Bay Canal',         'price'=>'$620', 'pct'=>'+8.8%'],
+                ['name'=>'Dubai Creek Harbour',        'price'=>'$710', 'pct'=>'+9.3%'],
+                ['name'=>'Emaar Beachfront',           'price'=>'$480', 'pct'=>'+9.0%'],
+                ['name'=>'Four Seasons DIFC',          'price'=>'$950', 'pct'=>'+7.6%'],
+                ['name'=>'Arabian Ranches III',        'price'=>'$380', 'pct'=>'+7.5%'],
+                ['name'=>'Kempinski Palm',             'price'=>'$680', 'pct'=>'+8.7%'],
+            ];
+            @endphp
+            @foreach(array_merge($tickers, $tickers) as $t)
+            <div class="hp-ticker__item">
+                <span class="hp-ticker__name">{{ $t['name'] }}</span>
+                <span class="hp-ticker__price">{{ $t['price'] }}/share</span>
+                <span class="hp-ticker__pct hp-ticker__pct--up">{{ $t['pct'] }}</span>
             </div>
-            <div class="map-container">
-                <img src="images/us-map.jpg" alt="US Property Distribution Map">
+            @endforeach
+        </div>
+    </div>
+</div>
+
+{{-- ═══════════════════════════════════════════════════════════════
+     STATS STRIP
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-stats">
+    <div class="container">
+        <div class="hp-stats__grid">
+            <div class="hp-stats__item">
+                <div class="hp-stats__num" data-count="366">$0M+</div>
+                <div class="hp-stats__label">Total Assets Under Management</div>
+            </div>
+            <div class="hp-stats__item">
+                <div class="hp-stats__num" data-count="59">$0M</div>
+                <div class="hp-stats__label">Distributed to Investors</div>
+            </div>
+            <div class="hp-stats__item">
+                <div class="hp-stats__num" data-count="933">0K+</div>
+                <div class="hp-stats__label">Registered Investors Worldwide</div>
+            </div>
+            <div class="hp-stats__item">
+                <div class="hp-stats__num">40+</div>
+                <div class="hp-stats__label">Premium Dubai Properties</div>
+            </div>
+            <div class="hp-stats__item">
+                <div class="hp-stats__num">4.9 ★</div>
+                <div class="hp-stats__label">Investor Satisfaction Score</div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Featured Properties Section -->
-    <section style="padding: 80px 0; background: #f9fafb;">
-        <div class="container">
-            <!-- Investment Properties -->
-            @if($featuredInvestments->count() > 0)
-            <div class="mb-5">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h2 style="font-size: 36px; font-weight: 900; margin-bottom: 10px;">Investment Opportunities</h2>
-                        <p style="color: #666; font-size: 16px;">Start earning monthly dividends from rental properties</p>
-                    </div>
-                    <a href="{{ route('invest.public', ['listing' => 'investment']) }}" class="btn btn-primary">View All</a>
-                </div>
-                <div class="row g-4">
-                    @foreach($featuredInvestments as $property)
-                    <div class="col-md-4">
-                        <div class="card h-100 shadow-sm" style="border: none; border-radius: 12px; overflow: hidden; transition: transform 0.3s;">
-                            <img src="{{ $property->image ?? asset('assets/images/placeholder.png') }}" 
-                                 alt="{{ $property->name }}" 
-                                 style="height: 220px; object-fit: cover;">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">{{ $property->name }}</h5>
-                                <p class="text-muted mb-2"><i class="bi bi-geo-alt"></i> {{ $property->location ?? 'Prime Location' }}</p>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <div>
-                                        <small class="text-muted">Historic Yield</small>
-                                        <div class="fw-bold text-success">{{ $property->historic_yield }}%</div>
-                                    </div>
-                                    <div>
-                                        <small class="text-muted">Min Investment</small>
-                                        <div class="fw-bold">${{ number_format($property->min_investment) }}</div>
-                                    </div>
-                                </div>
-                                <a href="{{ auth()->check() ? route('investments.show', $property->id) : route('login') }}" class="btn btn-primary w-100">Invest Now</a>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+{{-- ═══════════════════════════════════════════════════════════════
+     HOW IT WORKS
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-section hp-hiw">
+    <div class="container">
+        <div class="hp-section__hd text-center mb-5">
+            <span class="hp-eyebrow">Simple Process</span>
+            <h2 class="hp-section__title">Start Earning in 3 Simple Steps</h2>
+            <p class="hp-section__sub">No property management headaches. No massive capital required. Just smart, diversified real estate income.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="hp-hiw__card">
+                    <div class="hp-hiw__num">01</div>
+                    <div class="hp-hiw__icon">🏦</div>
+                    <h4>Create & Fund Your Account</h4>
+                    <p>Sign up in minutes, verify your identity, and fund your account securely. Invest from as little as $500.</p>
                 </div>
             </div>
-            @endif
+            <div class="col-md-4">
+                <div class="hp-hiw__card hp-hiw__card--featured">
+                    <div class="hp-hiw__num">02</div>
+                    <div class="hp-hiw__icon">🏙️</div>
+                    <h4>Choose Your Properties</h4>
+                    <p>Browse curated Dubai investments — from Palm Jumeirah villas to Downtown apartments — and build your portfolio.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="hp-hiw__card">
+                    <div class="hp-hiw__num">03</div>
+                    <div class="hp-hiw__icon">💰</div>
+                    <h4>Collect Monthly Income</h4>
+                    <p>Receive rental dividends every month directly to your account. Watch your portfolio grow with capital appreciation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-            <!-- Properties For Sale -->
-            @if($featuredForSale->count() > 0)
+{{-- ═══════════════════════════════════════════════════════════════
+     FEATURED INVESTMENT PROPERTIES
+═══════════════════════════════════════════════════════════════ --}}
+@if($featuredInvestments->count() > 0)
+<section class="hp-section hp-properties" id="investments">
+    <div class="container">
+        <div class="hp-section__hd d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
             <div>
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <h2 style="font-size: 36px; font-weight: 900; margin-bottom: 10px;">Properties For Sale</h2>
-                        <p style="color: #666; font-size: 16px;">Own premium real estate properties outright</p>
+                <span class="hp-eyebrow">Monthly Income</span>
+                <h2 class="hp-section__title mb-1">Investment Opportunities</h2>
+                <p class="hp-section__sub mb-0">Earn rental dividends from Dubai's finest properties</p>
+            </div>
+            <a href="{{ route('invest.public', ['listing' => 'investment']) }}" class="hp-btn hp-btn--ghost">View All Properties →</a>
+        </div>
+        <div class="row g-4">
+            @foreach($featuredInvestments as $property)
+            <div class="col-md-6 col-lg-4">
+                <div class="hp-prop-card">
+                    <div class="hp-prop-card__img-wrap">
+                        <img src="{{ $property->image ?? asset('assets/images/placeholder.png') }}" alt="{{ $property->name }}">
+                        <span class="hp-prop-badge hp-prop-badge--invest">Investment</span>
+                        <span class="hp-prop-yield">{{ $property->historic_yield }}% yield</span>
                     </div>
-                    <a href="{{ route('invest.public', ['listing' => 'for_sale']) }}" class="btn btn-success">View All</a>
+                    <div class="hp-prop-card__body">
+                        <div class="hp-prop-card__location"><i class="bi bi-geo-alt-fill"></i> {{ $property->location }}</div>
+                        <h5 class="hp-prop-card__name">{{ $property->name }}</h5>
+                        <div class="hp-prop-card__stats">
+                            <div class="hp-prop-stat">
+                                <div class="hp-prop-stat__val">${{ number_format($property->total_assets) }}</div>
+                                <div class="hp-prop-stat__lbl">Total Assets</div>
+                            </div>
+                            <div class="hp-prop-stat">
+                                <div class="hp-prop-stat__val">${{ number_format($property->min_investment) }}</div>
+                                <div class="hp-prop-stat__lbl">Min. Investment</div>
+                            </div>
+                            <div class="hp-prop-stat">
+                                <div class="hp-prop-stat__val">{{ number_format($property->investors) }}</div>
+                                <div class="hp-prop-stat__lbl">Investors</div>
+                            </div>
+                        </div>
+                        <a href="{{ auth()->check() ? route('investments.show', $property->id) : route('show.register') }}" class="hp-prop-card__cta">Invest Now →</a>
+                    </div>
                 </div>
-                <div class="row g-4">
-                    @foreach($featuredForSale as $property)
-                    <div class="col-md-4">
-                        <div class="card h-100 shadow-sm" style="border: none; border-radius: 12px; overflow: hidden; transition: transform 0.3s;">
-                            <div class="position-relative">
-                                <img src="{{ $property->image ?? asset('assets/images/placeholder.png') }}" 
-                                     alt="{{ $property->name }}" 
-                                     style="height: 220px; object-fit: cover;">
-                                <span class="badge bg-success position-absolute top-0 end-0 m-2">For Sale</span>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">{{ $property->name }}</h5>
-                                <p class="text-muted mb-2"><i class="bi bi-geo-alt"></i> {{ $property->location ?? 'Prime Location' }}</p>
-                                <div class="mb-3">
-                                    <small class="text-muted">Sale Price</small>
-                                    <h4 class="fw-bold text-primary mb-0">${{ number_format($property->sale_price ?? 0) }}</h4>
-                                </div>
-                                <a href="{{ auth()->check() ? route('investments.show', $property->id) : route('login') }}" class="btn btn-success w-100">Make Offer</a>
-                            </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
+{{-- ═══════════════════════════════════════════════════════════════
+     FEATURED FOR SALE
+═══════════════════════════════════════════════════════════════ --}}
+@if($featuredForSale->count() > 0)
+<section class="hp-section hp-forsale">
+    <div class="container">
+        <div class="hp-section__hd d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+            <div>
+                <span class="hp-eyebrow">Direct Ownership</span>
+                <h2 class="hp-section__title mb-1">Properties For Sale</h2>
+                <p class="hp-section__sub mb-0">Own premium Dubai real estate outright</p>
+            </div>
+            <a href="{{ route('invest.public', ['listing' => 'for_sale']) }}" class="hp-btn hp-btn--ghost">View All →</a>
+        </div>
+        <div class="row g-4">
+            @foreach($featuredForSale as $property)
+            <div class="col-md-6 col-lg-4">
+                <div class="hp-prop-card hp-prop-card--sale">
+                    <div class="hp-prop-card__img-wrap">
+                        <img src="{{ $property->image ?? asset('assets/images/placeholder.png') }}" alt="{{ $property->name }}">
+                        <span class="hp-prop-badge hp-prop-badge--sale">For Sale</span>
+                    </div>
+                    <div class="hp-prop-card__body">
+                        <div class="hp-prop-card__location"><i class="bi bi-geo-alt-fill"></i> {{ $property->location }}</div>
+                        <h5 class="hp-prop-card__name">{{ $property->name }}</h5>
+                        <div class="hp-prop-card__meta">
+                            @if($property->bedrooms) <span><i class="bi bi-door-open"></i> {{ $property->bedrooms }} Bed</span> @endif
+                            @if($property->bathrooms) <span><i class="bi bi-droplet"></i> {{ $property->bathrooms }} Bath</span> @endif
+                            @if($property->size) <span><i class="bi bi-arrows-fullscreen"></i> {{ number_format($property->size) }} sqft</span> @endif
+                        </div>
+                        <div class="hp-prop-card__price">${{ number_format($property->sale_price ?? 0) }}</div>
+                        <a href="{{ auth()->check() ? route('investments.show', $property->id) : route('show.register') }}" class="hp-prop-card__cta hp-prop-card__cta--sale">Make an Enquiry →</a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
+
+{{-- ═══════════════════════════════════════════════════════════════
+     WHY CHOOSE US
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-section hp-why">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <span class="hp-eyebrow">Why EmProp Assets</span>
+                <h2 class="hp-section__title">Real Estate Investing Designed for the Modern Investor</h2>
+                <p class="hp-section__sub">We combine the stability of bricks-and-mortar with the flexibility of digital investing. Every property is rigorously vetted by our team of Dubai property experts.</p>
+                <a href="{{ route('show.register') }}" class="hp-btn hp-btn--primary mt-3">Open Free Account</a>
+            </div>
+            <div class="col-lg-7">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="hp-feat">
+                            <div class="hp-feat__icon">🏛️</div>
+                            <h5>Regulated & Compliant</h5>
+                            <p>Fully compliant with UAE real estate regulations and international investment standards.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="hp-feat">
+                            <div class="hp-feat__icon">📊</div>
+                            <h5>Real-Time Dashboard</h5>
+                            <p>Monitor portfolio performance, dividends, and property valuations 24/7 from any device.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="hp-feat">
+                            <div class="hp-feat__icon">💎</div>
+                            <h5>Premium Properties Only</h5>
+                            <p>Every listing passes our 40-point vetting checklist before it reaches our investors.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="hp-feat">
+                            <div class="hp-feat__icon">🔄</div>
+                            <h5>Exit Anytime</h5>
+                            <p>Sell your shares on our secondary market or wait for the property sale — your choice.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="hp-feat">
+                            <div class="hp-feat__icon">🌍</div>
+                            <h5>Global Access</h5>
+                            <p>Investors from 60+ countries already trust us. USD-denominated returns, no currency risk.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="hp-feat">
+                            <div class="hp-feat__icon">🛡️</div>
+                            <h5>Asset-Backed Security</h5>
+                            <p>Your investment is always backed by a real, title-deeded Dubai property — not a promise.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ═══════════════════════════════════════════════════════════════
+     EARN PASSIVE INCOME VISUAL
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-section hp-earn">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 order-lg-2">
+                <span class="hp-eyebrow">Passive Income</span>
+                <h2 class="hp-section__title">Collect Rent Without Being a Landlord</h2>
+                <p class="hp-section__sub">No tenant calls. No maintenance bills. No paperwork. Our in-house property management team handles everything — you just receive your monthly dividend.</p>
+                <ul class="hp-checklist">
+                    <li>Monthly rental income deposited directly to your account</li>
+                    <li>Professional property management across all listings</li>
+                    <li>Transparent fee structure — no hidden costs</li>
+                    <li>Annual capital appreciation on top of rental yield</li>
+                </ul>
+            </div>
+            <div class="col-lg-6 order-lg-1">
+                <div class="hp-earn__card">
+                    <div class="hp-earn__card-hd">
+                        <span>My Portfolio</span>
+                        <span class="hp-earn__card-period">March 2026</span>
+                    </div>
+                    <div class="hp-earn__card-total">$546.67</div>
+                    <div class="hp-earn__card-sub">Dividends received this month</div>
+                    <div class="hp-earn__chart-wrap">
+                        <svg viewBox="0 0 300 80" preserveAspectRatio="none" class="hp-earn__chart">
+                            <defs>
+                                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#c9a96e" stop-opacity="0.3"/>
+                                    <stop offset="100%" stop-color="#c9a96e" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,70 C30,60 60,50 90,45 C120,40 150,35 180,28 C210,22 240,30 270,18 L300,12 L300,80 L0,80 Z" fill="url(#chartGrad)"/>
+                            <path d="M0,70 C30,60 60,50 90,45 C120,40 150,35 180,28 C210,22 240,30 270,18 L300,12" fill="none" stroke="#c9a96e" stroke-width="2.5"/>
+                        </svg>
+                    </div>
+                    <div class="hp-earn__card-stats">
+                        <div class="hp-earn__card-stat">
+                            <div class="hp-earn__card-stat-val hp-text-gold">6.4%</div>
+                            <div class="hp-earn__card-stat-lbl">Annualised Yield</div>
+                        </div>
+                        <div class="hp-earn__card-stat">
+                            <div class="hp-earn__card-stat-val">Mar 31</div>
+                            <div class="hp-earn__card-stat-lbl">Next Dividend</div>
+                        </div>
+                        <div class="hp-earn__card-stat">
+                            <div class="hp-earn__card-stat-val hp-text-green">+$12,480</div>
+                            <div class="hp-earn__card-stat-lbl">Capital Growth</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ═══════════════════════════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-section hp-testimonials">
+    <div class="container">
+        <div class="hp-section__hd text-center mb-5">
+            <span class="hp-eyebrow">Investor Stories</span>
+            <h2 class="hp-section__title">Trusted by Investors Worldwide</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="hp-testi">
+                    <div class="hp-testi__stars">★★★★★</div>
+                    <p class="hp-testi__body">"I started with $5,000 in a Dubai Marina apartment and within 12 months I'd received $450 in rental dividends plus my share value had grown 11%. The platform is incredibly transparent."</p>
+                    <div class="hp-testi__author">
+                        <div class="hp-testi__avatar">JM</div>
+                        <div>
+                            <div class="hp-testi__name">James M.</div>
+                            <div class="hp-testi__meta">London, UK · Investor since 2023</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="hp-testi hp-testi--featured">
+                    <div class="hp-testi__stars">★★★★★</div>
+                    <p class="hp-testi__body">"Having tried other real estate crowdfunding platforms, EmProp Assets is in a class of its own. The properties are genuinely premium, the Dubai market is booming, and the team responds within hours."</p>
+                    <div class="hp-testi__author">
+                        <div class="hp-testi__avatar">SA</div>
+                        <div>
+                            <div class="hp-testi__name">Sarah A.</div>
+                            <div class="hp-testi__meta">Dubai, UAE · Investor since 2022</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="hp-testi">
+                    <div class="hp-testi__stars">★★★★★</div>
+                    <p class="hp-testi__body">"Living in Dubai, I know how competitive this market is. EmProp Assets gave me fractional access to Downtown properties I could never afford outright. Best investment decision I've made."</p>
+                    <div class="hp-testi__author">
+                        <div class="hp-testi__avatar">KA</div>
+                        <div>
+                            <div class="hp-testi__name">Khalid A.</div>
+                            <div class="hp-testi__meta">Dubai, UAE · Investor since 2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ═══════════════════════════════════════════════════════════════
+     AS SEEN IN
+═══════════════════════════════════════════════════════════════ --}}
+<div class="hp-press">
+    <div class="container">
+        <div class="hp-press__inner">
+            <span class="hp-press__label">AS SEEN IN</span>
+            <div class="hp-press__logos">
+                <span>Bloomberg</span>
+                <span>Yahoo! Finance</span>
+                <span>Business Insider</span>
+                <span>The Wall Street Journal</span>
+                <span>TechCrunch</span>
+                <span>Forbes</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- ═══════════════════════════════════════════════════════════════
+     FAQ
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-section hp-faq">
+    <div class="container">
+        <div class="row g-5 align-items-start">
+            <div class="col-lg-5">
+                <span class="hp-eyebrow">Got Questions?</span>
+                <h2 class="hp-section__title">Everything you need to know before investing</h2>
+                <p class="hp-section__sub">Have more questions? Our investor relations team is available 7 days a week.</p>
+                <a href="{{ route('show.register') }}" class="hp-btn hp-btn--primary mt-3">Talk to an Advisor</a>
+            </div>
+            <div class="col-lg-7">
+                <div class="accordion hp-accordion" id="faqAccordion">
+                    @php
+                    $faqs = [
+                        ['q'=>'Who can invest with EmProp Assets?','a'=>'Anyone aged 18+ from over 60 countries can invest. No prior real estate experience is needed. Both new and experienced investors are welcome.'],
+                        ['q'=>'What is the minimum investment amount?','a'=>'You can start with as little as $500 per property. There is no upper limit, and you can diversify across multiple properties simultaneously.'],
+                        ['q'=>'How and when are dividends paid?','a'=>'Rental dividends are distributed monthly, directly to your EmProp Assets wallet. You can reinvest them or withdraw to your bank account at any time.'],
+                        ['q'=>'What happens if I want to exit early?','a'=>'You can list your shares on our secondary marketplace to sell to other investors at any time, providing liquidity well before a property sale event.'],
+                        ['q'=>'Are the properties actually in Dubai?','a'=>'Yes — every listing on our platform is a real, title-deeded property in Dubai, UAE. We publish full legal documentation and professional valuations for each one.'],
+                        ['q'=>'What returns can I realistically expect?','a'=>'Our portfolio delivers an average rental yield of 7–10% per annum, plus capital appreciation of 8–15% historically across our Dubai holdings.'],
+                    ];
+                    @endphp
+                    @foreach($faqs as $i => $faq)
+                    <div class="accordion-item hp-accordion__item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button {{ $i > 0 ? 'collapsed' : '' }}" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#faq{{ $i }}">
+                                {{ $faq['q'] }}
+                            </button>
+                        </h2>
+                        <div id="faq{{ $i }}" class="accordion-collapse collapse {{ $i === 0 ? 'show' : '' }}" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">{{ $faq['a'] }}</div>
                         </div>
                     </div>
                     @endforeach
                 </div>
             </div>
-            @endif
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- EARN Section -->
-    <section class="earn-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <span class="section-label">EARN</span>
-                    <h2 class="section-title">Collect passive income without tenant hassle.</h2>
-                    <p class="section-description">No late night phone calls. Our experts cover maintenance, renewals, and everything in between so you can just focus on earning.</p>
-                </div>
-                <div class="col-lg-6">
-                    <div class="dividend-card">
-                        <div class="dividend-header">
-                            <span>Dividends + Interest</span>
-                            <span class="arrow">→</span>
-                        </div>
-                        <div class="dividend-amount">$546.67</div>
-                        <div class="dividend-label">Total Dividends + Interest</div>
-                        <div class="dividend-chart">
-                            <svg viewBox="0 0 100 50" class="chart-svg">
-                                <polyline points="0,45 20,35 40,30 60,20 80,25 100,15" fill="none" stroke="#2563eb" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <div class="dividend-bottom">
-                            <div>
-                                <div class="bottom-amount">6.4%</div>
-                                <div class="bottom-label">Annualized Yield</div>
-                            </div>
-                            <div>
-                                <div class="bottom-date">By Jan 31, 2026</div>
-                                <div class="bottom-label">Next Dividend Date</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{-- ═══════════════════════════════════════════════════════════════
+     FINAL CTA BANNER
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-cta-banner">
+    <div class="hp-cta-banner__bg"></div>
+    <div class="container hp-cta-banner__inner text-center">
+        <h2 class="hp-cta-banner__title">Ready to Build Real Wealth Through Dubai Real Estate?</h2>
+        <p class="hp-cta-banner__sub">Join over 933,000 investors already earning passive income from the world's most dynamic property market.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap mt-4">
+            <a href="{{ route('show.register') }}" class="hp-btn hp-btn--gold hp-btn--lg">Create Free Account</a>
+            <a href="{{ route('invest.public') }}"  class="hp-btn hp-btn--outline-white hp-btn--lg">Browse Properties</a>
         </div>
-    </section>
+        <div class="hp-cta-banner__note mt-4">No fees to join · Start from $500 · Exit anytime</div>
+    </div>
+</section>
 
-    <!-- Browse Section -->
-    <section class="browse-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <span class="section-label">BROWSE</span>
-                    <h2 class="section-title">Handpick investments that fit your goals.</h2>
-                </div>
-                <div class="col-lg-6">
-                    <h3 class="browse-subtitle">Real estate investing, reimagined.</h3>
-                </div>
-            </div>
-            <div class="blue-banner">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <div class="property-card-blue">
-                            <img src="images/hero-property.jpg" alt="Property">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="property-card-blue">
-                            <img src="images/brick-house.jpg" alt="Property">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="property-card-blue">
-                            <img src="images/modern-house.jpg" alt="Property">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mobile App CTA Section -->
-    <section class="mobile-cta-section">
-        <div class="mobile-banner">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-6">
-                        <h2 class="mobile-banner-title">Ready to join 933K+ investors building their real estate portfolios?</h2>
-                    </div>
-                    <div class="col-lg-6 text-center">
-                        <a href="{{ route('invest.public') }}" class="btn-browse-white" style="text-decoration: none; display: inline-block;">BROWSE AVAILABLE PROPERTIES</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mobile App Section -->
-    <section class="mobile-app-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="phone-mockup">
-                        <div class="phone-frame">
-                            <img src="images/us-map.jpg" alt="Portfolio app screenshot">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <span class="section-label">INVEST</span>
-                    <div class="section-title-with-icon">
-                        <span class="blue-icon">O</span>
-                        <h2>Own real estate in minutes, not months.</h2>
-                    </div>
-                    <p class="section-description">Securely link your bank account and start investing in minutes. Think online shopping, not traditional real estate paperwork.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <h2 class="faq-title">Everything you need to feel right at home before you get started.</h2>
-                    <p class="faq-subtitle">To learn more about EMAAR Properties Assets, read about us or visit the help center.</p>
-                </div>
-                <div class="col-lg-6">
-                    <div class="accordion" id="faqAccordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                    Who can invest in EMAAR Properties Assets?
-                                </button>
-                            </h2>
-                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Accredited and non-accredited investors in the United States can invest in EMAAR Properties Assets properties.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                    How much can I invest?
-                                </button>
-                            </h2>
-                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    You can invest as little as $100 per property with no maximum limits.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                    What type of products are available on EMAAR Properties Assets?
-                                </button>
-                            </h2>
-                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    We offer residential rental homes, ranging from single-family homes to multi-unit properties.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                                    What returns can I obtain?
-                                </button>
-                            </h2>
-                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    Returns vary by property but typically range from 6-12% annually including dividends and appreciation.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
-                                    What liquidity options are available?
-                                </button>
-                            </h2>
-                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    You can sell your shares on our secondary market anytime, or hold until the property is sold.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SELL Section -->
-    <section class="sell-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="sell-transactions">
-                        <div class="transaction-card">
-                            <div class="transaction-image">
-                                <img src="images/brick-house.jpg" alt="The Chelsea">
-                            </div>
-                            <div class="transaction-info">
-                                <div class="transaction-title">The Chelsea Q1 2026</div>
-                                <div class="transaction-detail">Someone bought 19 shares at 9.00/share</div>
-                            </div>
-                        </div>
-                        <div class="transaction-card">
-                            <div class="transaction-image">
-                                <img src="images/modern-house.jpg" alt="The Plumtree">
-                            </div>
-                            <div class="transaction-info">
-                                <div class="transaction-title">The Plumtree Q1 2026</div>
-                                <div class="transaction-detail">Someone bought 150 shares at $17.25/share</div>
-                            </div>
-                        </div>
-                        <div class="transaction-card">
-                            <div class="transaction-image">
-                                <img src="images/hero-property.jpg" alt="The Roseberry">
-                            </div>
-                            <div class="transaction-info">
-                                <div class="transaction-title">The Roseberry Q1 2026</div>
-                                <div class="transaction-detail">Someone bought 94 shares at $10.50/share</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <span class="section-label">SELL</span>
-                    <h2 class="section-title">Access liquidity when you need it.</h2>
-                    <p class="section-description">Hold your shares until our team sells the property, or choose to exit early by selling to other EMAAR Properties Assets investors.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Lightweight scroll reveal (non-intrusive) -->
-    <style>
-        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 640ms cubic-bezier(.2,.9,.3,1), transform 640ms cubic-bezier(.2,.9,.3,1); will-change: opacity, transform; }
-        .reveal.visible { opacity: 1; transform: none; }
-        .reveal.delay-1 { transition-delay: 80ms; }
-        .reveal.delay-2 { transition-delay: 160ms; }
-        .reveal.delay-3 { transition-delay: 260ms; }
-        @media (prefers-reduced-motion: reduce) {
-            .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-        }
-    </style>
-
-    <script>
-    (function(){
-        if (!('IntersectionObserver' in window)) return; // graceful fallback
-
-        const selectors = [
-            '.hero-title', '.hero-subtitle', '.section-title', '.section-description',
-            '.stat-item', '.card', '.property-card', '.testimonial-quote', '.team-content h2',
-            '.portfolio-title', '.section-label', '.btn-primary-large', '.btn-browse', '.btn-browse-white',
-            '.transaction-card', '.image-card', '.property-item'
-        ];
-
-        const nodes = Array.from(document.querySelectorAll(selectors.join(','))).filter(Boolean);
-        if (!nodes.length) return;
-
-        // mark nodes and add small stagger classes
-        nodes.forEach((el, i) => {
-            el.classList.add('reveal');
-            if (i % 3 === 1) el.classList.add('delay-1');
-            if (i % 3 === 2) el.classList.add('delay-2');
-            if (i % 5 === 0) el.classList.add('delay-3');
+{{-- ─── Scroll reveal ──────────────────────────────────────────────── --}}
+<script>
+(function () {
+    if (!('IntersectionObserver' in window)) return;
+    const els = document.querySelectorAll('.hp-prop-card, .hp-hiw__card, .hp-feat, .hp-testi, .hp-stats__item, .hp-section__hd, .hp-earn__card');
+    els.forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(24px)';
+        el.style.transition = `opacity .55s ease ${(i % 4) * 80}ms, transform .55s ease ${(i % 4) * 80}ms`;
+    });
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.style.opacity = '1';
+                e.target.style.transform = 'none';
+                io.unobserve(e.target);
+            }
         });
+    }, { threshold: 0.1 });
+    els.forEach(el => io.observe(el));
+})();
+</script>
 
-        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReduced) {
-            nodes.forEach(n => n.classList.add('visible'));
-            return;
-        }
 
-        // Keep observing; toggle visible class on enter/leave so reveal works on every scroll
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const el = entry.target;
-                if (entry.isIntersecting) {
-                    // add a tiny stagger when element becomes visible
-                    setTimeout(() => el.classList.add('visible'), 20);
-                } else {
-                    // remove when scrolled away so it can re-animate on re-enter
-                    el.classList.remove('visible');
-                }
-            });
-        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+{{-- ═══════════════════════════════════════════════════════════════
+     PORTFOLIO MAP SECTION
+═══════════════════════════════════════════════════════════════ --}}
+<section class="hp-section hp-portfolio-map">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="hp-eyebrow">502+ Properties</span>
+            <h2 class="hp-section__title">Build a diversified real estate portfolio<br>with 502+ properties across the UAE.</h2>
+            <p class="hp-section__sub mx-auto mb-4">Our properties span every major emirate and city district — giving you true geographical diversification in one of the world's most dynamic markets.</p>
+            <a href="{{ route('invest.public') }}" class="hp-btn hp-btn--gold hp-btn--lg">BROWSE AVAILABLE PROPERTIES</a>
+        </div>
+        <div class="hp-map-wrap">
+            <img src="{{ asset('images/us-map.jpg') }}" alt="Property Distribution Map" class="hp-map-img">
+        </div>
+        <div class="row g-4 mt-5">
+            <div class="col-6 col-md-3 text-center hp-map-stat">
+                <div class="hp-map-stat__city">Dubai</div>
+                <div class="hp-map-stat__count">340+ properties</div>
+            </div>
+            <div class="col-6 col-md-3 text-center hp-map-stat">
+                <div class="hp-map-stat__city">Abu Dhabi</div>
+                <div class="hp-map-stat__count">80+ properties</div>
+            </div>
+            <div class="col-6 col-md-3 text-center hp-map-stat">
+                <div class="hp-map-stat__city">Sharjah</div>
+                <div class="hp-map-stat__count">50+ properties</div>
+            </div>
+            <div class="col-6 col-md-3 text-center hp-map-stat">
+                <div class="hp-map-stat__city">Ras Al Khaimah</div>
+                <div class="hp-map-stat__count">30+ properties</div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        nodes.forEach(n => io.observe(n));
-    })();
-    </script>
 
 @include('home.footer')
