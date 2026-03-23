@@ -416,10 +416,10 @@
                 <input type="hidden" name="bathrooms" value="{{ $investment->bathrooms }}">
                 <input type="hidden" name="parking" value="{{ $investment->parking }}">
                 <input type="hidden" name="year_built" value="{{ $investment->year_built }}">
-                <input type="hidden" name="amenities" value="{{ $investment->amenities }}">
+                <input type="hidden" name="amenities" value="{{ is_array($investment->amenities) ? json_encode($investment->amenities) : $investment->amenities }}">
                 <input type="hidden" name="description" value="{{ $investment->description }}">
                 <input type="hidden" name="image" value="{{ $investment->image }}">
-                <input type="hidden" name="gallery" value="{{ $investment->gallery }}">
+                <input type="hidden" name="gallery" value="{{ is_array($investment->gallery) ? json_encode($investment->gallery) : $investment->gallery }}">
 
                 <div class="mb-3">
                     <label class="form-label">Number of Shares</label>
